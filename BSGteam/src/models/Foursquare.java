@@ -2,7 +2,11 @@ package models;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.*;
 import java.util.regex.*;
+
+import twitter4j.QueryResult;
+import twitter4j.Status;
 import fi.foyt.foursquare.api.*;
 import fi.foyt.foursquare.api.entities.*;
 
@@ -49,16 +53,16 @@ public class Foursquare {
 //	return fsAPI;
 //	}
 	
-	public void getLocationInformation(String shortURLs) throws FoursquareApiException {
+	public CompactVenue getLocationInformation(String shortURLs) throws FoursquareApiException {
 		FoursquareApi fsAPI = new FoursquareApi("O2A21N0HUIM5UVFL2AYY4OMQ35DIUKVYBCVR5EJSHZWP52UF",
 				"FVL0GI21DP5ULAAM5BHO4I4X3D4YQNWHKOTVQDDZDWBCXCYV", "http://www.sheffield.ac.uk"); 
-		
-		fsAPI.setoAuthToken("3BD5LBHSXOQQGA2NFRWQYQ4R44XUTSMXZCXIQDCFGIWLIOYN");
+			fsAPI.setoAuthToken("3BD5LBHSXOQQGA2NFRWQYQ4R44XUTSMXZCXIQDCFGIWLIOYN");
 		
 		// expand the url if it is a short url!
 		String url= expandUrl(shortURLs);
 		//if it is not a 4square login url then we return!
-		if (!((url.startsWith("https://foursquare.com/"))&&(url.contains("checkin"))&&(url.contains("s=")))) return;
+		if (!((url.startsWith("https://foursquare.com/"))&&(url.contains("checkin"))&&(url.contains("s=")))) 
+			return null;
 		//url now contains the full url!
 		Pattern pId = Pattern.compile(".+?checkin/(.+?)\\?s=.+", Pattern.DOTALL);
 		Matcher matche = pId.matcher(url);
@@ -74,13 +78,33 @@ public class Foursquare {
 		e.printStackTrace(); 
 		}
 		Checkin cc = chck.getResult();
-		CompactUser user= cc.getUser();
-		System.out.print("CHECK IN: " + user.getFirstName() + " " + user.getLastName() + " (" + user.getGender());
-		System.out.print(") Just checked in at: ");
+		//CompactUser user= cc.getUser();
+		//System.out.print("CHECK IN: " + user.getFirstName() + " " + user.getLastName() + " (" + user.getGender());
+		//System.out.print(") Just checked in at: ");
 		CompactVenue venue= cc.getVenue();
-		System.out.print(" " + venue.getName());
-		Location loc= venue.getLocation();
-		System.out.print(" " + loc.getAddress() + " " + loc.getCity());
-		System.out.println(" " + loc.getLat() + ", " + loc.getLng());
+		//System.out.print(" " + venue.getName());
+		//Location loc= venue.getLocation();
+		//System.out.print(" " + loc.getAddress() + " " + loc.getCity());
+		//System.out.println(" " + loc.getLat() + ", " + loc.getLng());
+		return venue;
 		}
+	
+	public List<CompactVenue> checkins(QueryResult result) {
+		List<CompactVenue> venues = new ArrayList<CompactVenue>();
+		for (Status status : result.getTweets()) {
+			if (status.getGeoLocation() != null) {
+				int index = status.getText().indexOf("http");
+				String data = "nan";
+				if (index >= 0) {
+					data = status.getText().substring(index);
+					try {
+							venues.add(getLocationInformation(data));
+					} catch (FoursquareApiException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		return venues;
+	}
 }

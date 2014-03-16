@@ -1,7 +1,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -28,14 +27,11 @@ public class TwitterServlet extends HttpServlet {
 
 			TwitterBean tt = new TwitterBean();
 			Twitter twitter = tt.init();
-
 			// System.out
 			// .println(twitter.getRateLimitStatus().keySet().toString());
 			// System.out.println(twitter.getRateLimitStatus().toString());
-			/*System.out.println(twitter.getRateLimitStatus()
-					.get("/statuses/retweets/:id").getRemaining());
-			System.out.println(twitter.getRateLimitStatus()
-					.get("/search/tweets").getRemaining());*/
+			//System.out.println(twitter.getRateLimitStatus()
+			//		.get("/search/tweets").getRemaining());
 
 			String tweet = request.getParameter("tweetData");
 			Query query = new Query(tweet);
@@ -53,30 +49,10 @@ public class TwitterServlet extends HttpServlet {
 						Query.KILOMETERS);		
 				result = twitter.search(query);
 			}
-			
+		
 			List<Status> tweets = result.getTweets();
 			//int i = twitter.getRateLimitStatus().get("/statuses/retweets/:id").getRemaining();
 			//System.out.println(i);
-//			
-//				// Foursquare temp = new Foursquare();
-//				// for(Status status : tweets){
-//
-//				// int index = status.getText().indexOf("http");
-//				// String aaa = "nan";
-//				// if (index >= 0)
-//				// {
-//				// aaa = status.getText().substring(index);
-//				// //temp.authenticate();
-//				// //String abb = temp.expandUrl(aaa);
-//				// //System.out.println(aaa + " = " + abb);
-//				// System.out.println("Initiating foursquare");
-//				// temp.getLocationInformation(aaa);
-//				// }
-//				// }
-//			} else {
-//				System.out.println("Exceeded your limit");
-//			}
-
 			request.setAttribute("statuses", tweets);
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
 					response);

@@ -4,11 +4,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <div class="col-lg-6 col-md-10 col-md-push-3">
-	<div class="row">
-		<c:if test="${empty statuses}">
-    No Results to display
-</c:if>
-	</div>
+<!-- 	<div class="row"> -->
+<%-- 		<c:if test="${empty statuses}"> --%>
+<!--     		No Results to display -->
+<%-- 		</c:if> --%>
+<!-- 	</div> -->
 	<c:if test="${not empty statuses}">
 		<script>
 			setTimeout(function() {
@@ -19,12 +19,11 @@
 			<div class="well bs-component">
 				<h1>List of Results</h1>
 				<div class="row">
-					<div class="col-md-12">
-						<table class="table table-hover table table-bordered table-condensed">
+					<div class="col-md-10">
+						<table class="table table-hover table-responsive table-bordered table-condensed">
 							<thead>
 								<tr>
 									<th>Screen name
-									<th>Profile url
 									<th>Location
 									<th>Description
 									<th>Tweet</th>
@@ -34,11 +33,14 @@
 							<tbody class="table-hover">
 								<c:forEach var="status" items="${statuses}">
 									<tr>
-										<td><a
+										<td>
+										<a
 											href='timelines?screenname=<c:out value="${status.user.screenName}"/>'>@<c:out
-													value="${status.user.screenName}" /></a></td>
-										<td><img
-											src="<c:out value="${status.user.profileImageURL}" />"></td>
+													value="${status.user.screenName}" /></a>
+										<p><img
+											src="<c:out value="${status.user.profileImageURL}" />">
+										</p>
+										</td>
 										<td><c:out value="${status.user.location}" /></td>
 										<td><c:out value="${status.user.description}" /></td>
 										<td><c:out value="${status.text}" /></td>
@@ -71,5 +73,5 @@
 				</div>
 			</div>
 		</div>
-</div>
 </c:if>
+</div>
