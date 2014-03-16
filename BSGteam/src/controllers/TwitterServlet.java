@@ -39,7 +39,6 @@ public class TwitterServlet extends HttpServlet {
 
 			String tweet = request.getParameter("tweetData");
 			Query query = new Query(tweet);
-
 			String longitude = request.getParameter("long");
 			String latitude = request.getParameter("lat");
 			String area = request.getParameter("area");
@@ -51,22 +50,18 @@ public class TwitterServlet extends HttpServlet {
 				double lat = Double.parseDouble(latitude);
 				double radius = Double.parseDouble(area);
 				query.setGeoCode(new GeoLocation(lat, log), radius,
-						Query.KILOMETERS);
-				
+						Query.KILOMETERS);		
 				result = twitter.search(query);
 			}
+			
 			List<Status> tweets = result.getTweets();
-			System.out.println("Done searching");
-
-			int i = twitter.getRateLimitStatus().get("/statuses/retweets/:id")
-					.getRemaining();
-
+			//System.out.println("Done searching");
+			int i = twitter.getRateLimitStatus().get("/statuses/retweets/:id").getRemaining();
 			if (i > 0) {
-				// System.out.println(tweets.size());
+				System.out.println(tweets.size());
 				for (Status status : tweets) {
-					// System.out.println(status.getText());
-					// System.out.println("Getting statuses " + idd);
-					if (status.isRetweeted()) {
+					if (status.getRetweetCount()>0){
+						System.out.println("Retweeted");
 						List<Status> rtws = null;
 						long idd = status.getId();
 						rtws = twitter.getRetweets(idd);
@@ -79,14 +74,11 @@ public class TwitterServlet extends HttpServlet {
 									rtws.size()));
 						}
 						for (Status rtw : subItems) {
-
 							System.out.println("Getting retweets: "
 									+ rtw.getText() + " "
 									+ rtw.getUser().getScreenName());
 						}
-					} else {
-						System.out.print("Status hasn't been retweeted ");
-					}
+					} 
 				}
 
 				// Foursquare temp = new Foursquare();

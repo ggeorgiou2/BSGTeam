@@ -30,7 +30,8 @@ public class UserTimelines extends HttpServlet {
 		if (param != null) {
 		
 		TwitterBean tt = new TwitterBean();
-		request.setAttribute("timelines", tt.getTimelineHyperlink(param));
+		request.setAttribute("timelines", tt.getTimeline(param));
+		request.setAttribute("user", param);
 		}
 		request.getRequestDispatcher("views/timeline.jsp").forward(request,
 				response);

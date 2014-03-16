@@ -67,7 +67,7 @@ public class TwitterBean {
 			return (new TwitterFactory(cb.build()).getInstance());
 			}
 			
-			public List<Status> getTimelineHyperlink(String name)
+			public List<Status> getTimeline(String name)
 			{
 				Twitter twitterConnection = null;
 				Paging page = new Paging (1, 100);//page number, number per page
@@ -75,7 +75,12 @@ public class TwitterBean {
 				
 				try {
 					twitterConnection= init();
-					timeline = twitterConnection.getUserTimeline(name, page);				
+					String user="from:"+name;
+					Query query= new Query(user);
+					query.setCount(100);
+					QueryResult result = twitterConnection.search(query);
+					timeline= result.getTweets();
+					//timeline = twitterConnection.getUserTimeline(name, page);				
 				} catch (Exception e) {
 				System.out.println("Cannot initialise Twitter");
 				e.printStackTrace();			

@@ -2,40 +2,36 @@
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
-<head>
 <%@ include file="header.html"%>
 
 <%-- <c:if test="${empty kokos">
     var1 is empty or null.
-</c:if>
-		<c:if test="${not empty kokos">		
-		</c:if> --%>
-			<div class="alert alert-dismissable alert-warning">
-				<button type="button" class="close" data-dismiss="alert">&times;</button>
-				<h4>Warning!</h4>
-				<p>fdsf</p>
-			</div>
+	</c:if>
+	<c:if test="${not empty kokos">		
+	</c:if> --%>
 
-<!-- Navs
-      ================================================== -->
+<!-- 
+<div class="alert alert-dismissable alert-warning">
+	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	<h4>Warning!</h4>
+	<p>fdsf</p>
+</div>
+ -->
 <div class="bs-docs-section">
-
 	<div class="row">
 		<div class="col-lg-6 col-md-10 col-md-push-3">
-			<!--             <h2 id="nav-tabs">Tabs</h2>
- -->
+			<!--<h2 id="nav-tabs">Tabs</h2>-->
 			<div class="bs-component">
 				<ul class="nav nav-tabs" style="margin-bottom: 15px;">
 					<li class="active"><a href="#Discussion" data-toggle="tab">Discussion</a></li>
 					<li><a href="#Venues" data-toggle="tab">Venues</a></li>
-					<li><a href="#timeline" data-toggle="tab">Timeline</a></li>
-					<li><a href="#results" data-toggle="tab">Results</a></li>
-					</li>
+					<li><a href="#timeline" data-toggle="tab">Database Query</a></li>
+					<li><a href="#results" data-toggle="tab">Additional</a></li>
 				</ul>
-				<div class="container">
-            
-                <input  type="text" placeholder="click to show datepicker"  id="datepicker">
-        </div>
+				<!-- <div class="container">
+					<input type="text" placeholder="click to show datepicker"
+						id="datepicker">
+				</div> -->
 				<div id="myTabContent" class="tab-content">
 					<div class="tab-pane fade active in" id="Discussion">
 						<p>
@@ -48,7 +44,7 @@
 									<div class="well bs-component">
 										<form action="twitter" method="post" class="form-horizontal">
 											<fieldset>
-												<legend>Discussion Form jsp</legend>
+												<legend>Discussion Form</legend>
 												<div class="form-group">
 													<label for="tweetData" class="col-lg-2 control-label">Topic:</label>
 													<div class="col-lg-10">
@@ -60,14 +56,14 @@
 													<label for="lat" class="col-lg-2 control-label">Latitude:</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="lat"
-															id="lat" placeholder="Latitude" required>
+															id="lat" placeholder="Latitude">
 													</div>
 												</div>
 												<div class="form-group">
 													<label for="long" class="col-lg-2 control-label">Longitude:</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="long"
-															id="long" placeholder="Longitude" required>
+															id="long" placeholder="Longitude">
 													</div>
 												</div>
 												<div class="form-group">
@@ -75,7 +71,7 @@
 														(in km):</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="area"
-															id="area" placeholder="Area" required>
+															id="area" placeholder="Area">
 													</div>
 												</div>
 												<div class="form-group">
@@ -190,12 +186,21 @@
 								</div>
 							</div>
 						</div>
-						</p>
+
 					</div>
 				</div>
 			</div>
-			<div id="results" >
+
+		</div>
+	</div>
+	<div class="row">
+		<div id="results">
 			<jsp:include page="results.jsp" />
-			</div>
-			<%@ include file="footer.html"%>
+		</div>
+	</div>
+</div>
+<footer>
+	<%@ include file="footer.html"%>
+</footer>
+</body>
 </html>
