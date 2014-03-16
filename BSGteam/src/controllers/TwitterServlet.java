@@ -55,50 +55,27 @@ public class TwitterServlet extends HttpServlet {
 			}
 			
 			List<Status> tweets = result.getTweets();
-			//System.out.println("Done searching");
-			int i = twitter.getRateLimitStatus().get("/statuses/retweets/:id").getRemaining();
-			if (i > 0) {
-				System.out.println(tweets.size());
-				for (Status status : tweets) {
-					if (status.getRetweetCount()>0){
-						System.out.println("Retweeted");
-						List<Status> rtws = null;
-						long idd = status.getId();
-						rtws = twitter.getRetweets(idd);
-						List<Status> subItems = new ArrayList<Status>();
-						if (rtws.size() > 10) {
-							subItems = new ArrayList<Status>(
-									rtws.subList(0, 10));
-						} else {
-							subItems = new ArrayList<Status>(rtws.subList(0,
-									rtws.size()));
-						}
-						for (Status rtw : subItems) {
-							System.out.println("Getting retweets: "
-									+ rtw.getText() + " "
-									+ rtw.getUser().getScreenName());
-						}
-					} 
-				}
-
-				// Foursquare temp = new Foursquare();
-				// for(Status status : tweets){
-
-				// int index = status.getText().indexOf("http");
-				// String aaa = "nan";
-				// if (index >= 0)
-				// {
-				// aaa = status.getText().substring(index);
-				// //temp.authenticate();
-				// //String abb = temp.expandUrl(aaa);
-				// //System.out.println(aaa + " = " + abb);
-				// System.out.println("Initiating foursquare");
-				// temp.getLocationInformation(aaa);
-				// }
-				// }
-			} else {
-				System.out.println("Exceeded your limit");
-			}
+			//int i = twitter.getRateLimitStatus().get("/statuses/retweets/:id").getRemaining();
+			//System.out.println(i);
+//			
+//				// Foursquare temp = new Foursquare();
+//				// for(Status status : tweets){
+//
+//				// int index = status.getText().indexOf("http");
+//				// String aaa = "nan";
+//				// if (index >= 0)
+//				// {
+//				// aaa = status.getText().substring(index);
+//				// //temp.authenticate();
+//				// //String abb = temp.expandUrl(aaa);
+//				// //System.out.println(aaa + " = " + abb);
+//				// System.out.println("Initiating foursquare");
+//				// temp.getLocationInformation(aaa);
+//				// }
+//				// }
+//			} else {
+//				System.out.println("Exceeded your limit");
+//			}
 
 			request.setAttribute("statuses", tweets);
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
