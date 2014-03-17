@@ -27,4 +27,34 @@
     <servlet-name>UserTimelines</servlet-name>
     <url-pattern>/timelines</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserVisits</display-name>
+    <servlet-name>UserVisits</servlet-name>
+    <servlet-class>controllers.UserVisits</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserVisits</servlet-name>
+    <url-pattern>/visits</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Venue</display-name>
+    <servlet-name>Venue</servlet-name>
+    <servlet-class>controllers.Venue</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Venue</servlet-name>
+    <url-pattern>/venue</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>NearVenue</display-name>
+    <servlet-name>NearVenue</servlet-name>
+    <servlet-class>controllers.NearVenue</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NearVenue</servlet-name>
+    <url-pattern>/nearvenue</url-pattern>
+  </servlet-mapping>
 </web-app>

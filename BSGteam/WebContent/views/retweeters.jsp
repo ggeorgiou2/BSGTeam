@@ -11,25 +11,22 @@
 			<div class="bs-component">
 				<a href="javascript:history.back()"><button type="button"
 						class="btn btn-default">Back</button></a>
-				<c:if test="${empty timelines}">
-   					Empty timeline.
+				<c:if test="${empty retweeters}">
+   					No Retweets
 				</c:if>
-				<c:if test="${not empty timelines}">
+				<c:if test="${not empty retweeters}">
 					<h1>
-						List of Results of @<%=request.getAttribute("user")%>
-					</h1>
+						List of most recent users who retweeted: </h1>
+						<h2><c:out value="${tweet}"/>
+					</h2>
 					<div class="row">
 						<table
 							class="table table-bordered table-striped table table-hover">
-							<thead>
-								<tr>
-									<th>Tweets
-								</tr>
-							</thead>
+							
 							<tbody>
-								<c:forEach var="timeline" items="${timelines}">
+								<c:forEach var="retweet" items="${retweeters}">
 									<tr>
-										<td><c:out value="${timeline.text}" /></td>
+										<td>@<c:out value="${retweet.user.screenName}" /></td>
 									</tr>
 								</c:forEach>
 							</tbody>
