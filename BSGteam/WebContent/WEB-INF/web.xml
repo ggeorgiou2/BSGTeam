@@ -60,11 +60,11 @@
   <servlet>
     <description></description>
     <display-name>UserDiscussion</display-name>
-    <servlet-name>UserDiscussion4</servlet-name>
+    <servlet-name>UserDiscussion</servlet-name>
     <servlet-class>controllers.UserDiscussion4</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>UserDiscussion</servlet-name>
-    <url-pattern>/user4a</url-pattern>
+    <url-pattern>/location</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -32,7 +32,7 @@ $(window).load(function(){
 					<li><a href="#Venues" data-toggle="tab">Venues</a></li>
 					<li><a href="#NearVenues" data-toggle="tab">Near Venues</a></li>
 					<li><a href="#UserVisits" data-toggle="tab">User Visits</a></li>
-					<li><a href="#locationKey" data-toggle="tab">Track Location</a></li>
+					<li><a href="#LocationKeywords" data-toggle="tab">Discussion by Location</a></li>
 					<li><a href="#TrackUsers" data-toggle="tab">Track Users</a></li>
 					
 					
@@ -159,7 +159,7 @@ $(window).load(function(){
 							</div>
 						</div>
 					</div>
-					<div class="tab-pane fade" id="locationKey">
+					<div class="tab-pane fade" id="LocationKeywords">
 						<p>
 							<script>
 								$('#sandbox-container input').datepicker({});
@@ -169,7 +169,7 @@ $(window).load(function(){
 							<div class="row">
 								<div class="col-lg-12">
 									<div class="well bs-component">
-										<form action="user4a" method="post" class="form-horizontal">
+										<form action="location" method="post" class="form-horizontal">
 											<fieldset>
 												<legend>Track Discussions in a location</legend>
 												<div class="form-group">
@@ -187,12 +187,27 @@ $(window).load(function(){
 													</div>
 												</div>
 												<div class="form-group">
+													<label for="radius" class="col-lg-2 control-label">Radius</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" name="radius"
+															id="radius" placeholder="radius" required>
+													</div>
+												</div>
+												<div class="form-group">
 													<label for="days" class="col-lg-2 control-label">Days</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="days"
 															id="days" placeholder="Enter number of days" required>
 													</div>
 												</div>
+												<div class="form-group">
+													<label for="keywords" class="col-lg-2 control-label">Number of Keywords</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" name="keywords"
+															id="keywords" placeholder="Number of keywords" required>
+													</div>
+												</div>
+												
 												
 												<div class="form-group">
 													<div class="col-lg-10 col-lg-offset-2">
@@ -360,7 +375,7 @@ $(window).load(function(){
 		</div>
 	</div>
 	<div class="row">
-		<div id="user4">
+		<div id="discussLocation">
 			<jsp:include page="discussLocation.jsp" />
 		</div>
 	</div>
