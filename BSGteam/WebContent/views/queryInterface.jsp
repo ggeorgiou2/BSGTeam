@@ -27,6 +27,7 @@
 					<li><a href="#Venues" data-toggle="tab">Venues</a></li>
 					<li><a href="#NearVenues" data-toggle="tab">Near Venues</a></li>
 					<li><a href="#UserVisits" data-toggle="tab">User Visits</a></li>
+					<li><a href="#locationKey" data-toggle="tab">Question 4</a></li>
 					
 				</ul>
 				<!-- <div class="container">
@@ -123,6 +124,66 @@
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="long"
 															id="long" placeholder="Longitude" required>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="select" class="col-lg-2 control-label">Name
+														of Location</label>
+													<div class="col-lg-10">
+														<br> <select multiple="" class="form-control">
+															<option>Sheffield</option>
+															<option>London</option>
+															<option>Manchester</option>
+															<option>Leeds</option>
+															<option>York</option>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="col-lg-10 col-lg-offset-2">
+														<button type="submit" class="btn btn-primary">Submit</button>
+														<button class="btn btn-default">Reset</button>
+													</div>
+												</div>
+											</fieldset>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="locationKey">
+						<p>
+							<script>
+								$('#sandbox-container input').datepicker({});
+							</script>
+							<!-- Forms================================================== -->
+						<div class="bs-docs-section">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="well bs-component">
+										<form action="user4a" method="post" class="form-horizontal">
+											<fieldset>
+												<legend>Venues Form</legend>
+												<div class="form-group">
+													<label for="lat" class="col-lg-2 control-label">Latitude</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" name="lat"
+															id="lat" placeholder="Latitude" required>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="long" class="col-lg-2 control-label">Longitude</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" name="long"
+															id="long" placeholder="Longitude" required>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="days" class="col-lg-2 control-label">Days</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" name="days"
+															id="days" placeholder="Enter number of days" required>
 													</div>
 												</div>
 												<div class="form-group">
@@ -258,6 +319,11 @@
 	<div class="row">
 		<div id="userVisitsResults">
 			<jsp:include page="userVisits.jsp" />
+		</div>
+	</div>
+	<div class="row">
+		<div id="user4">
+			<jsp:include page="discussLocation.jsp" />
 		</div>
 	</div>
 </div>
