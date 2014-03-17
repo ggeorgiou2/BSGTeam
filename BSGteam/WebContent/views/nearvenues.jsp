@@ -12,7 +12,8 @@
 	<c:if test="${not empty nearVenues}">
 		<script>
 			setTimeout(function() {
-				window.location.href = '#nearVenueResults'
+				$('#mytab a[href=#NearVenues]').tab('show');
+				window.location.href = '#nearVenueResults';
 			});
 		</script>
 		<div class="row">

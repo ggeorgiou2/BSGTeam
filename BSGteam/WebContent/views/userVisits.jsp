@@ -12,6 +12,8 @@
 	<c:if test="${not empty userVisits}">
 		<script>
 			setTimeout(function() {
+				$('#mytab a[href=#UserVisits]').tab('show');
+
 				window.location.href = '#userVisitsResults'
 			});
 		</script>

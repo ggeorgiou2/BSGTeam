@@ -12,6 +12,8 @@
 	<c:if test="${not empty venues}">
 		<script>
 			setTimeout(function() {
+				$('#mytab a[href=#Venues]').tab('show');
+
 				window.location.href = '#venueResults'
 			});
 		</script>

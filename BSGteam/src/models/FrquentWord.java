@@ -47,7 +47,7 @@ public class FrquentWord  {
   
   
   List<Entry<String, Integer>> sortByValue(Map<String, Integer> map) {
-	  List<Map.Entry<String, Integer>> entries = new ArrayList<>(map.entrySet());
+	  List<Map.Entry<String, Integer>> entries = new ArrayList<Entry<String, Integer>>(map.entrySet());
 	  
 	  
 	  Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
