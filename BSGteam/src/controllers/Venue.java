@@ -62,7 +62,10 @@ public class Venue extends HttpServlet {
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(
 					request, response);
 		}
-//			for (CompactVenue venue : result2.getResult().getVenues()) {
+		System.out.println("fdsf");
+			for (CompactVenue venue : result2.getResult().getVenues()) {
+				models.database.venuesDB(venue.getName(),  venue.getLocation().getAddress(), venue.getUrl(), "description??");	
+			}
 //				venueSearch = venue.getName();
 //				address = venue.getLocation().getAddress();
 //				id = venue.getId();

@@ -30,8 +30,8 @@ public class TwitterServlet extends HttpServlet {
 			// System.out
 			// .println(twitter.getRateLimitStatus().keySet().toString());
 			// System.out.println(twitter.getRateLimitStatus().toString());
-			//System.out.println(twitter.getRateLimitStatus()
-			//		.get("/search/tweets").getRemaining());
+			// System.out.println(twitter.getRateLimitStatus()
+			// .get("/search/tweets").getRemaining());
 
 			String tweet = request.getParameter("tweetData");
 			Query query = new Query(tweet);
@@ -39,6 +39,8 @@ public class TwitterServlet extends HttpServlet {
 			String latitude = request.getParameter("lat");
 			String area = request.getParameter("area");
 			QueryResult result;
+			String resultString = "";
+
 			if (longitude.isEmpty() || latitude.isEmpty() || area.isEmpty()) {
 				result = twitter.search(query);
 			} else {
@@ -46,22 +48,59 @@ public class TwitterServlet extends HttpServlet {
 				double lat = Double.parseDouble(latitude);
 				double radius = Double.parseDouble(area);
 				query.setGeoCode(new GeoLocation(lat, log), radius,
-						Query.KILOMETERS);		
+						Query.KILOMETERS);
 				result = twitter.search(query);
 			}
-		
+
 			List<Status> tweets = result.getTweets();
-			//int i = twitter.getRateLimitStatus().get("/statuses/retweets/:id").getRemaining();
-			//System.out.println(i);
+
+			for (Status tweet1 : tweets) { // /gets the user
+				User user = tweet1.getUser();
+				Status status = (user.isGeoEnabled()) ? user.getStatus() : null;
+				/*if (status == null) {
+					System.out.println("@" + tweet1.getUser().getName() + " "
+							+ tweet1.getPlace() + " " + tweet1.getText() + " ("
+							+ user.getLocation() + ") - "
+							+ tweet1.getRetweetedStatus() + "\n");
+				} else {
+					System.out
+							.println("@"
+									+ tweet1.getUser().getName()
+									+ " "
+									+ tweet1.getPlace()
+									+ " "
+									+ tweet1.getText()
+									+ " ("
+									+ ((status != null && status
+											.getGeoLocation() != null) ? status
+											.getGeoLocation().getLatitude()
+											+ ","
+											+ status.getGeoLocation()
+													.getLongitude() : user
+											.getLocation()) + ") - \n");
+				}*/
+
+				models.database.twitterDB(tweet1.getUser().getName(), tweet1.getPlace().toString(), tweet1.getText(), tweet1.getRetweetedStatus());
+
+			}
+
+			// int i =
+			// twitter.getRateLimitStatus().get("/statuses/retweets/:id").getRemaining();
+			// System.out.println(i);
 			request.setAttribute("statuses", tweets);
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
-					response);
+
+			/*
+			 * com.zetcode.BooksWorker.Insert1(tweets.getText(),
+			 * user.getLocation(), tweet.getText(), tweet.getUser().toString());
+			 */
+			request.getRequestDispatcher("views/queryInterface.jsp").forward(
+					request, response);
 
 		} catch (Exception err) {
 			System.out.println("Error while tweeting: " + err.getMessage());
 			request.setAttribute("statuses", err.getMessage());
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
-					response);
+			request.getRequestDispatcher("views/queryInterface.jsp").forward(
+					request, response);
 		}
 	}
 }
