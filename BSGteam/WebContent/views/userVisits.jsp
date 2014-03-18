@@ -9,11 +9,23 @@
 <!--     		No Venues to display -->
 <%-- 		</c:if> --%>
 <!-- 	</div> -->
+	<c:if test="${not empty userVisits2}">
+	<script>
+			setTimeout(function() {
+				$('#mytab a[href=#UserVisits]').tab('show');
+				window.location.href = '#userVisitsResults';
+			});
+		</script>
+	<c:forEach var="venue" items="${userVisits2}">
+		<h1><c:out value="${venue}" />	</h1>
+	</c:forEach>	
+	</c:if>
+	
 	<c:if test="${not empty userVisits}">
 		<script>
 			setTimeout(function() {
 				$('#mytab a[href=#UserVisits]').tab('show');
-				window.location.href = '#userVisitsResults'
+				window.location.href = '#userVisitsResults';
 			});
 		</script>
 		<div class="row">

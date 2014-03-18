@@ -107,4 +107,24 @@ public class Foursquare {
 		}
 		return venues;
 	}
+	public Photo[] getImages(String venueID)
+	{
+		FoursquareApi fsAPI = new FoursquareApi("O2A21N0HUIM5UVFL2AYY4OMQ35DIUKVYBCVR5EJSHZWP52UF",
+				"FVL0GI21DP5ULAAM5BHO4I4X3D4YQNWHKOTVQDDZDWBCXCYV", "http://www.sheffield.ac.uk"); 
+			fsAPI.setoAuthToken("3BD5LBHSXOQQGA2NFRWQYQ4R44XUTSMXZCXIQDCFGIWLIOYN");
+			Result<PhotoGroup> venuephoto;
+			Photo[] image = null;
+
+			try {
+				venuephoto = fsAPI.venuesPhotos(venueID, "venue", null, null);
+			
+			if (venuephoto.getResult().getCount()>0)
+			{
+				image = venuephoto.getResult().getItems();
+			}
+			} catch (FoursquareApiException e) {
+				e.printStackTrace();
+			}
+			return image;
+	}
 }

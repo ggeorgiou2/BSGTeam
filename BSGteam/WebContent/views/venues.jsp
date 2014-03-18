@@ -37,7 +37,9 @@
 										<td><c:out value="${venue.name}" /></td>
 										<td><c:out value="${venue.location.address}" /></td>
 										<td><c:out value="${venue.url}" /></td>
-										<td><c:out value="${venue.id}" /></td>
+										<td>
+										<a href='venue?id=<c:out value="${venue.id}"/>'><c:out value="${venue.id}" /></a>
+										</td>
 									</tr>
 								</c:forEach>
 							</tbody>

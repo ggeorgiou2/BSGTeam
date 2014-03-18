@@ -57,6 +57,7 @@ public class UserDiscussion4 extends HttpServlet {
 
 			List<Map.Entry<String, Integer>> wordlist = w.countWord(text);
 			System.out.println(wordlist);
+			
 			request.setAttribute("words", wordlist.subList(0, keywords));
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(
 					request, response);
