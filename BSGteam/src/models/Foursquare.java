@@ -10,13 +10,19 @@ import twitter4j.Status;
 import fi.foyt.foursquare.api.*;
 import fi.foyt.foursquare.api.entities.*;
 
+/**
+ * Foursquare.java
+ * 
+ * This is a model class used to perform operations from the foursquare API
+ *
+ */
 public class Foursquare {
-
 	
-	public Foursquare() {
-		super();
-	}
-
+	/**
+	 * @param shortURLs
+	 * @return
+	 * @throws IOException
+	 */
 	public String getFullURL (String shortURLs) throws IOException {
 		URL shortUrl= new URL(shortURLs);
 		final HttpURLConnection httpURLConnection =
@@ -26,6 +32,10 @@ public class Foursquare {
 		return (httpURLConnection.getHeaderField("Location")); 
 	}
 	
+	/**
+	 * @param shortURLs
+	 * @return
+	 */
 	public String expandUrl (String shortURLs) {
 		String url = shortURLs;
 		//String initialUrl = shortURLs;
@@ -53,6 +63,11 @@ public class Foursquare {
 //	return fsAPI;
 //	}
 	
+	/**
+	 * @param shortURLs
+	 * @return
+	 * @throws FoursquareApiException
+	 */
 	public CompactVenue getLocationInformation(String shortURLs) throws FoursquareApiException {
 		FoursquareApi fsAPI = new FoursquareApi("O2A21N0HUIM5UVFL2AYY4OMQ35DIUKVYBCVR5EJSHZWP52UF",
 				"FVL0GI21DP5ULAAM5BHO4I4X3D4YQNWHKOTVQDDZDWBCXCYV", "http://www.sheffield.ac.uk"); 
@@ -89,6 +104,10 @@ public class Foursquare {
 		return venue;
 		}
 	
+	/**
+	 * @param result
+	 * @return
+	 */
 	public List<CompactVenue> checkins(QueryResult result) {
 		List<CompactVenue> venues = new ArrayList<CompactVenue>();
 		for (Status status : result.getTweets()) {
@@ -107,6 +126,11 @@ public class Foursquare {
 		}
 		return venues;
 	}
+	
+	/**
+	 * @param venueID
+	 * @return
+	 */
 	public Photo[] getImages(String venueID)
 	{
 		FoursquareApi fsAPI = new FoursquareApi("O2A21N0HUIM5UVFL2AYY4OMQ35DIUKVYBCVR5EJSHZWP52UF",

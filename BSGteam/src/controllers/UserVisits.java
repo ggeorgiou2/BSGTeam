@@ -12,6 +12,11 @@ import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 import models.*;
 
+/**
+ * UserVisits.java
+ * 
+ *
+ */
 public class UserVisits extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -24,22 +29,20 @@ public class UserVisits extends HttpServlet {
 	protected void doPost(final HttpServletRequest request,
 			final HttpServletResponse response) throws ServletException, IOException {
 		try {
-
+			//establishes a twitter connection
 			TwitterBean tt = new TwitterBean();
 			Twitter twitter = tt.init();
 			String userID = request.getParameter("userID");
 			long useridd = twitter.showUser(userID).getId();
 			int days = Integer.parseInt(request.getParameter("days"));
 			
-			if (days > 0) {
-				
+			if (days > 0) {	
 				long DAY_IN_MS = 1000 * 60 * 60 * 24;
 				Date date = new Date(System.currentTimeMillis() - (days * DAY_IN_MS));
 				SimpleDateFormat dateformatyyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
 
 				String since = dateformatyyyyMMdd.format(date);
 				String user = "from:" + userID;
-				// PrintWriter out = response.getWriter();
 				Query query = new Query(user);
 				query.setSince(since); // YYYY-MM-DD
 				QueryResult result = twitter.search(query);
@@ -47,6 +50,7 @@ public class UserVisits extends HttpServlet {
 
 				request.setAttribute("userVisits", foursquare.checkins(result));
 			} else {
+				//use streaming api to get results
 				String token_access = "263885132-oDic38nO96k91obUMBypD2V7gBkd664DPCSszpHa";
 				String token_secret = "7XPXklqAiP18xdw0kfQImShEWYf06fmVVveIfboAghRvT";
 				String customer_key = "MXH39rOd9mOxRWh9Exma7g";
@@ -139,7 +143,9 @@ public class UserVisits extends HttpServlet {
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
 					response);
 		} catch (Exception err) {
-			System.out.println("Error while tweeting" + err.getMessage());
+			System.out.println("Error while tweeting " + err.getMessage());
+			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
+					response);
 		}
 	}
 
