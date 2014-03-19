@@ -1,5 +1,11 @@
 package models;
 
+/**
+ * UserModel.java
+ * 
+ * This is the model class to store user data in the database
+ *
+ */
 public class UserModel {
 
 	private String name;

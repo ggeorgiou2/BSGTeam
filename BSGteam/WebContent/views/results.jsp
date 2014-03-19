@@ -12,7 +12,7 @@
 	<c:if test="${not empty statuses}">
 		<script>
 			setTimeout(function() {
-				window.location.href = 'twitter#results'
+				window.location.href = '#results'
 			});
 		</script>
 		<div class="row">

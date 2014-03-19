@@ -9,33 +9,32 @@
 <!--     		No Venues to display -->
 <%-- 		</c:if> --%>
 <!-- 	</div> -->
-	<c:if test="${not empty venues}">
+	<c:if test="${not empty words}">
 		<script>
 			setTimeout(function() {
-				window.location.href = '#venueResults'
+				$('#mytab a[href=#LocationKeywords]').tab('show');
+
+				window.location.href = '#discussionLocation'
 			});
 		</script>
 		<div class="row">
 			<div class="well bs-component">
-				<h1>List of Venues</h1>
+				<h1>List of Frequent Keywords</h1>
 				<div class="row">
 					<div class="col-md-10">
 						<table class="table table-hover table-responsive table-bordered table-condensed">
 							<thead>
 								<tr>
-									<th>Venue name
-									<th>Address
-									<th>URL
-									<th>Description
+									<th>Word
+									<th>Frequency
 								</tr>
 							</thead>
 							<tbody class="table-hover">
-								<c:forEach var="venue" items="${venues}">
+								<c:forEach var="word" items="${words}">
 									<tr>
-										<td><c:out value="${venue.name}" /></td>
-										<td><c:out value="${venue.location.address}" /></td>
-										<td><c:out value="${venue.url}" /></td>
-										<td><c:out value="${venue.id}" /></td>
+										<td><c:out value="${word.key}" /></td>
+										<td><c:out value="${word.value}" /></td>
+										
 									</tr>
 								</c:forEach>
 							</tbody>

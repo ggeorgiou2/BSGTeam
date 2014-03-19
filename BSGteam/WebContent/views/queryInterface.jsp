@@ -3,7 +3,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <%@ include file="header.html"%>
-
+<script>
+var url = document.location.toString();
+$(window).load(function(){
+	$('#mytab a[href=#'+url.split('#')[1]+']').tab('show');
+});
+</script>
 <%-- <c:if test="${empty kokos">
     var1 is empty or null.
 	</c:if>
@@ -22,11 +27,14 @@
 		<div class="col-lg-6 col-md-10 col-md-push-3">
 			<!--<h2 id="nav-tabs">Tabs</h2>-->
 			<div class="bs-component">
-				<ul class="nav nav-tabs" style="margin-bottom: 15px;">
+				<ul class="nav nav-tabs" style="margin-bottom: 15px;" id="mytab">
 					<li class="active"><a href="#Discussion" data-toggle="tab">Discussion</a></li>
 					<li><a href="#Venues" data-toggle="tab">Venues</a></li>
 					<li><a href="#NearVenues" data-toggle="tab">Near Venues</a></li>
 					<li><a href="#UserVisits" data-toggle="tab">User Visits</a></li>
+					<li><a href="#LocationKeywords" data-toggle="tab">Discussion by Location</a></li>
+					<li><a href="#TrackUsers" data-toggle="tab">Track Users</a></li>
+					
 					
 				</ul>
 				<!-- <div class="container">
@@ -151,6 +159,69 @@
 							</div>
 						</div>
 					</div>
+					<div class="tab-pane fade" id="LocationKeywords">
+						<p>
+							<script>
+								$('#sandbox-container input').datepicker({});
+							</script>
+							<!-- Forms================================================== -->
+						<div class="bs-docs-section">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="well bs-component">
+										<form action="location" method="post" class="form-horizontal">
+											<fieldset>
+												<legend>Track Discussions in a location</legend>
+												<div class="form-group">
+													<label for="lat" class="col-lg-2 control-label">Latitude</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" name="lat"
+															id="lat" placeholder="Latitude" required>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="long" class="col-lg-2 control-label">Longitude</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" name="long"
+															id="long" placeholder="Longitude" required>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="radius" class="col-lg-2 control-label">Radius</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" name="radius"
+															id="radius" placeholder="radius" required>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="days" class="col-lg-2 control-label">Days</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" name="days"
+															id="days" placeholder="Enter number of days" required>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="keywords" class="col-lg-2 control-label">Number of Keywords</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" name="keywords"
+															id="keywords" placeholder="Number of keywords" required>
+													</div>
+												</div>
+												
+												
+												<div class="form-group">
+													<div class="col-lg-10 col-lg-offset-2">
+														<button type="submit" class="btn btn-primary">Submit</button>
+														<button class="btn btn-default">Reset</button>
+													</div>
+												</div>
+											</fieldset>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="tab-pane fade" id="NearVenues">
 						<p>
 						<div class="bs-docs-section">
@@ -217,6 +288,49 @@
 							</div>
 						</div>
 					</div>
+					<div class="tab-pane fade" id="TrackUsers">
+						<p>
+						<div class="bs-docs-section">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="well bs-component">
+										<form action="visits" method="post" class="form-horizontal">
+											<fieldset>
+												<legend>Track Users' Discussions</legend>
+												<div class="form-group">
+													<label for="users" class="col-lg-2 control-label">UserIDs</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" name="userIDs"
+															id="userIDs" placeholder="Users' Twitter IDs (separated by commas)" required>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="keywords" class="col-lg-2 control-label">Number of Keywords</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" name="keywords"
+															id="keywords" placeholder="Number of keywords" required>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="days" class="col-lg-2 control-label">Days</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" name="days"
+															id="days" placeholder="Number of days" required>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="col-lg-10 col-lg-offset-2">
+														<button type="submit" class="btn btn-primary">Submit</button>
+														<button class="btn btn-default">Reset</button>
+													</div>
+												</div>
+											</fieldset>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="tab-pane fade" id="timeline">
 						<p>
 							<!-- Forms================================================== -->
@@ -258,6 +372,11 @@
 	<div class="row">
 		<div id="userVisitsResults">
 			<jsp:include page="userVisits.jsp" />
+		</div>
+	</div>
+	<div class="row">
+		<div id="discussLocation">
+			<jsp:include page="discussLocation.jsp" />
 		</div>
 	</div>
 </div>

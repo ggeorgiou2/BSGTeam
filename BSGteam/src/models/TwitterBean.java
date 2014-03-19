@@ -6,7 +6,17 @@ import java.util.List;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
+/**
+ * TwitterBean.java
+ * 
+ * This is a model class to handle twitter connection and major requests
+ *
+ */
 public class TwitterBean {
+	/**
+	 * @param twitter
+	 * @return
+	 */
 	public String getSimpleTimeLine(Twitter twitter) {
 		String resultString = "";
 		try {
@@ -42,6 +52,10 @@ public class TwitterBean {
 		return resultString;
 	}
 
+	/**
+	 * @return
+	 * @throws Exception
+	 */
 	public Twitter init() throws Exception {
 		String token_access = "2365765327-36scbtLWy1hLTnyBOZeF3nDOaW5yNpVs6cIH0iw";
 		String token_secret = "2ZXFfrspEpf6MUEIuXKGMaWsMO5v5LziLqliGrcOKB7Wh";
@@ -54,6 +68,14 @@ public class TwitterBean {
 		return twitterConnection;
 	}
 
+	/**
+	 * @param consumerKey
+	 * @param consumerSecret
+	 * @param accessToken
+	 * @param accessTokenSecret
+	 * @return
+	 * @throws Exception
+	 */
 	private Twitter initTwitter(String consumerKey, String consumerSecret,
 			String accessToken, String accessTokenSecret) throws Exception {
 
@@ -66,9 +88,13 @@ public class TwitterBean {
 		return (new TwitterFactory(cb.build()).getInstance());
 	}
 
+	/**
+	 * @param name
+	 * @return
+	 */
 	public List<Status> getTimeline(String name) {
 		Twitter twitterConnection = null;
-		Paging page = new Paging(1, 100);// page number, number per page
+		//Paging page = new Paging(1, 100);// page number, number per page
 		List<Status> timeline = null;
 
 		try {
@@ -86,6 +112,10 @@ public class TwitterBean {
 		return timeline;
 	}
 
+	/**
+	 * @param tweetID
+	 * @return
+	 */
 	public List<Status> getRetweeters(String tweetID) {
 		Twitter twitterConnection = null;
 		// ArrayList<String> users = new ArrayList<String>();
