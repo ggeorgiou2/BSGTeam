@@ -37,6 +37,16 @@
     <servlet-name>UserVisits</servlet-name>
     <url-pattern>/visits</url-pattern>
   </servlet-mapping>
+   <servlet>
+    <description></description>
+    <display-name>UserDiscussion</display-name>
+    <servlet-name>UserDiscussion</servlet-name>
+    <servlet-class>controllers.UserDiscussion</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserDiscussion</servlet-name>
+    <url-pattern>/location</url-pattern>
+  </servlet-mapping>
   <servlet>
     <description></description>
     <display-name>Venue</display-name>

@@ -5,15 +5,19 @@
 
 <div class="col-lg-6 col-md-10 col-md-push-3">
 	<!-- 	<div class="row"> -->
-	<%-- 		<c:if test="${empty venues}"> --%>
-	<!--     		No Venues to display -->
-	<%-- 		</c:if> --%>
+	<c:if test="${empty venues}">
+		<script>
+			setTimeout(function() {
+				$('#mytab a[href=#Venues]').tab('show');
+			});
+		</script>
+		<!--     		No Venues to display -->
+	</c:if>
 	<!-- 	</div> -->
 	<c:if test="${not empty venues}">
 		<script>
 			setTimeout(function() {
 				$('#mytab a[href=#Venues]').tab('show');
-
 				window.location.href = '#venueResults'
 			});
 		</script>
@@ -26,8 +30,8 @@
 							class="table table-hover table-responsive table-bordered table-condensed">
 							<thead>
 								<tr>
-									<th>Venue name
-									<th>Address
+									<th>Name
+									<th>Address (Click to view on map)
 									<th>URL
 								</tr>
 							</thead>
@@ -36,8 +40,15 @@
 									<tr>
 										<td><a href='venue?id=<c:out value="${venue.id}"/>'><c:out
 													value="${venue.name}" /></a></td>
-										<td><a href='views/venuemap.html?lat=<c:out value="${venue.location.lat}"/>&
-										lng=<c:out value="${venue.location.lng }"/>'><c:out value="${venue.location.address}" /></a></td>
+										<td><a
+											href='views/venuemap.html?lat=<c:out value="${venue.location.lat}"/>
+											&lng=<c:out value="${venue.location.lng }"/>'>
+												<c:if test="${empty venue.location.address}">
+													<c:out value="${venue.location.lat},${venue.location.lng}"></c:out>
+												</c:if> <c:if test="${not empty venue.location.address}">
+													<c:out value="${venue.location.address}" />
+												</c:if>
+										</a></td>
 										<td><a href='<c:out value="${venue.url}"/>'><c:out
 													value="${venue.url}" /></a></td>
 									</tr>
