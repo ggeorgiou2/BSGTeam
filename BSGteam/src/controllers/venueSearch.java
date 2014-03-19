@@ -1,3 +1,5 @@
+package controllers;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
@@ -8,8 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
  
-public class Search extends HttpServlet {
+public class venueSearch extends HttpServlet {
  
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("views/venueSearch.jsp").forward(
+				request, response);
+	}
+	
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html");
@@ -30,7 +38,7 @@ public class Search extends HttpServlet {
  
             ArrayList al = null;
             ArrayList pid_list = new ArrayList();
-            String query = "select * from twitter where id ='" + pid + "' ";
+            String query = "select * from venues where id ='" + pid + "' ";
  
             System.out.println("query " + query);
             st = conn.createStatement();
@@ -53,7 +61,7 @@ public class Search extends HttpServlet {
             }
  
             request.setAttribute("piList", pid_list);
-            RequestDispatcher view = request.getRequestDispatcher("/searchview.jsp");
+            RequestDispatcher view = request.getRequestDispatcher("views/venueSearch.jsp");
             view.forward(request, response);
             conn.close();
             System.out.println("Disconnected!");

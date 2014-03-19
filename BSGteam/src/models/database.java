@@ -62,58 +62,5 @@ public class database {
                            Level.SEVERE, null, ex);
       }
   }
-  
-  public static List GetBooks() {
-
-      List<String> list = new ArrayList<String>();
-
-      try {
-
-          Class.forName("com.mysql.jdbc.Driver");
-          Connection con = DriverManager.getConnection(url, "team003", "20ec79a9");
-
-          Statement stmt = con.createStatement();
-
-          ResultSet result = stmt.executeQuery("SELECT * FROM twitter");
-
-          while(result.next())
-          {
-             list.add(result.getString("id"));
-             list.add(result.getString("picture"));
-             list.add(result.getString("userID"));
-             list.add(result.getString("username"));
-             list.add(result.getString("location"));
-             list.add(result.getString("description"));
-             list.add(result.getString("tweet"));
-             list.add(result.getString("retweeted"));
-             System.out.println(result.getString("username"));
-          } 
-
-          con.close();
-
-      } catch (Exception ex) {
-          Logger.getLogger(database.class.getName()).log( 
-                           Level.SEVERE, null, ex);
-      }
-          return list;
-  }
-  
-  public static void Delete(String id) {
-      try {
-          String delete = "DELETE from books WHERE id = ?";
-
-          Class.forName("com.mysql.jdbc.Driver");
-          Connection con = DriverManager.getConnection(url, "team003", "20ec79a9");
-          PreparedStatement ps = con.prepareStatement(delete);
-
-          ps.setString(1, id);
-          ps.executeUpdate();
-          con.close();
-
-      } catch (Exception ex) {
-          Logger.getLogger(database.class.getName()).log( 
-             Level.SEVERE, null, ex);
-      }
-  }
 
 }

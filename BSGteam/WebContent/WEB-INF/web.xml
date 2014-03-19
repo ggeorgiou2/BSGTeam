@@ -57,4 +57,25 @@
     <servlet-name>NearVenue</servlet-name>
     <url-pattern>/nearvenue</url-pattern>
   </servlet-mapping>
+   <servlet>
+    <description></description>
+    <display-name>twitterSearch</display-name>
+    <servlet-name>twitterSearch</servlet-name>
+    <servlet-class>controllers.twitterSearch</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>twitterSearch</servlet-name>
+    <url-pattern>/twitterSearch</url-pattern>
+  </servlet-mapping>
+     <servlet>
+    <description></description>
+    <display-name>venueSearch</display-name>
+    <servlet-name>venueSearch</servlet-name>
+    <servlet-class>controllers.venueSearch</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>venueSearch</servlet-name>
+    <url-pattern>/venueSearch</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

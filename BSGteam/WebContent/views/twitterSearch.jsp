@@ -1,19 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-    
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!DOCTYPE HTML>
+ 
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-
-
+  <head>
+  </head>
+  <body>
     <br/><br/>
-    <form method="post" name="frm" action="Search">
+    <form method="post" name="frm" action="twitterSearch">
       <table border="0" width="300" align="center" bgcolor="#e9f">
         <tr><td colspan=2 style="font-size:12pt;" align="center">
         <h3>Search User</h3></td></tr>
@@ -27,7 +23,7 @@
     <c:if test="${empty pid_list}">
     var1 is empty or null.
 	</c:if>
-	<c:if test="${not empty pid_list}">
+	<c:if test="${empty pid_list}">
         <table width="700px" align="center"
                style="border:1px solid #000000;">
             <tr>
@@ -36,10 +32,10 @@
                     <b>User Record</b></td>
             </tr>
             <tr style="background-color:lightgrey;">
-                <td><b>User Name</b></td>
-                <td><b>Password</b></td>
-                <td><b>Email</b></td>
-                <td><b>Registration Date</b></td>
+                <td><b>ID</b></td>
+                <td><b>User ID</b></td>
+                <td><b>Twitter Username</b></td>
+                <td><b>Location</b></td>
             </tr>
             <%
                 int count = 0;
@@ -75,19 +71,5 @@
             %>
         </table>
         </c:if>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</body>
+  </body>
 </html>
