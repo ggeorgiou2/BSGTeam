@@ -36,7 +36,8 @@
 									<tr>
 										<td><a href='venue?id=<c:out value="${venue.id}"/>'><c:out
 													value="${venue.name}" /></a></td>
-										<td><c:out value="${venue.location.address}" /></td>
+										<td><a href='views/venuemap.html?lat=<c:out value="${venue.location.lat}"/>&
+										lng=<c:out value="${venue.location.lng }"/>'><c:out value="${venue.location.address}" /></a></td>
 										<td><a href='<c:out value="${venue.url}"/>'><c:out
 													value="${venue.url}" /></a></td>
 									</tr>
