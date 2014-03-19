@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import models.Foursquare;
 import fi.foyt.foursquare.api.*;
 import fi.foyt.foursquare.api.entities.*;
 
@@ -16,16 +18,16 @@ import fi.foyt.foursquare.api.entities.*;
 public class Venue extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		// request.getRequestDispatcher("views/venue.html").forward(request,response);
-		request.getRequestDispatcher("views/queryInterface.jsp").forward(
-				request, response);
-		// doPost(request,response);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		//gets the particular venue id for which images are requested
+		String id = request.getParameter("id");
+		//creates a new foursquare object, calls getImages and passes the obtained image urls to the view
+		Foursquare fsq = new Foursquare();
+		request.setAttribute("images", fsq.getImages(id));
+		request.getRequestDispatcher("views/venueImages.jsp").forward(request,
+				response);
 	}
 
 	/**
