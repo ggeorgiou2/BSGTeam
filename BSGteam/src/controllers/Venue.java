@@ -23,11 +23,16 @@ public class Venue extends HttpServlet {
 
 		//gets the particular venue id for which images are requested
 		String id = request.getParameter("id");
+		if (id!=null)
+		{
 		//creates a new foursquare object, calls getImages and passes the obtained image urls to the view
 		Foursquare fsq = new Foursquare();
 		request.setAttribute("images", fsq.getImages(id));
 		request.getRequestDispatcher("views/venueImages.jsp").forward(request,
 				response);
+		}
+		
+		
 	}
 
 	/**
