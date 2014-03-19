@@ -53,14 +53,17 @@ public class TwitterServlet extends HttpServlet {
 			}
 
 			List<Status> tweets = result.getTweets();
+			
+			for (Status tweet1 : tweets) { // /gets the user
+				models.database.twitterDB(tweet1.getUser().getOriginalProfileImageURL(), tweet1.getUser().getName(), tweet1.getUser().getLocation(), tweet1.getUser().getDescription(), tweet1.getText(), tweet1.getRetweetCount());
+				//System.out.println(tweet1.getUser().getOriginalProfileImageURL());
+			}
+			
 			request.setAttribute("statuses", tweets);
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(
 					request, response);
 			
-			for (Status tweet1 : tweets) { // /gets the user
-				models.database.twitterDB(tweet1.getUser().getName(), tweet1.getPlace().toString(), tweet1.getText(), tweet1.getRetweetedStatus());
-
-			}
+	
 
 			// int i =
 			// twitter.getRateLimitStatus().get("/statuses/retweets/:id").getRemaining();

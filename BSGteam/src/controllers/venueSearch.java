@@ -9,16 +9,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
- 
+
 public class venueSearch extends HttpServlet {
- 
+
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("views/venueSearch.jsp").forward(
-				request, response);
+		request.getRequestDispatcher("views/venueSearch.jsp").forward(request,
+				response);
 	}
-	
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
@@ -38,8 +38,15 @@ public class venueSearch extends HttpServlet {
  
             ArrayList al = null;
             ArrayList pid_list = new ArrayList();
-            String query = "select * from venues where id ='" + pid + "' ";
- 
+            String query;
+            
+            if (pid.isEmpty() || (pid.equals("*"))) {
+             query = "select * from venues";
+
+            } else {
+            query = "select * from venues where id ='" + pid + "' ";
+            }
+            
             System.out.println("query " + query);
             st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
@@ -69,13 +76,14 @@ public class venueSearch extends HttpServlet {
             e.printStackTrace();
         }
     }
- 
-    /** 
-     * Returns a short description of the servlet.
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+
+	/**
+	 * Returns a short description of the servlet.
+	 * 
+	 * @return a String containing servlet description
+	 */
+	@Override
+	public String getServletInfo() {
+		return "Short description";
+	}// </editor-fold>
 }

@@ -14,7 +14,7 @@ public class twitterSearch extends HttpServlet {
  
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("views/databaseSearch.jsp").forward(
+		request.getRequestDispatcher("views/twitterSearch.jsp").forward(
 				request, response);
 	}
 	
@@ -38,7 +38,14 @@ public class twitterSearch extends HttpServlet {
  
             ArrayList al = null;
             ArrayList pid_list = new ArrayList();
-            String query = "select * from twitter where id ='" + pid + "' ";
+            String query;
+            
+            if (pid.isEmpty() || (pid.equals("*"))){
+            	query = "select * from twitter";
+
+            } else {
+            	query = "select * from twitter where id ='" + pid + "' ";
+            }
  
             System.out.println("query " + query);
             st = conn.createStatement();
@@ -61,7 +68,7 @@ public class twitterSearch extends HttpServlet {
             }
  
             request.setAttribute("piList", pid_list);
-            RequestDispatcher view = request.getRequestDispatcher("views/databaseSearch.jsp");
+            RequestDispatcher view = request.getRequestDispatcher("views/twitterSearch.jsp");
             view.forward(request, response);
             conn.close();
             System.out.println("Disconnected!");
