@@ -1,7 +1,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,14 +22,14 @@ public class Venue extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
-	 */protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		// gets the particular venue id for which images are requested
 		String id = request.getParameter("id");
 		if (id != null) {
 			// creates a new foursquare object, calls getImages and passes the
-			// obtained image urls to the view
+			// obtained image urls to the view for display
 			Foursquare fsq = new Foursquare();
 			request.setAttribute("images", fsq.getImages(id));
 			request.getRequestDispatcher("views/venueImages.jsp").forward(request,
@@ -47,11 +46,10 @@ public class Venue extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		//obtains the longitude and latitude parameters from the webform
 		String log = request.getParameter("long");
 		String lat = request.getParameter("lat");
-		// String area =request.getParameter("area");
-		String result = lat + "," + log;
+		//initiates a connection to the Foursquare API
 		FoursquareApi foursquareApi = new FoursquareApi(
 				"KTSRNGJZY4BGFSZAQYGKP2BBTZGGJAMXWKQSYTOSTV5WC31H",
 				"4KYFXNFEMT5RAIO3DEXMBC52ALUQG3AIXJHGBDBNYISGTO1H",
@@ -60,50 +58,25 @@ public class Venue extends HttpServlet {
 				.setoAuthToken("KCUQXPVAHFTVEJJC1JTZ3ETPIUYRN1JNA0CFZGY0S0310WUH");
 
 		Result<VenuesSearchResult> result2 = null;
-		// String venueSearch = null;
-		// String address = null;
-		// String id = null;
+		String result = lat + "," + log;
 		try {
 			result2 = foursquareApi.venuesSearch(result, null, null, null, null,
 					null, null, null, null, null, null);
-
 		} catch (FoursquareApiException e) {
 			e.printStackTrace();
 		}
+		//checks that response code is 200 (OK) before proceeding
 		if (result2.getMeta().getCode() == 200) {
+			//saves the venue query results to the database
+			for (CompactVenue venue : result2.getResult().getVenues()) {
+				models.Database.venuesDB(venue.getName(), venue.getLocation()
+						.getAddress(), venue.getUrl(), "description??");
+			}
+			//sends the list of venues as an attribute to the view for display
 			request.setAttribute("venues", result2.getResult().getVenues());
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
 					response);
 		}
-		System.out.println("fdsf");
-		for (CompactVenue venue : result2.getResult().getVenues()) {
-			models.Database.venuesDB(venue.getName(), venue.getLocation()
-					.getAddress(), venue.getUrl(), "description??");
-		}
-		// venueSearch = venue.getName();
-		// address = venue.getLocation().getAddress();
-		// id = venue.getId();
-		//
-		// /*
-		// * Result<PhotoGroup> venuephoto = null; try { venuephoto =
-		// * foursquareApi.venuesPhotos(id, null, null, null); } catch
-		// * (FoursquareApiException e) {
-		// * block e.printStackTrace(); }
-		// */
-		// // Photo[] image =venuephoto.getResult()..getItems();
-		// // out.println("<image src="image">");
-		// out.println("Venue Name: " + venueSearch + "<br />");
-		// out.println("venue Id: " + id + "<br />");
-		// out.println(" address: " + address + "<br />");
-		// out.println("post code: " + venue.getLocation().getPostalCode()
-		// + "<br />");
-		// out.println("<br />");
-
-		// } else {
-		// System.out.println("Error occured: ");
-		// out.println("  code: " + result2.getMeta().getCode());
-		// out.println("  type: " + result2.getMeta().getErrorType());
-		// out.println("  detail: " + result2.getMeta().getErrorDetail());
-		// }
+		
 	}
 }
