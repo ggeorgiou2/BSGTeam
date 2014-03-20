@@ -25,7 +25,12 @@
 <script src="js/bootstrap.js"></script>
 <script src="js/bootstrap-datepicker.js"></script>
 <script src="js/jqBootstrapValidation.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> <!-- or use local jquery -->
 <script src="js/modern-business.js"></script>
+<script src="js/all-numbers.js"></script>
+<script>
+  $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
+</script>
 <!-- <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script> -->
 <!-- <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script> -->
 <!-- <script src="../assets/js/bootswatch.js"></script> -->
