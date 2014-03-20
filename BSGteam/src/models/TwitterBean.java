@@ -9,71 +9,37 @@ import twitter4j.conf.ConfigurationBuilder;
 /**
  * TwitterBean.java
  * 
- * This is a model class to handle twitter connection and major requests
- *
+ * This is a model class to handle the twitter connection and other major
+ * twitter queries including getting a user's timeline and the retweeters of a
+ * particular tweet
+ * 
+ * @author BSG Team
+ * 
  */
 public class TwitterBean {
 	/**
-	 * @param twitter
-	 * @return
-	 */
-	public String getSimpleTimeLine(Twitter twitter) {
-		String resultString = "";
-		try {
-			// it creates a query and sets the geocode //requirement
-			Query query = new Query("#sheffield");
-			query.setGeoCode(new GeoLocation(53.383, -1.483), 2,
-					Query.KILOMETERS);
-			QueryResult result = twitter.search(query);
-			List<Status> tweets = result.getTweets();
-			for (Status tweet : tweets) { // /gets the user
-				User user = tweet.getUser();
-				Status status = (user.isGeoEnabled()) ? user.getStatus() : null;
-				if (status == null)
-					resultString += "@" + tweet.getText() + " ("
-							+ user.getLocation() + ") - " + tweet.getText()
-							+ "\n";
-				else
-					resultString += "@"
-							+ tweet.getText()
-							+ " ("
-							+ ((status != null && status.getGeoLocation() != null) ? status
-									.getGeoLocation().getLatitude()
-									+ ","
-									+ status.getGeoLocation().getLongitude()
-									: user.getLocation()) + ") - "
-							+ tweet.getText() + "\n";
-			}
-		} catch (Exception te) {
-			te.printStackTrace();
-			System.out.println("Failed to search tweets:" + te.getMessage());
-			System.exit(-1);
-		}
-		return resultString;
-	}
-
-	/**
-	 * @return
+	 * @return a connection to the twitter api
 	 * @throws Exception
 	 */
 	public Twitter init() throws Exception {
+		//keys required for authentication
 		String token_access = "2365765327-36scbtLWy1hLTnyBOZeF3nDOaW5yNpVs6cIH0iw";
 		String token_secret = "2ZXFfrspEpf6MUEIuXKGMaWsMO5v5LziLqliGrcOKB7Wh";
 		String customer_key = "Ne9MoF5eq2KyO5KEvWog";
 		String customer_secret = "3S9GGpIZpkMDfJxW5fhHi4u3w45VDuIQIaEEpYNqM";
 
+		//creates a twitter connection using the above keys
 		Twitter twitterConnection = initTwitter(customer_key, customer_secret,
 				token_access, token_secret);
-
 		return twitterConnection;
 	}
 
 	/**
-	 * @param consumerKey
-	 * @param consumerSecret
-	 * @param accessToken
-	 * @param accessTokenSecret
-	 * @return
+	 * @param consumerKey consumerKey value gotten from Twitter for OAuth
+	 * @param consumerSecret consumerSecret value gotten from Twitter for OAuth
+	 * @param accessToken accessToken value gotten from Twitter for OAuth
+	 * @param accessTokenSecret accessTokenSecret value gotten from Twitter for OAuth
+	 * @return TwitterFactory configuration to initiate the connection to the twitter API
 	 * @throws Exception
 	 */
 	private Twitter initTwitter(String consumerKey, String consumerSecret,
@@ -89,14 +55,13 @@ public class TwitterBean {
 	}
 
 	/**
-	 * @param name
-	 * @return
+	 * Gets the twitter timeline of a particular user
+	 * @param name screen name/twitter id of the user
+	 * @return an array list containing up to the 100 most recent tweets of the user
 	 */
 	public List<Status> getTimeline(String name) {
 		Twitter twitterConnection = null;
-		//Paging page = new Paging(1, 100);// page number, number per page
 		List<Status> timeline = null;
-
 		try {
 			twitterConnection = init();
 			String user = "from:" + name;
@@ -104,7 +69,6 @@ public class TwitterBean {
 			query.setCount(100);
 			QueryResult result = twitterConnection.search(query);
 			timeline = result.getTweets();
-			// timeline = twitterConnection.getUserTimeline(name, page);
 		} catch (Exception e) {
 			System.out.println("Cannot initialise Twitter");
 			e.printStackTrace();
@@ -113,32 +77,32 @@ public class TwitterBean {
 	}
 
 	/**
-	 * @param tweetID
-	 * @return
+	 * Gets the retweets of a particular tweet
+	 * @param tweetID the id of the tweet
+	 * @return an array list of the retweets (up to 10) of the tweet passed to it
 	 */
 	public List<Status> getRetweeters(String tweetID) {
 		Twitter twitterConnection = null;
-		// ArrayList<String> users = new ArrayList<String>();
 		List<Status> subItems = new ArrayList<Status>();
-
 		try {
+			//gets a twitter connection
 			twitterConnection = init();
-
+			int i = twitterConnection.getRateLimitStatus().get("/statuses/retweets/:id").getRemaining();
+			if (i>0)
+			{
 			List<Status> retweets = null;
 			long id = Long.parseLong(tweetID);
+			//twitter query to get the retweets
 			retweets = twitterConnection.getRetweets(id);
-			// get first 10
+			//gets at most 10 retweets 
 			if (retweets.size() > 10) {
+				//selects the first 10 retweets if there are more than 10
 				subItems = new ArrayList<Status>(retweets.subList(0, 10));
 			} else {
-				subItems = new ArrayList<Status>(retweets.subList(0,
-						retweets.size()));
+				//selects the available retweets (less than 10) 
+				subItems = new ArrayList<Status>(retweets.subList(0, retweets.size()));
 			}
-			// for (Status rtw : subItems) {
-			// System.out.println("Getting retweets: "
-			// + rtw.getText() + " "
-			// + rtw.getUser().getScreenName());
-			// }
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

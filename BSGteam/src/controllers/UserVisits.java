@@ -1,8 +1,10 @@
 package controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +37,10 @@ public class UserVisits extends HttpServlet {
 			String userID = request.getParameter("userID");
 			long useridd = twitter.showUser(userID).getId();
 			int days = Integer.parseInt(request.getParameter("days"));
-			
+			final List<String> streams = new ArrayList<String>();
+			int ccc = streams.size();
+
+
 			if (days > 0) {	
 				long DAY_IN_MS = 1000 * 60 * 60 * 24;
 				Date date = new Date(System.currentTimeMillis() - (days * DAY_IN_MS));
@@ -65,7 +70,6 @@ public class UserVisits extends HttpServlet {
 
 				TwitterStreamFactory twitter2 = new TwitterStreamFactory(cb.build());
 				TwitterStream twitterStream = twitter2.getInstance();
-				final List<String> streams = new ArrayList<String>();
 				StatusListener listener = new StatusListener() {
 
 					@Override
@@ -104,11 +108,14 @@ public class UserVisits extends HttpServlet {
 						// gets Username
 						// long username = status.getUser().getId();
 						// System.out.println("location "+ user + " " + status.getText() );
-						streams.add(status.getText());
-						System.out.println(streams);
-						request.setAttribute("userVisits2", streams);
 						try {
-							request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
+
+							String newtext = status.getText();
+						streams.add(newtext);
+						System.out.println("sta= " + newtext);
+						
+						request.setAttribute("userVisits2", streams);
+							request.getRequestDispatcher("views/ggmaps.html").forward(request,
 									response);
 						} catch (ServletException e) {
 							e.printStackTrace();
@@ -130,19 +137,29 @@ public class UserVisits extends HttpServlet {
 				int count = 0;
 				long[] idToFollow = new long[1];
 				idToFollow[0] = useridd;
-				System.out.println(userID + " = " + useridd);
+				//System.out.println(userID + " = " + useridd);
 				String[] stringsToTrack = new String[0];
 				// stringsToTrack[0] = "foursquare";
 				double[][] locationsToTrack = new double[0][0];
 
 				twitterStream.filter(new FilterQuery(count, idToFollow, stringsToTrack,
 						locationsToTrack));
-
+				streams.add("Tracking user");
+				
+				request.setAttribute("userVisits2", streams);
+				
+				
 			}
-
+			if(streams.size()> ccc)
+			{
+				System.out.println("Chang");
+				request.setAttribute("userVisits2", streams);
+				
+			}
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
 					response);
 		} catch (Exception err) {
+			//err.printStackTrace();
 			System.out.println("Error while tweeting " + err.getMessage());
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
 					response);

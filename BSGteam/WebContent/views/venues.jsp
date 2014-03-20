@@ -5,14 +5,14 @@
 
 <div class="col-lg-6 col-md-10 col-md-push-3">
 	<!-- 	<div class="row"> -->
-	<c:if test="${empty venues}">
+	<%-- <c:if test="${empty venues}">
 		<script>
 			setTimeout(function() {
 				$('#mytab a[href=#Venues]').tab('show');
 			});
 		</script>
 		<!--     		No Venues to display -->
-	</c:if>
+	</c:if> --%>
 	<!-- 	</div> -->
 	<c:if test="${not empty venues}">
 		<script>

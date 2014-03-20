@@ -15,6 +15,10 @@
 				$('#mytab a[href=#UserVisits]').tab('show');
 				window.location.href = '#userVisitsResults';
 			});
+			//setInterval(function() {
+				//$('#userVisitsResults').load(
+					//	location.href + " #userVisitsResults");
+			//}, 8000);
 		</script>
 		<c:forEach var="venue" items="${userVisits2}">
 			<h1>

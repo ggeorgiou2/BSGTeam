@@ -11,70 +11,82 @@ import twitter4j.*;
 
 //import java.io.PrintWriter;
 
+/**
+ * TwitterServlet.java This is a servlet controller class for tracking public
+ * discussions on specific topics
+ * 
+ * @author BSG Team
+ * 
+ */
 public class TwitterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("views/queryInterface.jsp").forward(
-				request, response);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
+				response);
 	}
 
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		System.out.println("Initiating connection");
 		try {
-
+			// initiates a twitter connection using the <code>TwitterBean</code> class
 			TwitterBean tt = new TwitterBean();
 			Twitter twitter = tt.init();
-			// System.out
-			// .println(twitter.getRateLimitStatus().keySet().toString());
-			// System.out.println(twitter.getRateLimitStatus().toString());
 			// System.out.println(twitter.getRateLimitStatus()
 			// .get("/search/tweets").getRemaining());
 
+			// gets the required topic from the input webform
 			String tweet = request.getParameter("tweetData");
+			// creates a new twitter query
 			Query query = new Query(tweet);
+
+			// gets the longitude and latitude of the geographical location if
+			// specified
 			String longitude = request.getParameter("long");
 			String latitude = request.getParameter("lat");
 			String area = request.getParameter("area");
-			QueryResult result;
-			String resultString = "";
 
+			QueryResult result = null;
+			// if location is empty, return results based on just the topic of
+			// discussion
 			if (longitude.isEmpty() || latitude.isEmpty() || area.isEmpty()) {
+				// search twitter for the query
 				result = twitter.search(query);
 			} else {
 				double log = Double.parseDouble(longitude);
 				double lat = Double.parseDouble(latitude);
 				double radius = Double.parseDouble(area);
-				query.setGeoCode(new GeoLocation(lat, log), radius,
-						Query.KILOMETERS);
+				// restrict the query to the specified location coordinates
+				query.setGeoCode(new GeoLocation(lat, log), radius, Query.KILOMETERS);
+				// search twitter for the query
 				result = twitter.search(query);
 			}
 
+			// get the tweets returned in the query result
 			List<Status> tweets = result.getTweets();
-			
-			for (Status tweet1 : tweets) { // /gets the user
-				models.database.twitterDB(tweet1.getUser().getOriginalProfileImageURL(), tweet1.getUser().getName(), tweet1.getUser().getLocation(), tweet1.getUser().getDescription(), tweet1.getText(), tweet1.getRetweetCount());
-				//System.out.println(tweet1.getUser().getOriginalProfileImageURL());
+			// loop through the results and save the users and tweets to the database
+			for (Status tweet1 : tweets) {
+				Database.twitterDB(tweet1.getUser().getOriginalProfileImageURL(),
+						tweet1.getUser().getName(), tweet1.getUser().getLocation(), tweet1
+								.getUser().getDescription(), tweet1.getText(), tweet1
+								.getRetweetCount());
 			}
-			
+
+			// sends the list of tweets to the display interface
 			request.setAttribute("statuses", tweets);
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(
-					request, response);
-			
-	
-
-			// int i =
-			// twitter.getRateLimitStatus().get("/statuses/retweets/:id").getRemaining();
-			// System.out.println(i);
-
-
+			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
+					response);
 		} catch (Exception err) {
 			System.out.println("Error while tweeting: " + err.getMessage());
 			request.setAttribute("statuses", err.getMessage());
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(
-					request, response);
+			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
+					response);
 		}
 	}
 }
