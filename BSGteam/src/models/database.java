@@ -1,13 +1,8 @@
 package models;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import twitter4j.Place;
-import twitter4j.Status;
 
 /**
  * Database.java Used to make connections to the database and insert tweets and

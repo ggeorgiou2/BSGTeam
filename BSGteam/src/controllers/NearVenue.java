@@ -11,6 +11,8 @@ import fi.foyt.foursquare.api.entities.*;
 /**
  * NearVenue.java
  * 
+ * @author BSG Team
+ * 
  */
 public class NearVenue extends HttpServlet {
 	private static final long serialVersionUID = 1L;
