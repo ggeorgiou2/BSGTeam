@@ -1,7 +1,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
@@ -10,36 +9,54 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class venueSearch extends HttpServlet {
+/**
+ * VenueSearch.java
+ * 
+ * This class connect to the team database and some mysql commands are perform on the data,
+ * That is, the venue list from the foursquare is search from the database and display them as result
+ *  
+ * @author BSG Team
+ *
+ */
+public class VenueSearch extends HttpServlet {
 
+	// Get the result from the server
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("views/databaseSearch.jsp").forward(request,
 				response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
+	//This method post the query to the server for process
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+       
+		//sets the header
+		response.setContentType("text/html");
+		
+		//defines the connection variable 
         Connection conn = null;
+        
         String url = "jdbc:mysql://stusql.dcs.shef.ac.uk/";
         String dbName = "team003";
         String driver = "com.mysql.jdbc.Driver";
         String userName = "team003";
         String password = "20ec79a9";
  
-        Statement st;
+        Statement statement;
         try {
+        	//loads the drivers
             Class.forName(driver).newInstance();
+            
+            //connects to the database
             conn = DriverManager.getConnection(url + dbName, userName, password);
             System.out.println("Connected!");
             String pid = request.getParameter("pid");
  
-            ArrayList al = null;
+            ArrayList venueList = null;
             ArrayList pid_list = new ArrayList();
             String query;
             
+            //checks for validate input
             if (pid.isEmpty() || (pid.equals("*"))) {
              query = "select * from venues";
 
@@ -48,21 +65,20 @@ public class venueSearch extends HttpServlet {
             }
             
             System.out.println("query " + query);
-            st = conn.createStatement();
-            ResultSet rs = st.executeQuery(query);
- 
+            statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            
             while (rs.next()) {
-                al = new ArrayList();
+                venueList = new ArrayList();
 
-                al.add(rs.getString(1));
-                al.add(rs.getString(2));
-                al.add(rs.getString(3));
-                al.add(rs.getString(4));
-                al.add(rs.getString(5));
+                venueList.add(rs.getString(1));
+                venueList.add(rs.getString(2));
+                venueList.add(rs.getString(3));
+                venueList.add(rs.getString(4));
+                venueList.add(rs.getString(5));
 
+                System.out.println("al :: " + venueList);
                 
-                System.out.println("al :: " + al);
-                pid_list.add(al);
             }
  
             request.setAttribute("piList", pid_list);
@@ -75,13 +91,4 @@ public class venueSearch extends HttpServlet {
         }
     }
 
-	/**
-	 * Returns a short description of the servlet.
-	 * 
-	 * @return a String containing servlet description
-	 */
-	@Override
-	public String getServletInfo() {
-		return "Short description";
-	}// </editor-fold>
 }
