@@ -38,11 +38,9 @@ public class TwitterServlet extends HttpServlet {
 			throws ServletException, IOException {
 		System.out.println("Initiating connection");
 		try {
-			// initiates a twitter connection using the <code>TwitterBean</code> class
-			TwitterBean tt = new TwitterBean();
-			Twitter twitter = tt.init();
-			// System.out.println(twitter.getRateLimitStatus()
-			// .get("/search/tweets").getRemaining());
+			// instantiates a new object of the <code>TwitterBean</code> class 
+			TwitterBean twitterConnection = new TwitterBean();
+			Twitter twitter = twitterConnection.init();
 
 			// gets the required topic from the input webform
 			String tweet = request.getParameter("tweetData");
