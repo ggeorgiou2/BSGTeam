@@ -9,19 +9,6 @@ $(window).load(function(){
 	$('#mytab a[href=#'+url.split('#')[1]+']').tab('show');
 });
 </script>
-<script>
-unction userid_validation(lat)  
-{  
-var uid_len = uid.value.length;  
-if (uid_len == 0 || uid_len >= my || uid_len < mx)  
-{  
-alert("User Id should not be empty / length be between "+mx+" to "+my);  
-uid.focus();  
-return false;  
-}  
-return true;  
-}  
-</script>
 <%-- <c:if test="${empty kokos">
     var1 is empty or null.
 	</c:if>
@@ -45,10 +32,11 @@ return true;
 					<li><a href="#Venues" data-toggle="tab">Venues</a></li>
 					<li><a href="#NearVenues" data-toggle="tab">Near Venues</a></li>
 					<li><a href="#UserVisits" data-toggle="tab">User Visits</a></li>
-					<li><a href="#LocationKeywords" data-toggle="tab">Discussion by Location</a></li>
+					<li><a href="#LocationKeywords" data-toggle="tab">Discussion
+							by Location</a></li>
 					<li><a href="#TrackUsers" data-toggle="tab">Track Users</a></li>
-					
-					
+
+
 				</ul>
 				<!-- <div class="container">
 					<input type="text" placeholder="click to show datepicker"
@@ -64,7 +52,7 @@ return true;
 									<div class="well bs-component">
 										<form action="twitter" method="post" class="form-horizontal">
 											<fieldset>
-												<legend>Discussion Form2</legend>
+												<legend>Discussion Form</legend>
 												<div class="form-group">
 													<label for="tweetData" class="col-lg-2 control-label">Topic:</label>
 													<div class="col-lg-10">
@@ -76,8 +64,8 @@ return true;
 													<label for="lat" class="col-lg-2 control-label">Latitude:</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="lat"
-															pattern="([-/+]?[0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)" 
-													        data-validation-pattern-message="Must write real number" 
+															pattern="([-/+]?[0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)"
+															data-validation-pattern-message="Must write real number"
 															id="lat" placeholder="Latitude" required>
 													</div>
 												</div>
@@ -85,8 +73,8 @@ return true;
 													<label for="long" class="col-lg-2 control-label">Longitude:</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="long"
-														pattern="([-/+]?[0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)" 
-													        data-validation-pattern-message="Must write real number" 
+															pattern="([-/+]?[0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)"
+															data-validation-pattern-message="Must write real number"
 															id="long" placeholder="Longitude" required>
 													</div>
 												</div>
@@ -95,27 +83,15 @@ return true;
 														(in km):</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="area"
-														pattern="([0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)" 
-													        data-validation-pattern-message="Must write real number" 
+															pattern="([0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)"
+															data-validation-pattern-message="Must write real number"
 															id="area" placeholder="Area" required>
-													</div>
-												</div>
-												<div class="form-group">
-													<label for="select" class="col-lg-2 control-label">Selects</label>
-													<div class="col-lg-10">
-														<br> <select multiple="" class="form-control">
-															<option>Sheffield</option>
-															<option>London (51.5286416,-0.1015986)</option>
-															<option>Manchester</option>
-															<option>Leeds</option>
-															<option>York</option>
-														</select>
 													</div>
 												</div>
 												<div class="form-group">
 													<div class="col-lg-10 col-lg-offset-2">
 														<button type="submit" class="btn btn-primary">Submit</button>
-														<input type="reset" class="btn btn-default" value="reset"/>
+														<input type="reset" class="btn btn-default" value="reset" />
 													</div>
 												</div>
 											</fieldset>
@@ -127,23 +103,20 @@ return true;
 					</div>
 					<div class="tab-pane fade" id="Venues">
 						<p>
-							<script>
-								$('#sandbox-container input').datepicker({});
-							</script>
 							<!-- Forms================================================== -->
 						<div class="bs-docs-section">
 							<div class="row">
 								<div class="col-lg-12">
 									<div class="well bs-component">
-										<form action="venue" method="post" class="form-horizontal" onSubmit="return formatValidation();">
+										<form action="venue" method="post" class="form-horizontal">
 											<fieldset>
 												<legend>Venues Form</legend>
 												<div class="form-group">
 													<label for="lat" class="col-lg-2 control-label">Latitude</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="lat"
-														pattern="([-/+]?[0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)" 
-													        data-validation-pattern-message="Must write real number" 
+															pattern="([-/+]?[0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)"
+															data-validation-pattern-message="Must write real number"
 															id="lat" placeholder="Latitude" required>
 													</div>
 												</div>
@@ -151,28 +124,15 @@ return true;
 													<label for="long" class="col-lg-2 control-label">Longitude</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="long"
-														pattern="([-/+]?[0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)" 
-													        data-validation-pattern-message="Must write real number" 
+															pattern="([-/+]?[0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)"
+															data-validation-pattern-message="Must write real number"
 															id="long" placeholder="Longitude" required>
-													</div>
-												</div>
-												<div class="form-group">
-													<label for="select" class="col-lg-2 control-label">Name
-														of Location</label>
-													<div class="col-lg-10">
-														<br> <select multiple="" class="form-control">
-															<option>Sheffield</option>
-															<option>London</option>
-															<option>Manchester</option>
-															<option>Leeds</option>
-															<option>York</option>
-														</select>
 													</div>
 												</div>
 												<div class="form-group">
 													<div class="col-lg-10 col-lg-offset-2">
 														<button type="submit" class="btn btn-primary">Submit</button>
-														<input type="reset" class="btn btn-default" value="reset"/>
+														<input type="reset" class="btn btn-default" value="reset" />
 													</div>
 												</div>
 											</fieldset>
@@ -184,9 +144,6 @@ return true;
 					</div>
 					<div class="tab-pane fade" id="LocationKeywords">
 						<p>
-							<script>
-								$('#sandbox-container input').datepicker({});
-							</script>
 							<!-- Forms================================================== -->
 						<div class="bs-docs-section">
 							<div class="row">
@@ -199,8 +156,8 @@ return true;
 													<label for="lat" class="col-lg-2 control-label">Latitude</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="lat"
-														pattern="([-/+]?[0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)" 
-													        data-validation-pattern-message="Must write real number" 
+															pattern="([-/+]?[0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)"
+															data-validation-pattern-message="Must write real number"
 															id="lat" placeholder="Latitude" required>
 													</div>
 												</div>
@@ -208,8 +165,8 @@ return true;
 													<label for="long" class="col-lg-2 control-label">Longitude</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="long"
-														pattern="([-/+]?[0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)" 
-													        data-validation-pattern-message="Must write real number" 
+															pattern="([-/+]?[0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)"
+															data-validation-pattern-message="Must write real number"
 															id="long" placeholder="Longitude" required>
 													</div>
 												</div>
@@ -217,8 +174,8 @@ return true;
 													<label for="radius" class="col-lg-2 control-label">Radius</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="radius"
-														pattern="([0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)" 
-													        data-validation-pattern-message="Must write real number" 
+															pattern="([0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)"
+															data-validation-pattern-message="Must write real number"
 															id="radius" placeholder="radius" required>
 													</div>
 												</div>
@@ -230,18 +187,19 @@ return true;
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="keywords" class="col-lg-2 control-label">Number of Keywords</label>
+													<label for="keywords" class="col-lg-2 control-label">Number
+														of Keywords</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="keywords"
 															id="keywords" placeholder="Number of keywords" required>
 													</div>
 												</div>
-												
-												
+
+
 												<div class="form-group">
 													<div class="col-lg-10 col-lg-offset-2">
 														<button type="submit" class="btn btn-primary">Submit</button>
-														<input type="reset" class="btn btn-default" value="reset"/>
+														<input type="reset" class="btn btn-default" value="reset" />
 													</div>
 												</div>
 											</fieldset>
@@ -271,7 +229,7 @@ return true;
 												<div class="form-group">
 													<div class="col-lg-10 col-lg-offset-2">
 														<button type="submit" class="btn btn-primary">Submit</button>
-														<input type="reset" class="btn btn-default" value="reset"/>
+														<input type="reset" class="btn btn-default" value="reset" />
 													</div>
 												</div>
 											</fieldset>
@@ -307,7 +265,7 @@ return true;
 												<div class="form-group">
 													<div class="col-lg-10 col-lg-offset-2">
 														<button type="submit" class="btn btn-primary">Submit</button>
-														<input type="reset" class="btn btn-default" value="reset"/>
+														<input type="reset" class="btn btn-default" value="reset" />
 													</div>
 												</div>
 											</fieldset>
@@ -330,11 +288,14 @@ return true;
 													<label for="users" class="col-lg-2 control-label">UserIDs</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="userIDs"
-															id="userIDs" placeholder="Users' Twitter IDs (separated by commas)" required>
+															id="userIDs"
+															placeholder="Users' Twitter IDs (separated by commas)"
+															required>
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="keywords" class="col-lg-2 control-label">Number of Keywords</label>
+													<label for="keywords" class="col-lg-2 control-label">Number
+														of Keywords</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="keywords"
 															id="keywords" placeholder="Number of keywords" required>
@@ -350,7 +311,7 @@ return true;
 												<div class="form-group">
 													<div class="col-lg-10 col-lg-offset-2">
 														<button type="submit" class="btn btn-primary">Submit</button>
-														<input type="reset" class="btn btn-default" value="reset"/>
+														<input type="reset" class="btn btn-default" value="reset" />
 													</div>
 												</div>
 											</fieldset>
@@ -385,7 +346,7 @@ return true;
 	</div>
 	<div class="row">
 		<div id="results">
-			<jsp:include page="results.jsp" />
+			<jsp:include page="discussResults.jsp" />
 		</div>
 	</div>
 	<div class="row">

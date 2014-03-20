@@ -14,7 +14,7 @@ public class venueSearch extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("views/venueSearch.jsp").forward(request,
+		request.getRequestDispatcher("views/databaseSearch.jsp").forward(request,
 				response);
 	}
 
@@ -53,22 +53,20 @@ public class venueSearch extends HttpServlet {
  
             while (rs.next()) {
                 al = new ArrayList();
- 
-//                out.println(rs.getString(1));
-//                out.println(rs.getString(2));
-//                out.println(rs.getString(3));
-//                out.println(rs.getString(4));
+
                 al.add(rs.getString(1));
                 al.add(rs.getString(2));
                 al.add(rs.getString(3));
                 al.add(rs.getString(4));
- 
+                al.add(rs.getString(5));
+
+                
                 System.out.println("al :: " + al);
                 pid_list.add(al);
             }
  
             request.setAttribute("piList", pid_list);
-            RequestDispatcher view = request.getRequestDispatcher("views/venueSearch.jsp");
+            RequestDispatcher view = request.getRequestDispatcher("views/databaseSearch.jsp");
             view.forward(request, response);
             conn.close();
             System.out.println("Disconnected!");

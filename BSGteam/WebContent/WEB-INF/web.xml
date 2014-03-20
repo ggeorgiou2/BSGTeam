@@ -75,7 +75,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>twitterSearch</servlet-name>
-    <url-pattern>/twitterSearch</url-pattern>
+    <url-pattern>/databaseSearch</url-pattern>
   </servlet-mapping>
      <servlet>
     <description></description>
