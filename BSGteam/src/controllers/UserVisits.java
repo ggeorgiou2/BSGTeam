@@ -48,8 +48,8 @@ public class UserVisits extends HttpServlet {
 			long userid = twitter.showUser(userID).getId();
 			System.out.println("userName " + userID + " | ID = "  + userid);
 			
-		/*	Database database = new Database();
-			database.userQuery(userID);*/
+			Database database = new Database();
+			database.userQuery(userID);
 			
 			int days = Integer.parseInt(request.getParameter("days"));
 			final List<String> streams = new ArrayList<String>();
