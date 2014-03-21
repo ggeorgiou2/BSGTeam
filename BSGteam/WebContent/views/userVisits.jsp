@@ -46,10 +46,6 @@
 				$('#mytab a[href=#UserVisits]').tab('show');
 				window.location.href = '#userVisitsResults';
 			});
-			//setInterval(function() {
-			//$('#userVisitsResults').load(
-			//	location.href + " #userVisitsResults");
-			//}, 8000);
 		</script>
 		<c:forEach var="venue" items="${userVisits2}">
 			<h1>
@@ -65,7 +61,7 @@
 				window.location.href = '#userVisitsResults';
 			});
 		</script>
-		<div class="row">
+		<div class="row" id="userVisitsResults">
 			<div class="well bs-component">
 				<h1>List of Venues</h1>
 				<div class="row">

@@ -51,7 +51,7 @@
 				window.location.href = '#venueResults';
 			});
 		</script>
-		<div class="row">
+		<div class="row" id="venueResults">
 			<div class="well bs-component">
 				<h1>List of Venues</h1>
 				<div class="row">

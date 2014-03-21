@@ -129,3 +129,17 @@ section p.quote {
 	height: 100%;
 	border:solid 1px #ccc;
 }
+
+.table-nonfluid{
+  width: auto;}
+
+
+.table-customstyle{
+  border-collapse: separate;
+  border-spacing: 0 5px;
+  text-align: center;
+  th
+    background-color: cornflowerblue;
+    color: white;
+    text-align: center;
+}

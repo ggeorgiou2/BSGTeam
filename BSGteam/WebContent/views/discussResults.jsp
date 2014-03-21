@@ -67,7 +67,7 @@
 				window.location.href = '#results';
 			});
 		</script>
-		<div class="row">
+		<div class="row" id="results">
 			<div class="well bs-component">
 				<h1>List of Results</h1>
 				<div class="row">

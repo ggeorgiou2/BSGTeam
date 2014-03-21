@@ -41,13 +41,13 @@
 				window.location.href = '#nearVenueResults';
 			});
 		</script>
-		<div class="row">
+		<div class="row" id="nearVenueResults">
 			<div class="well bs-component">
 				<h1>List of Venues</h1>
 				<div class="row">
 					<div class="col-md-10">
 						<table
-							class="table table-hover table-responsive table-bordered table-condensed">
+							class="table table-hover table-nonfluid table-responsive table-bordered table-condensed">
 							<thead>
 								<tr>
 									<th>Name (Click to view Images)

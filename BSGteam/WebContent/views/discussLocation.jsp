@@ -78,7 +78,7 @@
 				window.location.href = '#discussionLocation';
 			});
 		</script>
-		<div class="row">
+		<div class="row" id="discussLocation">
 			<div class="well bs-component">
 				<h1>List of Frequent Keywords</h1>
 				<div class="row">
