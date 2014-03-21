@@ -57,7 +57,7 @@ public class VenueSearch extends HttpServlet {
 			String pid = request.getParameter("pid");
 
 			ArrayList<String> venueList = null;
-			ArrayList<String> pid_list = new ArrayList<String>();
+			//ArrayList<String> pid_list = new ArrayList<String>();
 			String query;
 
 			// checks for validate input
@@ -81,7 +81,7 @@ public class VenueSearch extends HttpServlet {
 				venueList.add(rs.getString(5));
 				System.out.println("al :: " + venueList);
 			}
-			request.setAttribute("piList", pid_list);
+			request.setAttribute("piList", venueList);
 			RequestDispatcher view = request
 					.getRequestDispatcher("views/databaseSearch.jsp");
 			view.forward(request, response);
@@ -89,6 +89,7 @@ public class VenueSearch extends HttpServlet {
 			System.out.println("Disconnected!");
 		} catch (Exception e) {
 			e.printStackTrace();
+			
 		}
 	}
 

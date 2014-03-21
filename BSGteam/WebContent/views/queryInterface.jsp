@@ -66,7 +66,7 @@ $(window).load(function(){
 														<input type="text" class="form-control" name="lat"
 															pattern="([-/+]?[0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)"
 															data-validation-pattern-message="Must write real number"
-															id="lat" placeholder="Latitude" required>
+															id="lat" placeholder="Latitude">
 													</div>
 												</div>
 												<div class="form-group">
@@ -75,23 +75,23 @@ $(window).load(function(){
 														<input type="text" class="form-control" name="long"
 															pattern="([-/+]?[0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)"
 															data-validation-pattern-message="Must write real number"
-															id="long" placeholder="Longitude" required>
+															id="long" placeholder="Longitude">
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="area" class="col-lg-2 control-label">Area:
+													<label for="area" class="col-lg-2 control-label">Radius:
 														(in km):</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="area"
 															pattern="([0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)"
 															data-validation-pattern-message="Must write real number"
-															id="area" placeholder="Area" required>
+															id="area" placeholder="Area" >
 													</div>
 												</div>
 												<div class="form-group">
 													<div class="col-lg-10 col-lg-offset-2">
 														<button type="submit" class="btn btn-primary">Submit</button>
-														<input type="reset" class="btn btn-default" value="reset" />
+														<input type="reset" class="btn btn-default" value="Reset" />
 													</div>
 												</div>
 											</fieldset>
@@ -132,7 +132,7 @@ $(window).load(function(){
 												<div class="form-group">
 													<div class="col-lg-10 col-lg-offset-2">
 														<button type="submit" class="btn btn-primary">Submit</button>
-														<input type="reset" class="btn btn-default" value="reset" />
+														<input type="reset" class="btn btn-default" value="Reset" />
 													</div>
 												</div>
 											</fieldset>
@@ -171,12 +171,12 @@ $(window).load(function(){
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="radius" class="col-lg-2 control-label">Radius</label>
+													<label for="radius" class="col-lg-2 control-label">Radius (in km)</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="radius"
 															pattern="([0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)|([0-9]+)"
 															data-validation-pattern-message="Must write real number"
-															id="radius" placeholder="radius" required>
+															id="radius" placeholder="Radius" required>
 													</div>
 												</div>
 												<div class="form-group">
@@ -199,7 +199,7 @@ $(window).load(function(){
 												<div class="form-group">
 													<div class="col-lg-10 col-lg-offset-2">
 														<button type="submit" class="btn btn-primary">Submit</button>
-														<input type="reset" class="btn btn-default" value="reset" />
+														<input type="reset" class="btn btn-default" value="Reset" />
 													</div>
 												</div>
 											</fieldset>
@@ -223,13 +223,13 @@ $(window).load(function(){
 														ID</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="venueID"
-															id="venueID" placeholder="venue id" required>
+															id="venueID" placeholder="Venue id" required>
 													</div>
 												</div>
 												<div class="form-group">
 													<div class="col-lg-10 col-lg-offset-2">
 														<button type="submit" class="btn btn-primary">Submit</button>
-														<input type="reset" class="btn btn-default" value="reset" />
+														<input type="reset" class="btn btn-default" value="Reset" />
 													</div>
 												</div>
 											</fieldset>
@@ -265,7 +265,7 @@ $(window).load(function(){
 												<div class="form-group">
 													<div class="col-lg-10 col-lg-offset-2">
 														<button type="submit" class="btn btn-primary">Submit</button>
-														<input type="reset" class="btn btn-default" value="reset" />
+														<input type="reset" class="btn btn-default" value="Reset" />
 													</div>
 												</div>
 											</fieldset>
@@ -311,7 +311,7 @@ $(window).load(function(){
 												<div class="form-group">
 													<div class="col-lg-10 col-lg-offset-2">
 														<button type="submit" class="btn btn-primary">Submit</button>
-														<input type="reset" class="btn btn-default" value="reset" />
+														<input type="reset" class="btn btn-default" value="Reset" />
 													</div>
 												</div>
 											</fieldset>

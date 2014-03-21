@@ -11,7 +11,7 @@ import twitter4j.*;
 /**
  * UserTimelines.java
  * 
- * This servlet is used to dipsplay
+ * This servlet is used to display the timeline of a user
  * 
  * @author BSG Team
  */

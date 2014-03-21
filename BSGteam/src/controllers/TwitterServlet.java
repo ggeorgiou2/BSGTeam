@@ -36,7 +36,6 @@ public class TwitterServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("Initiating connection");
 		try {
 			// instantiates a new object of the <code>TwitterBean</code> class 
 			TwitterBean twitterConnection = new TwitterBean();

@@ -13,8 +13,7 @@
 		<script>
 			setTimeout(function() {
 				$('#mytab a[href=#LocationKeywords]').tab('show');
-
-				window.location.href = '#discussionLocation'
+				window.location.href = '#discussionLocation';
 			});
 		</script>
 		<div class="row">

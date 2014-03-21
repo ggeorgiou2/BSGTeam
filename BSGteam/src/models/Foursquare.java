@@ -13,8 +13,8 @@ import fi.foyt.foursquare.api.entities.*;
 /**
  * Foursquare.java
  * 
- * This is a model class used to perform operations from the foursquare API and
- * the get the full url of a short url address
+ * This is a model class used to perform operations such as retrieving venues
+ * and their details and makes use of the foursquare API.
  * 
  * @author BSG Team
  * 
@@ -29,7 +29,7 @@ public class Foursquare {
 	 */
 	/*
 	 * This method accept short URL as an arguments, process it, and return the
-	 * full .
+	 * full url.
 	 */
 	public String getFullURL(String shortURLs) throws IOException {
 		URL shortUrl = new URL(shortURLs);
@@ -80,17 +80,14 @@ public class Foursquare {
 	 */
 	public CompactVenue getLocationInformation(String shortURLs)
 			throws FoursquareApiException {
-
 		// Instantiate the FourSquare Api and authenticate the user
 		FoursquareApi fsAPI = new FoursquareApi(
 				"O2A21N0HUIM5UVFL2AYY4OMQ35DIUKVYBCVR5EJSHZWP52UF",
 				"FVL0GI21DP5ULAAM5BHO4I4X3D4YQNWHKOTVQDDZDWBCXCYV",
 				"http://www.sheffield.ac.uk");
 		fsAPI.setoAuthToken("3BD5LBHSXOQQGA2NFRWQYQ4R44XUTSMXZCXIQDCFGIWLIOYN");
-
 		// expand the url if it is a short url!
 		String url = expandUrl(shortURLs);
-
 		// if it is not a 4square login url then we return!
 		if (!((url.startsWith("https://foursquare.com/"))
 				&& (url.contains("checkin")) && (url.contains("s="))))
@@ -105,23 +102,20 @@ public class Foursquare {
 		String sig = (matche.matches()) ? matche.group(1) : "";
 		Result<Checkin> chck = null;
 		try {
-
 			// finds the information of those who checkin in a venue
 			chck = fsAPI.checkin(checkInId, sig);
 		} catch (FoursquareApiException e) {
 			System.out.println("fsq excep");
 			e.printStackTrace();
 		}
-		Checkin cc = chck.getResult();
-
-		CompactVenue venue = cc.getVenue();
-
+		Checkin checkin = chck.getResult();
+		CompactVenue venue = checkin.getVenue();
 		return venue;
 	}
 
 	/**
 	 * @param result
-	 *          is of type QueryResult
+	 *          a QueryResult from twitter
 	 * @return the location of checkin
 	 */
 	public List<CompactVenue> checkins(QueryResult result) {
@@ -144,7 +138,8 @@ public class Foursquare {
 	}
 
 	/**
-	 * @param venueID the identification number of the venue
+	 * @param venueID
+	 *          the identification number of the venue
 	 * @return the available pictures in the venue
 	 */
 	public Photo[] getImages(String venueID) {
@@ -155,10 +150,8 @@ public class Foursquare {
 		fsAPI.setoAuthToken("3BD5LBHSXOQQGA2NFRWQYQ4R44XUTSMXZCXIQDCFGIWLIOYN");
 		Result<PhotoGroup> venuephoto;
 		Photo[] image = null;
-
 		try {
 			venuephoto = fsAPI.venuesPhotos(venueID, "venue", null, null);
-
 			if (venuephoto.getResult().getCount() > 0) {
 				image = venuephoto.getResult().getItems();
 			}

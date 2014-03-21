@@ -67,22 +67,24 @@ public class Venue extends HttpServlet {
 		}
 		//checks that response code is 200 (OK) before proceeding
 		if (result2.getMeta().getCode() == 200) {
-			//saves the venue query results to the database
+
 			for (CompactVenue venue : result2.getResult().getVenues()) {
+				//retrieves the category(ies) of each venue
 				String category = "";
 				Category[] categoryList = venue.getCategories();
 				for (Category cat:categoryList)
 				{
 					category = cat.getName();
 				}
+				//saves the venue query results to the database
 				models.Database.venuesDB(venue.getName(), venue.getLocation()
 						.getAddress(), venue.getUrl(), category);
 			}
 			//sends the list of venues as an attribute to the view for display
 			request.setAttribute("venues", result2.getResult().getVenues());
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
-					response);
+			
 		}
-		
+		request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
+				response);
 	}
 }

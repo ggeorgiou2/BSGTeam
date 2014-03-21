@@ -16,7 +16,7 @@
 				</c:if>
 				<c:if test="${not empty retweeters}">
 					<h1>
-						List of most recent users who retweeted: </h1>
+						List of recent users who retweeted: </h1>
 						<h2><c:out value="${tweet}"/>
 					</h2>
 					<div class="row">

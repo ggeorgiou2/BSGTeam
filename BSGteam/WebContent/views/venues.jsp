@@ -18,7 +18,7 @@
 		<script>
 			setTimeout(function() {
 				$('#mytab a[href=#Venues]').tab('show');
-				window.location.href = '#venueResults'
+				window.location.href = '#venueResults';
 			});
 		</script>
 		<div class="row">

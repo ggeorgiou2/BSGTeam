@@ -29,6 +29,7 @@
 									<th>Address (Click to view on map)
 									<th>URL
 									<th>Categories
+									<th>Description
 								</tr>
 							</thead>
 							<tbody class="table-hover">
@@ -50,9 +51,8 @@
 										<td><c:forEach var="category" items="${venue.categories}">
 												<c:out value="${category.name}"></c:out>
 											</c:forEach></td>
-										<td>
-										<c:out value="${venue.stats.usersCount}"></c:out> users have been here
-										</td>
+										<td><c:out value="${venue.stats.usersCount}"></c:out>
+											users have been here</td>
 									</tr>
 								</c:forEach>
 							</tbody>

@@ -55,14 +55,13 @@ public class TwitterSearch extends HttpServlet {
 			System.out.println("Connected!");
 			String pid = request.getParameter("pid");
 
-			ArrayList twitterList = null;
-			ArrayList tid_list = new ArrayList();
+			ArrayList<String> twitterList = null;
+			//ArrayList<String> tid_list = new ArrayList<String>();
 			String query;
 
 			// validates before select from the table
 			if (pid.isEmpty() || (pid.equals("*"))) {
 				query = "select * from twitter";
-
 			} else {
 				query = "select * from twitter where id ='" + pid + "' ";
 			}
@@ -72,8 +71,7 @@ public class TwitterSearch extends HttpServlet {
 			ResultSet result = statement.executeQuery(query);
 
 			while (result.next()) {
-
-				twitterList = new ArrayList();
+				twitterList = new ArrayList<String>();
 
 				twitterList.add(result.getString(1));
 				twitterList.add(result.getString(2));
@@ -83,10 +81,10 @@ public class TwitterSearch extends HttpServlet {
 				twitterList.add(result.getString(6));
 				twitterList.add(result.getString(7));
 				System.out.println("tl :: " + twitterList);
-				tid_list.add(twitterList);
+				//tid_list.add(twitterList);
 			}
 
-			request.setAttribute("twList", tid_list);
+			request.setAttribute("twList", twitterList);
 			RequestDispatcher view = request
 					.getRequestDispatcher("views/databaseSearch.jsp");
 			view.forward(request, response);
