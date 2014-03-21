@@ -5,7 +5,7 @@
 
 
 <div class="col-lg-6 col-md-10 col-md-push-3">
-<c:if test="${empty piList}">
+	<c:if test="${empty piList}">
 		<script>
 			setTimeout(function() {
 				$('#mytab a[href=#Venues]').tab('show');
@@ -13,7 +13,6 @@
 			});
 		</script>
 	</c:if>
-	<!-- 	</div> -->
 	<c:if test="${not empty piList}">
 		<div class="row">
 			<div class="well bs-component">
@@ -24,10 +23,10 @@
 							class="table table-hover table-responsive table-bordered table-condensed">
 							<thead>
 								<tr>
-									<th><b>VenueName
-											<th><b>Address
-													<th><b>URL
-															<th><b>Description 
+									<th><b>VenueName</b>
+									<th><b>Address</b>
+									<th><b>URL</b>
+									<th><b>Description</b>
 								</tr>
 								<%
 									int count = 0;
@@ -66,5 +65,9 @@
 								%>
 							
 						</table>
+					</div>
+				</div>
+			</div>
+		</div>
 	</c:if>
 </div>
