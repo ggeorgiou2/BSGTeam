@@ -3,12 +3,43 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
-<div class="col-lg-6 col-md-10 col-md-push-3">
-	<!-- 	<div class="row"> -->
-	<%-- 		<c:if test="${empty venues}"> --%>
-	<!--     		No Venues to display -->
-	<%-- 		</c:if> --%>
-	<!-- 	</div> -->
+<!-- ============ Forms ============ -->
+<div class="bs-docs-section">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="well bs-component">
+				<form action="visits" method="post" class="form-horizontal">
+					<fieldset>
+						<legend>User Visits</legend>
+						<div class="form-group">
+							<label for="user" class="col-lg-2 control-label">UserID</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" name="userID"
+									id="userID" placeholder="User's Twitter ID" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="days" class="col-lg-2 control-label">Days</label>
+							<div class="col-lg-10">
+								<input type="number" class="form-control" name="days" id="days"
+									placeholder="Number of days" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-lg-10 col-lg-offset-2">
+								<button type="submit" class="btn btn-primary">Submit</button>
+								<input type="reset" class="btn btn-default" value="Reset" />
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ============ Results Table ============ -->
+<div>
 	<c:if test="${not empty userVisits2}">
 		<script>
 			setTimeout(function() {
@@ -16,8 +47,8 @@
 				window.location.href = '#userVisitsResults';
 			});
 			//setInterval(function() {
-				//$('#userVisitsResults').load(
-					//	location.href + " #userVisitsResults");
+			//$('#userVisitsResults').load(
+			//	location.href + " #userVisitsResults");
 			//}, 8000);
 		</script>
 		<c:forEach var="venue" items="${userVisits2}">
@@ -69,9 +100,8 @@
 										<td><c:forEach var="category" items="${venue.categories}">
 												<c:out value="${category.name}"></c:out>
 											</c:forEach></td>
-										<td>
-										<c:out value="${venue.stats.usersCount}"></c:out> users have been here
-										</td>
+										<td><c:out value="${venue.stats.usersCount}"></c:out>
+											users have been here</td>
 									</tr>
 								</c:forEach>
 							</tbody>
