@@ -70,7 +70,7 @@ public class VenueSearch extends HttpServlet {
 						+ "%' ";
 			}
 
-			System.out.println("query " + query);
+			//System.out.println("query " + query);
 			st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query);
 
@@ -83,7 +83,7 @@ public class VenueSearch extends HttpServlet {
 				al.add(rs.getString(4));
 				al.add(rs.getString(5));
 
-				System.out.println("al :: " + al);
+				//System.out.println("al :: " + al);
 				pid_list.add(al);
 			}
 

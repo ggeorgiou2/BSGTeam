@@ -46,6 +46,11 @@ public class UserVisits extends HttpServlet {
 			//gets the id of the required twitter user to be tracked
 			String userID = request.getParameter("userID");
 			long userid = twitter.showUser(userID).getId();
+			System.out.println("userName " + userID + " | ID = "  + userid);
+			
+			Database database = new Database();
+			database.userQuery(userID);
+			
 			int days = Integer.parseInt(request.getParameter("days"));
 			final List<String> streams = new ArrayList<String>();
 			// if number of days requested is greater than 0, then the twitter database is
