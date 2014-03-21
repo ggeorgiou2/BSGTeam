@@ -10,7 +10,7 @@
 			<div class="well bs-component">
 				<form action="location" method="post" class="form-horizontal">
 					<fieldset>
-						<legend>Track Discussions in a location</legend>
+						<legend>Discover what users have been discussing in a particular location</legend>
 						<div class="form-group">
 							<label for="lat" class="col-lg-2 control-label">Latitude</label>
 							<div class="col-lg-10">

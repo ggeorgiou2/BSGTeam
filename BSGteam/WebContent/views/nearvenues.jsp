@@ -10,7 +10,7 @@
 			<div class="well bs-component">
 				<form action="nearvenue" method="post" class="form-horizontal">
 					<fieldset>
-						<legend>Near Venues Form</legend>
+						<legend>Find other venues around a specified venue</legend>
 						<div class="form-group">
 							<label for="venueID" class="col-lg-2 control-label">Venue
 								ID</label>
@@ -47,7 +47,7 @@
 				<div class="row">
 					<div class="col-md-10">
 						<table
-							class="table table-hover table-nonfluid table-responsive table-bordered table-condensed">
+							class="table table-hover table-responsive table-bordered table-condensed">
 							<thead>
 								<tr>
 									<th>Name (Click to view Images)

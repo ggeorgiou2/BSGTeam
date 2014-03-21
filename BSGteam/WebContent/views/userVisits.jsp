@@ -10,7 +10,7 @@
 			<div class="well bs-component">
 				<form action="visits" method="post" class="form-horizontal">
 					<fieldset>
-						<legend>User Visits</legend>
+						<legend>Find out what points of interest a user has visited (or is visiting)</legend>
 						<div class="form-group">
 							<label for="user" class="col-lg-2 control-label">UserID</label>
 							<div class="col-lg-10">

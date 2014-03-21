@@ -10,7 +10,7 @@
 			<div class="well bs-component">
 				<form action="VenueVisits" method="post" class="form-horizontal">
 					<fieldset>
-						<legend>Location search</legend>
+						<legend>Find out what users are visiting specific location</legend>
 						<div class="form-group">
 							<label for="lat" class="col-lg-2 control-label">Latitude:</label>
 							<div class="col-lg-10">
