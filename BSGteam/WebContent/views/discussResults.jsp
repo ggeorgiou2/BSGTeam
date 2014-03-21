@@ -10,7 +10,9 @@
 			<div class="well bs-component">
 				<form action="twitter" method="post" class="form-horizontal">
 					<fieldset>
-						<legend>Discussion Form</legend>
+						<legend>Input keywords or hashtags to find recent
+							discussions on those topics. You can also limit this to a
+							geographical location</legend>
 						<div class="form-group">
 							<label for="tweetData" class="col-lg-2 control-label">Topic:</label>
 							<div class="col-lg-10">

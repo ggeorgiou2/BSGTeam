@@ -23,7 +23,7 @@ public class Foursquare {
 
 	/**
 	 * @param shortURLs
-	 *          free URL forwarding services also known as URL redirection
+	 *            free URL forwarding services also known as URL redirection
 	 * @return location of the url
 	 * @throws IOException
 	 */
@@ -42,7 +42,7 @@ public class Foursquare {
 
 	/**
 	 * @param shortURLs
-	 *          free URL forwarding services also known as URL redirection
+	 *            free URL forwarding services also known as URL redirection
 	 * @return the real url address
 	 */
 	public String expandUrl(String shortURLs) {
@@ -69,14 +69,14 @@ public class Foursquare {
 
 	/**
 	 * @param shortURLs
-	 *          free URL forwarding services also known as URL redirection
+	 *            free URL forwarding services also known as URL redirection
 	 * @return list of venues
 	 * @throws FoursquareApiException
 	 */
 
 	/*
-	 * This method accept short Url as argument, expand it and return information
-	 * about the venue.
+	 * This method accept short Url as argument, expand it and return
+	 * information about the venue.
 	 */
 	public CompactVenue getLocationInformation(String shortURLs)
 			throws FoursquareApiException {
@@ -94,7 +94,46 @@ public class Foursquare {
 			return null;
 
 		// url now contains the full url!
-		Pattern pId = Pattern.compile(".+?checkin/(.+?)\\?s=.+", Pattern.DOTALL);
+		Pattern pId = Pattern
+				.compile(".+?checkin/(.+?)\\?s=.+", Pattern.DOTALL);
+		Matcher matche = pId.matcher(url);
+		String checkInId = (matche.matches()) ? matche.group(1) : "";
+		Pattern pSig = Pattern.compile(".+?\\?s=(.*)\\&.+", Pattern.DOTALL);
+		matche = pSig.matcher(url);
+		String sig = (matche.matches()) ? matche.group(1) : "";
+		Result<Checkin> chck = null;
+		try {
+			// finds the information of those who checkin in a venue
+			chck = fsAPI.checkin(checkInId, sig);
+		} catch (FoursquareApiException e) {
+			System.out.println("fsq excep");
+			e.printStackTrace();
+		}
+		
+		Checkin checkin = chck.getResult();
+
+		CompactVenue venue = checkin.getVenue();
+		return venue;
+	}
+	
+	public Checkin getCheckinInformation(String shortURLs)
+			throws FoursquareApiException {
+		// Instantiate the FourSquare Api and authenticate the user
+		FoursquareApi fsAPI = new FoursquareApi(
+				"O2A21N0HUIM5UVFL2AYY4OMQ35DIUKVYBCVR5EJSHZWP52UF",
+				"FVL0GI21DP5ULAAM5BHO4I4X3D4YQNWHKOTVQDDZDWBCXCYV",
+				"http://www.sheffield.ac.uk");
+		fsAPI.setoAuthToken("3BD5LBHSXOQQGA2NFRWQYQ4R44XUTSMXZCXIQDCFGIWLIOYN");
+		// expand the url if it is a short url!
+		String url = expandUrl(shortURLs);
+		// if it is not a 4square login url then we return!
+		if (!((url.startsWith("https://foursquare.com/"))
+				&& (url.contains("checkin")) && (url.contains("s="))))
+			return null;
+
+		// url now contains the full url!
+		Pattern pId = Pattern
+				.compile(".+?checkin/(.+?)\\?s=.+", Pattern.DOTALL);
 		Matcher matche = pId.matcher(url);
 		String checkInId = (matche.matches()) ? matche.group(1) : "";
 		Pattern pSig = Pattern.compile(".+?\\?s=(.*)\\&.+", Pattern.DOTALL);
@@ -109,13 +148,12 @@ public class Foursquare {
 			e.printStackTrace();
 		}
 		Checkin checkin = chck.getResult();
-		CompactVenue venue = checkin.getVenue();
-		return venue;
+		return checkin;
 	}
 
 	/**
 	 * @param result
-	 *          a QueryResult from twitter
+	 *            a QueryResult from twitter
 	 * @return the location of checkin
 	 */
 	public List<CompactVenue> checkins(QueryResult result) {
@@ -136,10 +174,30 @@ public class Foursquare {
 		}
 		return venues;
 	}
+	
+	public List<Checkin> venueCheckins(QueryResult result) {
+		List<Checkin> checkins= new ArrayList<Checkin>();
+		for (Status status : result.getTweets()) {
+			if (status.getGeoLocation() != null) {
+				int index = status.getText().indexOf("http");
+				String data = "nan";
+				if (index >= 0) {
+					data = status.getText().substring(index);
+					try {
+						checkins.add(getCheckinInformation(data));
+					} catch (FoursquareApiException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		return checkins;
+	}
+
 
 	/**
 	 * @param venueID
-	 *          the identification number of the venue
+	 *            the identification number of the venue
 	 * @return the available pictures in the venue
 	 */
 	public Photo[] getImages(String venueID) {

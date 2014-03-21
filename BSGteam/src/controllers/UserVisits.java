@@ -138,7 +138,8 @@ public class UserVisits extends HttpServlet {
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
 					response);
 		} catch (Exception err) {
-			System.out.println("Error " + err.getMessage());
+			System.out.println("Error " + err.getStackTrace());
+			//System.out.println("Error " + err.getMessage());
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
 					response);
 		}
