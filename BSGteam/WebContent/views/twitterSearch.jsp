@@ -5,15 +5,14 @@
 <div class="col-lg-6 col-md-10 col-md-push-3">
 	<!-- 	<div class="row"> -->
 	<c:if test="${empty twList}">
-		<script>
+	</c:if>
+	<c:if test="${not empty twList}">
+<script>
 			setTimeout(function() {
 				$('#mytab a[href=#twitter]').tab('show');
-				window.location.href = '#venueResults'
+				window.location.href = '#twitterResults'
 			});
 		</script>
-	</c:if>
-	<!-- 	</div> -->
-	<c:if test="${not empty twList}">
 		<div class="row">
 			<div class="well bs-component">
 				<h1>List of Tweets</h1>
@@ -67,7 +66,7 @@
 								<%
 									}
 								%>
-							
+
 						</table>
 					</div>
 				</div>

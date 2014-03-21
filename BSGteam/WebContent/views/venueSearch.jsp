@@ -6,14 +6,15 @@
 
 <div class="col-lg-6 col-md-10 col-md-push-3">
 	<c:if test="${empty piList}">
+		
+	</c:if>
+	<c:if test="${not empty piList}">
 		<script>
 			setTimeout(function() {
 				$('#mytab a[href=#Venues]').tab('show');
 				window.location.href = '#venueResults';
 			});
 		</script>
-	</c:if>
-	<c:if test="${not empty piList}">
 		<div class="row">
 			<div class="well bs-component">
 				<h1>List of Venues</h1>

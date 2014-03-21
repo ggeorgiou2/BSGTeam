@@ -1,9 +1,9 @@
 package controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,21 +21,21 @@ import javax.servlet.http.HttpServletResponse;
  * 
  */
 public class VenueSearch extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
 	// Get the result from the server
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.getRequestDispatcher("views/databaseSearch.jsp").forward(request,
-				response);
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("views/databaseSearch.jsp").forward(
+				request, response);
 	}
 
 	// This method post the query to the server for process
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 
 		// sets the header
 		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
 
 		// defines the connection variable
 		Connection conn = null;
@@ -46,18 +46,19 @@ public class VenueSearch extends HttpServlet {
 		String userName = "team003";
 		String password = "20ec79a9";
 
-		Statement statement;
+		Statement st;
 		try {
 			// loads the drivers
 			Class.forName(driver).newInstance();
 
 			// connects to the database
-			conn = DriverManager.getConnection(url + dbName, userName, password);
+			conn = DriverManager
+					.getConnection(url + dbName, userName, password);
 			System.out.println("Connected!");
 			String pid = request.getParameter("pid");
 
-			ArrayList<String> venueList = null;
-			//ArrayList<String> pid_list = new ArrayList<String>();
+			ArrayList al = null;
+			ArrayList pid_list = new ArrayList();
 			String query;
 
 			// checks for validate input
@@ -65,23 +66,28 @@ public class VenueSearch extends HttpServlet {
 				query = "select * from venues";
 
 			} else {
-				query = "select * from venues where id ='" + pid + "' ";
+				query = "select * from venues where VenueName LIKE '%" + pid
+						+ "%' ";
 			}
 
 			System.out.println("query " + query);
-			statement = conn.createStatement();
-			ResultSet rs = statement.executeQuery(query);
+			st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
 
 			while (rs.next()) {
-				venueList = new ArrayList<String>();
-				venueList.add(rs.getString(1));
-				venueList.add(rs.getString(2));
-				venueList.add(rs.getString(3));
-				venueList.add(rs.getString(4));
-				venueList.add(rs.getString(5));
-				System.out.println("al :: " + venueList);
+				al = new ArrayList();
+
+				al.add(rs.getString(1));
+				al.add(rs.getString(2));
+				al.add(rs.getString(3));
+				al.add(rs.getString(4));
+				al.add(rs.getString(5));
+
+				System.out.println("al :: " + al);
+				pid_list.add(al);
 			}
-			request.setAttribute("piList", venueList);
+
+			request.setAttribute("piList", pid_list);
 			RequestDispatcher view = request
 					.getRequestDispatcher("views/databaseSearch.jsp");
 			view.forward(request, response);
@@ -89,7 +95,6 @@ public class VenueSearch extends HttpServlet {
 			System.out.println("Disconnected!");
 		} catch (Exception e) {
 			e.printStackTrace();
-
 		}
 	}
 
