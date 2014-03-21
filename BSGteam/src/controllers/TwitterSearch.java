@@ -67,7 +67,7 @@ public class TwitterSearch extends HttpServlet {
 				query = "select * from twitter where id ='" + pid + "' ";
 			}
 
-			System.out.println("query " + query);
+			//System.out.println("query " + query);
 			statement = conn.createStatement();
 			ResultSet result = statement.executeQuery(query);
 
@@ -82,7 +82,7 @@ public class TwitterSearch extends HttpServlet {
 				twitterList.add(result.getString(5));
 				twitterList.add(result.getString(6));
 				twitterList.add(result.getString(7));
-				System.out.println("tl :: " + twitterList);
+				//System.out.println("tl :: " + twitterList);
 				tid_list.add(twitterList);
 			}
 
