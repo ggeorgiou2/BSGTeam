@@ -71,7 +71,7 @@
     <description></description>
     <display-name>twitterSearch</display-name>
     <servlet-name>twitterSearch</servlet-name>
-    <servlet-class>controllers.twitterSearch</servlet-class>
+    <servlet-class>controllers.TwitterSearch</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>twitterSearch</servlet-name>
@@ -81,7 +81,7 @@
     <description></description>
     <display-name>venueSearch</display-name>
     <servlet-name>venueSearch</servlet-name>
-    <servlet-class>controllers.venueSearch</servlet-class>
+    <servlet-class>controllers.VenueSearch</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>venueSearch</servlet-name>
