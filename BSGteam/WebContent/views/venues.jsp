@@ -30,9 +30,11 @@
 							class="table table-hover table-responsive table-bordered table-condensed">
 							<thead>
 								<tr>
-									<th>Name
+									<th>Name (Click to view Images)
 									<th>Address (Click to view on map)
 									<th>URL
+									<th>Categories
+									<th>Description
 								</tr>
 							</thead>
 							<tbody class="table-hover">
@@ -44,13 +46,19 @@
 											href='views/venuemap.html?lat=<c:out value="${venue.location.lat}"/>
 											&lng=<c:out value="${venue.location.lng }"/>'>
 												<c:if test="${empty venue.location.address}">
-													<c:out value="${venue.location.lat},${venue.location.lng}"></c:out>
+													<c:out value="${venue.location.lat}, ${venue.location.lng}"></c:out>
 												</c:if> <c:if test="${not empty venue.location.address}">
 													<c:out value="${venue.location.address}" />
 												</c:if>
 										</a></td>
 										<td><a href='<c:out value="${venue.url}"/>'><c:out
 													value="${venue.url}" /></a></td>
+										<td><c:forEach var="category" items="${venue.categories}">
+												<c:out value="${category.name}"></c:out>
+											</c:forEach></td>
+										<td>
+										<c:out value="${venue.stats.usersCount}"></c:out> users have been here
+										</td>
 									</tr>
 								</c:forEach>
 							</tbody>

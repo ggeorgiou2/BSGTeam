@@ -69,8 +69,14 @@ public class Venue extends HttpServlet {
 		if (result2.getMeta().getCode() == 200) {
 			//saves the venue query results to the database
 			for (CompactVenue venue : result2.getResult().getVenues()) {
+				String category = "";
+				Category[] categoryList = venue.getCategories();
+				for (Category cat:categoryList)
+				{
+					category = cat.getName();
+				}
 				models.Database.venuesDB(venue.getName(), venue.getLocation()
-						.getAddress(), venue.getUrl(), "description??");
+						.getAddress(), venue.getUrl(), category);
 			}
 			//sends the list of venues as an attribute to the view for display
 			request.setAttribute("venues", result2.getResult().getVenues());
