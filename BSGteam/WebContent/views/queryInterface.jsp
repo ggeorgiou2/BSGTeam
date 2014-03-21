@@ -21,8 +21,7 @@
 					<li><a href="#NearVenues" data-toggle="tab">Near Venues</a></li>
 					<li><a href="#UserVisits" data-toggle="tab">User Visits</a></li>
 					<li><a href="#VenueVisits" data-toggle="tab">Venue Visits</a></li>
-					<li><a href="#LocationKeywords" data-toggle="tab">Discussion
-							by Location</a></li>
+					<li><a href="#LocationKeywords" data-toggle="tab">Trending discussions</a></li>
 					<li><a href="#TrackUsers" data-toggle="tab">Track Users</a></li>
 				</ul>
 				<div id="myTabContent" class="tab-content">

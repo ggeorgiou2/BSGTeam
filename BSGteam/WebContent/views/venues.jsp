@@ -10,7 +10,7 @@
 			<div class="well bs-component">
 				<form action="venue" method="post" class="form-horizontal">
 					<fieldset>
-						<legend>Venues Form</legend>
+						<legend>Search for venues within a particular location</legend>
 						<div class="form-group">
 							<label for="lat" class="col-lg-2 control-label">Latitude</label>
 							<div class="col-lg-10">
