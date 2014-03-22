@@ -38,60 +38,40 @@ public class Database {
 	 *            the number of retweets of the current tweet
 	 * @return
 	 */
-	public void userQuery(String userName) {
-
-		try {
-			// creates the insert statement
-			String query = "select * from users where user = '" + userName
-					+ "'";
-			System.out.println(query);
-
-			// gets a connection to the database
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection(url, "team003",
-					"20ec79a9");
-
-			ArrayList twitterList = null;
-			ArrayList tid_list = new ArrayList();
-
-			// creates a prepared statement using the earlier created insert
-			// string
-			Statement statement;
-			statement = con.createStatement();
-			ResultSet result = statement.executeQuery(query);
-
-			while (result.next()) {
-
-				twitterList = new ArrayList();
-
-				twitterList.add(result.getString(1));
-				twitterList.add(result.getString(2));
-				twitterList.add(result.getString(3));
-
-				System.out.println("tl :: " + twitterList);
-				tid_list.add(twitterList);
-			}
-
-			if (twitterList.isEmpty()) {
-				System.out.println("pame kala user");
-				Database.newUser(userName);
-
-			} else {
-				System.out.println("en pame");
-			}
-
-			con.close();
-
-		} catch (Exception ex) {
-			Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null,
-					ex);
-			Database.newUser(userName);
-
-			System.out.println("insert user " + userName);
-		}
-	}
-
-	/**
+	/*
+	 * public void userQuery(long userID, String userName) {
+	 * 
+	 * try { // creates the insert statement String query =
+	 * "select * from users where user = '" + userName + "'";
+	 * System.out.println(query);
+	 * 
+	 * // gets a connection to the database
+	 * Class.forName("com.mysql.jdbc.Driver"); Connection con =
+	 * DriverManager.getConnection(url, "team003", "20ec79a9");
+	 * 
+	 * ArrayList twitterList = null; ArrayList tid_list = new ArrayList();
+	 * 
+	 * // creates a prepared statement using the earlier created insert //
+	 * string Statement statement; statement = con.createStatement(); ResultSet
+	 * result = statement.executeQuery(query);
+	 * 
+	 * while (result.next()) {
+	 * 
+	 * twitterList = new ArrayList();
+	 * 
+	 * twitterList.add(result.getString(1));
+	 * twitterList.add(result.getString(2));
+	 * twitterList.add(result.getString(3));
+	 * 
+	 * tid_list.add(twitterList); }
+	 * 
+	 * if (twitterList.isEmpty()) { System.out.println("new user");
+	 * Database.newUser(userID, userName); }
+	 * 
+	 * con.close();
+	 * 
+	 * } catch (Exception ex) { Database.newUser(userID, userName); } }
+	 *//**
 	 * @param VenueName
 	 *            name of the venue
 	 * @param Address
@@ -101,39 +81,28 @@ public class Database {
 	 * @param Description
 	 *            a brief description of the venue (if provided)
 	 */
-	public static void newUser(String userName) {
-		try {
-			// creates the insert statement
-			String insert = "INSERT INTO users(userID,user) VALUES (?, ?)";
-
-			System.out.println(insert + "    " + userName);
-
-			// gets a connection to the database
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection(url, "team003",
-					"20ec79a9");
-
-			// creates a prepared statement
-			PreparedStatement ps = con.prepareStatement(insert);
-			// passes the required values to the prepared statement
-			ps.setString(1, "ddas");
-			ps.setString(2, userName);
-
-			System.out.println(" user inserted");
-
-			// executes the sql query and closes the connection
-			ps.executeUpdate();
-			con.close();
-		} catch (Exception ex) {
-			Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null,
-					ex);
-			System.out.println("error");
-
-		}
-	}
-
-	// ================
-
+	/*
+	 * public static void newUser(long userID, String userName) { try { //
+	 * creates the insert statement String insert =
+	 * "INSERT INTO users(userID,user) VALUES (?, ?)";
+	 * 
+	 * // gets a connection to the database
+	 * Class.forName("com.mysql.jdbc.Driver"); Connection con =
+	 * DriverManager.getConnection(url, "team003", "20ec79a9");
+	 * 
+	 * // creates a prepared statement PreparedStatement ps =
+	 * con.prepareStatement(insert); // passes the required values to the
+	 * prepared statement ps.setLong(1, userID); ps.setString(2, userName);
+	 * 
+	 * //System.out.println(" user inserted");
+	 * 
+	 * // executes the sql query and closes the connection ps.executeUpdate();
+	 * con.close(); } catch (Exception ex) {
+	 * Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex); }
+	 * }
+	 * 
+	 * // ================
+	 */
 	/**
 	 * @param tweetPic
 	 *            profile picture of twitter user
@@ -210,8 +179,36 @@ public class Database {
 			// executes the sql query and closes the connection
 			ps.executeUpdate();
 			con.close();
-		} catch (MySQLIntegrityConstraintViolationException e) {
+			} catch (Exception ex) {
+			Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null,
+					ex);
+		}
+	}
 
+	/**
+	 * @param VenueName
+	 *            name of the venue
+	 * @param UserName
+	 *            twitter user
+	 */
+	public static void userVisitsDB(String UserName, String VenueName) {
+		try {
+			// creates the insert statement
+			String insert = "INSERT INTO userVisits(username, venue) VALUES (?, ?)";
+
+			// gets a connection to the database
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection(url, "team003",
+					"20ec79a9");
+
+			// creates a prepared statement
+			PreparedStatement ps = con.prepareStatement(insert);
+			// passes the required values to the prepared statement
+			ps.setString(1, UserName);
+			ps.setString(2, VenueName);
+			// executes the sql query and closes the connection
+			ps.executeUpdate();
+			con.close();
 		} catch (Exception ex) {
 			Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null,
 					ex);

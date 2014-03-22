@@ -17,17 +17,15 @@
 		</script>
 		<div class="row">
 			<div class="well bs-component">
-				<h1>List of Venues</h1>
+				<h1>List of Users</h1>
 				<div class="row">
 					<div class="col-md-10">
 						<table
 							class="table table-hover table-responsive table-bordered table-condensed">
 							<thead>
 								<tr>
-									<th><b>VenueName</b>
-									<th><b>Address</b>
-									<th><b>URL</b>
-									<th><b>Description</b>
+									<th><b>Users</b>
+									<th><b>Venue</b>
 								</tr>
 								<%
 									int count = 0;
@@ -49,8 +47,6 @@
 								<tr>
 									<td><%=pList.get(1)%></td>
 									<td><%=pList.get(2)%></td>
-									<td><%=pList.get(3)%></td>
-									<td><%=pList.get(4)%></td>
 								</tr>
 								<%
 									}

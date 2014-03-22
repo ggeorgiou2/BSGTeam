@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fi.foyt.foursquare.api.entities.Category;
+import fi.foyt.foursquare.api.entities.CompactVenue;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 import models.*;
@@ -44,12 +46,8 @@ public class UserVisits extends HttpServlet {
 			Twitter twitter = twitterConnection.init();
 			// retrieves the parameters passed from the web form
 			//gets the id of the required twitter user to be tracked
-			String userID = request.getParameter("userID");
-			long userid = twitter.showUser(userID).getId();
-			System.out.println("userName " + userID + " | ID = "  + userid);
-			
-			Database database = new Database();
-			database.userQuery(userID);
+			String userName = request.getParameter("userID");
+			long userid = twitter.showUser(userName).getId();
 			
 			int days = Integer.parseInt(request.getParameter("days"));
 			final List<String> streams = new ArrayList<String>();
@@ -63,14 +61,29 @@ public class UserVisits extends HttpServlet {
 				SimpleDateFormat dateformatyyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
 
 				String since = dateformatyyyyMMdd.format(date);
-				String user = "from:" + userID;
+				String user = "from:" + userName;
 				Query query = new Query(user);
 				query.setSince(since); // YYYY-MM-DD
 				QueryResult result = twitter.search(query);
 				// creates a foursquare object and inspects the user's tweet for
 				// foursquare checkins
 				Foursquare foursquare = new Foursquare();
-				request.setAttribute("userVisits", foursquare.checkins(result));
+				request.setAttribute("userVisits", foursquare.checkins(result));			
+				
+				for (CompactVenue venue :  foursquare.checkins(result)) {
+					//retrieves the category(ies) of each venue
+					String category = "";
+					Category[] categoryList = venue.getCategories();
+					for (Category cat:categoryList)
+					{
+						category = cat.getName();
+					}
+					//saves the venue query results to the database
+					Database.userVisitsDB(userName, venue.getName());
+
+				}
+				
+				
 			} else {
 				// use streaming api to get results for days = 0
 				String token_access = "263885132-oDic38nO96k91obUMBypD2V7gBkd664DPCSszpHa";
@@ -144,7 +157,6 @@ public class UserVisits extends HttpServlet {
 					response);
 		} catch (Exception err) {
 			System.out.println("Error " + err.getStackTrace());
-			//System.out.println("Error " + err.getMessage());
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
 					response);
 		}

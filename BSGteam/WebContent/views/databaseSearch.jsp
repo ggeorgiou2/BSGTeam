@@ -30,10 +30,10 @@ $(window).load(function(){
 											<fieldset>
 												<legend>Twitter Form</legend>
 												<div class="form-group">
-													<label for="tweetData" class="col-lg-2 control-label">ID:</label>
+													<label for="tweetData" class="col-lg-2 control-label">Twitter Name:</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="pid"
-															id="tweetData" placeholder="Topic" required>
+															id="tweetData" placeholder="Camelia.." required>
 													</div>
 												</div>
 												<div class="form-group">
@@ -63,7 +63,7 @@ $(window).load(function(){
 													<label for="tweetData" class="col-lg-2 control-label">Venue:</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="pid"
-															id="tweetData" placeholder="Premier Pizza..." required>
+															id="tweetData" placeholder="Regent Court..." required>
 													</div>
 												</div>
 												<div class="form-group">

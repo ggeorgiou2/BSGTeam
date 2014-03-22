@@ -61,16 +61,9 @@ public class VenueSearch extends HttpServlet {
 			ArrayList pid_list = new ArrayList();
 			String query;
 
-			// checks for validate input
-			if (pid.isEmpty() || (pid.equals("*"))) {
-				query = "select * from venues";
+			query = "select * from userVisits where Venue LIKE '" + pid + "' ";
 
-			} else {
-				query = "select * from venues where VenueName LIKE '%" + pid
-						+ "%' ";
-			}
-
-			//System.out.println("query " + query);
+			// System.out.println("query " + query);
 			st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query);
 
@@ -80,10 +73,8 @@ public class VenueSearch extends HttpServlet {
 				al.add(rs.getString(1));
 				al.add(rs.getString(2));
 				al.add(rs.getString(3));
-				al.add(rs.getString(4));
-				al.add(rs.getString(5));
 
-				//System.out.println("al :: " + al);
+				// System.out.println("al :: " + al);
 				pid_list.add(al);
 			}
 

@@ -64,7 +64,7 @@ public class TwitterSearch extends HttpServlet {
 				query = "select * from twitter";
 
 			} else {
-				query = "select * from twitter where id ='" + pid + "' ";
+				query = "select * from twitter where username ='" + pid + "' ";
 			}
 
 			//System.out.println("query " + query);
