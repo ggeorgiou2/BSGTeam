@@ -9,7 +9,9 @@ import fi.foyt.foursquare.api.*;
 import fi.foyt.foursquare.api.entities.*;
 
 /**
- * NearVenue.java This servlet queries venues that are within or near a
+ * NearVenue.java 
+ * 
+ * This servlet queries venues that are within or near a
  * particular venue
  * 
  * @author BSG Team

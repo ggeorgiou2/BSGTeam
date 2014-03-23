@@ -12,32 +12,35 @@ import twitter4j.*;
 //import java.io.PrintWriter;
 
 /**
- * TwitterServlet.java This is a servlet controller class for tracking public
- * discussions on specific topics
+ * TwitterServlet.java
+ * 
+ * This is a servlet controller class for tracking public discussions on
+ * specific topics
  * 
  * @author BSG Team
  * 
  */
 public class TwitterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
-				response);
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("views/queryInterface.jsp").forward(
+				request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		try {
-			// instantiates a new object of the <code>TwitterBean</code> class 
+			// instantiates a new object of the <code>TwitterBean</code> class
 			TwitterBean twitterConnection = new TwitterBean();
 			Twitter twitter = twitterConnection.init();
 
@@ -63,30 +66,33 @@ public class TwitterServlet extends HttpServlet {
 				double lat = Double.parseDouble(latitude);
 				double radius = Double.parseDouble(area);
 				// restrict the query to the specified location coordinates
-				query.setGeoCode(new GeoLocation(lat, log), radius, Query.KILOMETERS);
+				query.setGeoCode(new GeoLocation(lat, log), radius,
+						Query.KILOMETERS);
 				// search twitter for the query
 				result = twitter.search(query);
 			}
 
 			// get the tweets returned in the query result
 			List<Status> tweets = result.getTweets();
-			// loop through the results and save the users and tweets to the database
+			// loop through the results and save the users and tweets to the
+			// database
 			for (Status tweet1 : tweets) {
-				Database.twitterDB(tweet1.getUser().getOriginalProfileImageURL(),
-						tweet1.getUser().getName(), tweet1.getUser().getLocation(), tweet1
-								.getUser().getDescription(), tweet1.getText(), tweet1
-								.getRetweetCount());
+				Database.twitterDB(tweet1.getUser()
+						.getOriginalProfileImageURL(), tweet1.getUser()
+						.getScreenName(), tweet1.getUser().getLocation(),
+						tweet1.getUser().getDescription(), tweet1.getText(),
+						tweet1.getRetweetCount());
 			}
 
 			// sends the list of tweets to the display interface
 			request.setAttribute("statuses", tweets);
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
-					response);
+			request.getRequestDispatcher("views/queryInterface.jsp").forward(
+					request, response);
 		} catch (Exception err) {
 			System.out.println("Error while tweeting: " + err.getMessage());
 			request.setAttribute("statuses", err.getMessage());
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
-					response);
+			request.getRequestDispatcher("views/queryInterface.jsp").forward(
+					request, response);
 		}
 	}
 }

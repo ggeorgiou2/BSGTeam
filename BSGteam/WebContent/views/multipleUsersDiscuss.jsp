@@ -49,7 +49,7 @@
 
 <!-- ============ Results Table ============ -->
 <div>
-	<c:if test="${not empty users}">
+	<c:if test="${not empty finalList}">
 		<script>
 			setTimeout(function() {
 				$('#mytab a[href=#TrackUsers]').tab('show');
@@ -62,19 +62,19 @@
 				<div class="row">
 					<div class="col-md-10">
 						<c:forEach var="user" items="${users}" varStatus="counter">
+						<h3><c:out value="${user}"></c:out></h3>
 							<table
 								class="table table-hover table-responsive table-bordered table-condensed">
+								
 								<thead>
 									<tr>
-										<th>Users
 										<th>Word
 										<th>Frequency
 									</tr>
 								</thead>
 								<tbody class="table-hover">
-										<c:forEach var="word" items="${final[counter.index]}">
+										<c:forEach var="word" items="${finalList[counter.index]}">
 											<tr>
-												<td>${user}</td>
 												<td><c:out value="${word.key}" /></td>
 												<td><c:out value="${word.value}" /></td>
 											</tr>
@@ -93,7 +93,7 @@
 									</tr>
 								</thead>
 								<tbody class="table-hover">
-										<c:forEach var="word" items="${total}">
+										<c:forEach var="word" items="${totalList}">
 											<tr>
 												<td><c:out value="${word.key}" /></td>
 												<td><c:out value="${word.value}" /></td>

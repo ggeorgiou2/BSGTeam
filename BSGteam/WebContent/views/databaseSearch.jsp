@@ -4,19 +4,20 @@
 <html lang="en">
 <%@ include file="header.html"%>
 <script>
-var url = document.location.toString();
-$(window).load(function(){
-	$('#mytab a[href=#'+url.split('#')[1]+']').tab('show');
-});
+	var url = document.location.toString();
+	$(window).load(function() {
+		$('#mytab a[href=#' + url.split('#')[1] + ']').tab('show');
+	});
 </script>
 <div class="bs-docs-section">
 	<div class="row">
-		<div class="col-lg-6 col-md-10 col-md-push-3">
-			<!--<h2 id="nav-tabs">Tabs</h2>-->
+		<div class="col-lg-7 col-md-10 col-md-push-3">
+			<h1>Search database for saved queries</h1>
 			<div class="bs-component">
-				<ul class="nav nav-tabs" style="margin-bottom: 15px;" id="mytab">
-					<li class="active"><a href="#twitter" data-toggle="tab">Twitter</a></li>
-					<li><a href="#Venues" data-toggle="tab">Venues</a></li>			
+				<ul class="nav nav-pills" style="margin-bottom: 15px;" id="mytab">
+					<li class="active"><a href="#twitter" data-toggle="tab">Search
+							Twitter</a></li>
+					<li><a href="#Venues" data-toggle="tab">Search Venues</a></li>
 				</ul>
 				<div id="myTabContent" class="tab-content">
 					<div class="tab-pane fade active in" id="twitter">
@@ -26,20 +27,24 @@ $(window).load(function(){
 							<div class="row">
 								<div class="col-lg-12">
 									<div class="well bs-component">
-										<form action="databaseSearch" method="post" class="form-horizontal">
+										<form action="databaseSearch" method="post"
+											class="form-horizontal">
 											<fieldset>
-												<legend>Twitter Form</legend>
+												<legend>Search for saved users and tweets</legend>
 												<div class="form-group">
-													<label for="tweetData" class="col-lg-2 control-label">Twitter Name:</label>
+													<label for="tweetData" class="col-lg-2 control-label">Twitter
+														Name:</label>
 													<div class="col-lg-10">
-														<input type="text" class="form-control" name="pid"
-															id="tweetData" placeholder="Camelia.." required>
+														<input type="text" class="form-control" name="twitterID"
+															id="twitterID"
+															placeholder="Enter Twitter ID or type * to view all"
+															required>
 													</div>
 												</div>
 												<div class="form-group">
 													<div class="col-lg-10 col-lg-offset-2">
 														<button type="submit" class="btn btn-primary">Submit</button>
-														<input type="reset" class="btn btn-default" value="reset" />
+														<input type="reset" class="btn btn-default" value="Reset" />
 													</div>
 												</div>
 											</fieldset>
@@ -56,20 +61,23 @@ $(window).load(function(){
 							<div class="row">
 								<div class="col-lg-12">
 									<div class="well bs-component">
-										<form action="venueSearch" method="post" class="form-horizontal">
+										<form action="venueSearch" method="post"
+											class="form-horizontal">
 											<fieldset>
-												<legend>Venue Form</legend>
+												<legend>Search for previous queries of user visits</legend>
 												<div class="form-group">
 													<label for="tweetData" class="col-lg-2 control-label">Venue:</label>
 													<div class="col-lg-10">
-														<input type="text" class="form-control" name="pid"
-															id="tweetData" placeholder="Regent Court..." required>
+														<input type="text" class="form-control" name="venue"
+															id="venue"
+															placeholder="Enter name of venue or * to view all"
+															required>
 													</div>
 												</div>
 												<div class="form-group">
 													<div class="col-lg-10 col-lg-offset-2">
 														<button type="submit" class="btn btn-primary">Submit</button>
-														<input type="reset" class="btn btn-default" value="reset" />
+														<input type="reset" class="btn btn-default" value="Reset" />
 													</div>
 												</div>
 											</fieldset>
@@ -85,7 +93,7 @@ $(window).load(function(){
 	</div>
 	<div class="row">
 		<div id="twitterResults">
- 			<jsp:include page="twitterSearch.jsp" />
+			<jsp:include page="twitterSearch.jsp" />
 		</div>
 	</div>
 	<div class="row">

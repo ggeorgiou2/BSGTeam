@@ -2,12 +2,11 @@
 <%@ page import="java.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<div class="col-lg-6 col-md-10 col-md-push-3">
+<div class="col-lg-7 col-md-10 col-md-push-3">
 	<!-- 	<div class="row"> -->
-	<c:if test="${empty twList}">
-	</c:if>
-	<c:if test="${not empty twList}">
-<script>
+	
+	<c:if test="${not empty tweetList}">
+		<script>
 			setTimeout(function() {
 				$('#mytab a[href=#twitter]').tab('show');
 				window.location.href = '#twitterResults'
@@ -15,7 +14,7 @@
 		</script>
 		<div class="row">
 			<div class="well bs-component">
-				<h1>List of Tweets</h1>
+				<h1>List of Saved User Tweets</h1>
 				<div class="row">
 					<div class="col-md-10">
 						<table
@@ -32,12 +31,10 @@
 								<%
 									int count = 0;
 										String color = "#F9EBB3";
-										if (request.getAttribute("twList") != null) {
-											ArrayList tl = (ArrayList) request.getAttribute("twList");
-											System.out.println(tl);
+										if (request.getAttribute("tweetList") != null) {
+											ArrayList tl = (ArrayList) request.getAttribute("tweetList");
 											Iterator itr = tl.iterator();
 											while (itr.hasNext()) {
-
 												if ((count % 2) == 0) {
 													color = "#eeffee";
 												}
@@ -66,7 +63,7 @@
 								<%
 									}
 								%>
-
+							
 						</table>
 					</div>
 				</div>

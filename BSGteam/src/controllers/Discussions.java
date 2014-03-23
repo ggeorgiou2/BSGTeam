@@ -14,15 +14,30 @@ import models.FrequentWord;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
+/**
+ * Discussions.java This servlet class handles the tracking of what multiple
+ * users (up to 10) are discussing about
+ * 
+ * @author BSGTeam
+ * 
+ */
 public class Discussions extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// doPost(request, response);
-
+		request.getRequestDispatcher("views/queryInterface.jsp").forward(
+				request, response);
 	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// System.out.println("Am caling the doGet method from  login twitter");
@@ -43,8 +58,9 @@ public class Discussions extends HttpServlet {
 			TwitterFactory tf = new TwitterFactory(cb.build());
 			twitter4j.Twitter twitter = tf.getInstance();
 
+			// retrieve number of days data from form and convert to date format
+			// for twitter query
 			int days = Integer.parseInt(request.getParameter("days"));
-			String user = request.getParameter("userIDs");
 			long DAY_IN_MS = 1000 * 60 * 60 * 24;
 			Date date = new Date(System.currentTimeMillis()
 					- (days * DAY_IN_MS));
@@ -52,62 +68,66 @@ public class Discussions extends HttpServlet {
 					"yyyy-MM-dd");
 			String since = dateformatyyyyMMdd.format(date);
 
+			// retrieve the user IDs and separate them by comma
+			String user = request.getParameter("userIDs");
 			String[] splitUser = user.split(",");
+
+			// string to store the entire set of tweets from all users
 			String text = "";
 			QueryResult result = null;
 			Query query = null;
-			ArrayList<QueryResult> allResults = new ArrayList<QueryResult>();
-			ArrayList<String> words = new ArrayList<String>();
+			// store each user's set of tweets
+			ArrayList<String> userWordTweets = new ArrayList<String>();
 			FrequentWord w = new FrequentWord();
 			for (int i = 0; i < splitUser.length; i++) {
-				String qu = "from:" + splitUser[i];
-				System.out.println(qu);
-				query = new Query(qu);
+				// retrieve each user's tweets
+				String queryText = "from:" + splitUser[i];
+				query = new Query(queryText);
 				query.setSince(since);
-				query.count(50);
+				query.count(100);
 				result = twitter.search(query);
-				allResults.add(result);
+				// string to keep track of each user's original set of tweets
 				String temptext = "";
 				for (Status status : result.getTweets()) {
 					temptext += status.getText() + " ";
 					text += status.getText() + " ";
 				}
-				words.add(temptext);
+				userWordTweets.add(temptext);
 			}
+
 			List<Map.Entry<String, Integer>> wordlist = null;
 			if (text != null) {
 				wordlist = w.countWord(text);
 				System.out.println(wordlist.toString());
 			}
+			// retrieve required number of keywords and create a sub list
 			int keywords = Integer.parseInt(request.getParameter("keywords"));
-			List<Map.Entry<String, Integer>> sss = null;
+			List<Map.Entry<String, Integer>> subWordList = null;
 			if (wordlist.size() > keywords) {
-				sss = wordlist.subList(0, keywords);
+				subWordList = wordlist.subList(0, keywords);
 			} else {
-				sss = wordlist;
+				subWordList = wordlist;
 			}
-			int i = 0;
-			//List<Map<String, Integer>> finalList = new ArrayList<Map<String,Integer>>();
-			List<List<Map.Entry<String,Integer>>> fin = new ArrayList<List<Entry<String, Integer>>>();
-			for (String wrd : words) {
+
+			List<List<Map.Entry<String, Integer>>> frequentWordList = new ArrayList<List<Entry<String, Integer>>>();
+			for (String wrd : userWordTweets) {
 				List<Map.Entry<String, Integer>> entries = new ArrayList<Entry<String, Integer>>();
 				Map<String, Integer> finalWords = new HashMap<String, Integer>();
-				//System.out.println("1- " + wrd);
 				List<String> list = Arrays.asList(wrd.split(" "));
-				for (Entry<String, Integer> ent : sss) {
+				// get each user's contribution to the total number of keywords
+				for (Entry<String, Integer> ent : subWordList) {
 					int rsult = Collections.frequency(list, ent.getKey());
 					finalWords.put(ent.getKey(), rsult);
 				}
-				i++;
 				entries.addAll(finalWords.entrySet());
-				fin.add(entries);
-			}	
+				frequentWordList.add(entries);
+			}
 
-			System.out.println(fin);
-			request.setAttribute("final", fin);	
+			// pass the results to the views for display
+			request.setAttribute("finalList", frequentWordList);
 			request.setAttribute("users", splitUser);
-			request.setAttribute("total", sss);
-			
+			request.setAttribute("totalList", subWordList);
+
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(
 					request, response);
 		} catch (Exception err) {

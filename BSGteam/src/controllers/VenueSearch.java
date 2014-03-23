@@ -13,40 +13,32 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * VenueSearch.java
  * 
- * This class connect to the team database and some mysql commands are perform
- * on the data, That is, the venue list from the foursquare is search from the
- * database and display them as result
+ * This class is used to connect to the team database and is used to retrieve records from the
+ * database and pass them to the views for display
  * 
  * @author BSG Team
  * 
  */
 public class VenueSearch extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 
-	// Get the result from the server
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("views/databaseSearch.jsp").forward(
 				request, response);
 	}
 
-	// This method post the query to the server for process
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
-		// sets the header
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-
-		// defines the connection variable
+		// defines the connection variables
 		Connection conn = null;
-
 		String url = "jdbc:mysql://stusql.dcs.shef.ac.uk/";
 		String dbName = "team003";
 		String driver = "com.mysql.jdbc.Driver";
 		String userName = "team003";
 		String password = "20ec79a9";
 
-		Statement st;
+		Statement statement;
 		try {
 			// loads the drivers
 			Class.forName(driver).newInstance();
@@ -54,36 +46,32 @@ public class VenueSearch extends HttpServlet {
 			// connects to the database
 			conn = DriverManager
 					.getConnection(url + dbName, userName, password);
-			System.out.println("Connected!");
-			String pid = request.getParameter("pid");
-
-			ArrayList al = null;
-			ArrayList pid_list = new ArrayList();
+			String venue = request.getParameter("venue");
+			ArrayList resultList = null;
+			ArrayList venueList = new ArrayList();
 			String query;
 
-			query = "select * from userVisits where Venue LIKE '" + pid + "' ";
+			if (venue.isEmpty() || (venue.equals("*"))) {
+				query = "select * from userVisits";
+			} else {
+				query = "select * from userVisits where venue LIKE '%" + venue +"%' ";
+			}
+			statement = conn.createStatement();
+			ResultSet result = statement.executeQuery(query);
 
-			// System.out.println("query " + query);
-			st = conn.createStatement();
-			ResultSet rs = st.executeQuery(query);
-
-			while (rs.next()) {
-				al = new ArrayList();
-
-				al.add(rs.getString(1));
-				al.add(rs.getString(2));
-				al.add(rs.getString(3));
-
-				// System.out.println("al :: " + al);
-				pid_list.add(al);
+			while (result.next()) {
+				resultList = new ArrayList();
+				resultList.add(result.getString(1));
+				resultList.add(result.getString(2));
+				resultList.add(result.getString(3));
+				venueList.add(resultList);
 			}
 
-			request.setAttribute("piList", pid_list);
+			request.setAttribute("venueList", venueList);
 			RequestDispatcher view = request
 					.getRequestDispatcher("views/databaseSearch.jsp");
 			view.forward(request, response);
 			conn.close();
-			System.out.println("Disconnected!");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -12,7 +12,9 @@ import fi.foyt.foursquare.api.*;
 import fi.foyt.foursquare.api.entities.*;
 
 /**
- * Venue.java This servlet handles venue related queries
+ * Venue.java 
+ * 
+ * This servlet handles venue related queries
  * 
  * @author BSG Team
  */

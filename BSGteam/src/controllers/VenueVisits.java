@@ -13,7 +13,9 @@ import twitter4j.*;
 //import java.io.PrintWriter;
 
 /**
- * TwitterServlet.java This is a servlet controller class for tracking public
+ * TwitterServlet.java
+ * 
+ * This is a servlet controller class for tracking public
  * discussions on specific topics
  * 
  * @author BSG Team

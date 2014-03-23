@@ -16,7 +16,7 @@ import twitter4j.*;
 /**
  * UserDiscussion.java
  * 
- * T his class finds what users are discussing in a specific location and within
+ * This class finds what users are discussing in a specific location and within
  * a range of days
  * 
  * @author BSG Team

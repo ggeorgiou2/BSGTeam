@@ -16,7 +16,9 @@ import twitter4j.conf.ConfigurationBuilder;
 import models.*;
 
 /**
- * UserVisits.java This class tracks the locations which a user has visited
+ * UserVisits.java 
+ * 
+ * This class tracks the locations which a user has visited
  * 
  * @author BSG Team
  * 
@@ -71,19 +73,10 @@ public class UserVisits extends HttpServlet {
 				request.setAttribute("userVisits", foursquare.checkins(result));			
 				
 				for (CompactVenue venue :  foursquare.checkins(result)) {
-					//retrieves the category(ies) of each venue
-					String category = "";
-					Category[] categoryList = venue.getCategories();
-					for (Category cat:categoryList)
-					{
-						category = cat.getName();
-					}
 					//saves the venue query results to the database
 					Database.userVisitsDB(userName, venue.getName());
-
 				}
-				
-				
+							
 			} else {
 				// use streaming api to get results for days = 0
 				String token_access = "263885132-oDic38nO96k91obUMBypD2V7gBkd664DPCSszpHa";

@@ -4,11 +4,9 @@
 
 
 
-<div class="col-lg-6 col-md-10 col-md-push-3">
-	<c:if test="${empty piList}">
-		
-	</c:if>
-	<c:if test="${not empty piList}">
+<div class="col-lg-7 col-md-10 col-md-push-3">
+	
+	<c:if test="${not empty venueList}">
 		<script>
 			setTimeout(function() {
 				$('#mytab a[href=#Venues]').tab('show');
@@ -30,9 +28,8 @@
 								<%
 									int count = 0;
 										String color = "#F9EBB3";
-										if (request.getAttribute("piList") != null) {
-											ArrayList al = (ArrayList) request.getAttribute("piList");
-											System.out.println(al);
+										if (request.getAttribute("venueList") != null) {
+											ArrayList al = (ArrayList) request.getAttribute("venueList");
 											Iterator itr = al.iterator();
 											while (itr.hasNext()) {
 
