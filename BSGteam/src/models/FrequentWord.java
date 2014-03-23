@@ -36,7 +36,7 @@ public class FrequentWord {
 		for (String word : uniqueWords) {
 			// Analyzes the frequency of each token
 			int result = Collections.frequency(list, word);
-			if (word.length() > 4 && !word.contains("@") && !word.contains("tweet") && !word.contains("'")
+			if (word.length() > 4 && !word.contains("@") && !word.contains("tweet") && !word.contains("http") && !word.contains("'")
 					&& result > 1)
 				wordCounts.put(word, result);
 		}

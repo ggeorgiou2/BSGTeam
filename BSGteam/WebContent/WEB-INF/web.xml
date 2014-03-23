@@ -97,4 +97,14 @@
     <servlet-name>VenueVisits</servlet-name>
     <url-pattern>/VenueVisits</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Discussions</display-name>
+    <servlet-name>Discussions</servlet-name>
+    <servlet-class>controllers.Discussions</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Discussions</servlet-name>
+    <url-pattern>/discussions</url-pattern>
+  </servlet-mapping>
 </web-app>
