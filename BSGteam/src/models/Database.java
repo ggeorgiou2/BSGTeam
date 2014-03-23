@@ -210,8 +210,7 @@ public class Database {
 			ps.executeUpdate();
 			con.close();
 		} catch (Exception ex) {
-			Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null,
-					ex);
+
 		}
 	}
 }
