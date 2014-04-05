@@ -82,17 +82,23 @@ public class TwitterServlet extends HttpServlet {
 						.getScreenName(), tweet1.getUser().getLocation(),
 						tweet1.getUser().getDescription(), tweet1.getText(),
 						tweet1.getRetweetCount());
+				
+				response.getWriter().println("<tr><td><img src='" + tweet1.getUser().getOriginalProfileImageURL() + "' height='100' width='100'>" + 
+						"<td>" + tweet1.getUser().getScreenName() +
+						"<td>" + tweet1.getUser().getLocation() +
+						"<td>" + tweet1.getUser().getDescription() +
+						"<td>" + tweet1.getText() +
+						"<td>" + tweet1.getRetweetCount() + "</td></tr>");
 			}
 
 			// sends the list of tweets to the display interface
-			request.setAttribute("statuses", tweets);
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(
-					request, response);
+			//request.setAttribute("statuses", tweets);
+			//request.getRequestDispatcher("views/queryInterface.jsp").forward(request, response);
 		} catch (Exception err) {
-			System.out.println("Error while tweeting: " + err.getMessage());
-			request.setAttribute("statuses", err.getMessage());
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(
-					request, response);
+			//System.out.println("Error while tweeting: " + err.getMessage());
+			//request.setAttribute("statuses", err.getMessage());
+			//request.getRequestDispatcher("views/queryInterface.jsp").forward(
+				//	request, response);
 		}
 	}
 }

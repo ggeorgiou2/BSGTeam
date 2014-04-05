@@ -3,12 +3,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <%@ include file="header.html"%>
-<script>
+<!-- <script>
 	var url = document.location.toString();
 	$(window).load(function() {
 		$('#mytab a[href=#' + url.split('#')[1] + ']').tab('show');
 	});
-</script>
+</script> -->
 <div class="bs-docs-section">
 	<div class="row">
 		<div class="col-lg-7 col-md-10 col-md-push-3">
