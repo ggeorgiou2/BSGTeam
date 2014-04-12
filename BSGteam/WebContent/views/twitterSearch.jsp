@@ -2,16 +2,56 @@
 <%@ page import="java.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<div class="col-lg-7 col-md-10 col-md-push-3">
-	<!-- 	<div class="row"> -->
-	
-	<c:if test="${not empty tweetList}">
-		<script>
-			setTimeout(function() {
-				$('#mytab a[href=#twitter]').tab('show');
-				window.location.href = '#twitterResults'
+<script type="text/javascript">
+	$(function() {
+		$('#databaseSearch').on('submit', function(e) {
+			$('#loading_bar').show();
+			$.ajax({
+				type : 'post',
+				url : 'databaseSearch',
+				data : $('form').serialize(),
+				success : function(responseText) {
+					$('#results').html(responseText);
+					$('#results_table').show();
+					$('#loading_bar').hide();
+				}
 			});
-		</script>
+			e.preventDefault();
+		});
+	});
+</script>
+
+<div class="bs-docs-section">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="well bs-component">
+				<form action="databaseSearch" id="databaseSearch" method="post"
+					class="form-horizontal">
+					<fieldset>
+						<legend>Search for saved users and tweets</legend>
+						<div class="form-group">
+							<label for="tweetData" class="col-lg-2 control-label">Twitter
+								Name:</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" name="twitterID"
+									id="twitterID"
+									placeholder="Enter Twitter ID or type * to view all" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-lg-10 col-lg-offset-2">
+								<button type="submit" class="btn btn-primary">Submit</button>
+								<input type="reset" class="btn btn-default" value="Reset" />
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+<div class="col-lg-7 col-md-10 col-md-push-3">
+	<img src="images/ajax-loader.gif" id="loading_bar" align="middle">
+	<div id="results_table">
 		<div class="row">
 			<div class="well bs-component">
 				<h1>List of Saved User Tweets</h1>
@@ -28,45 +68,13 @@
 									<th><b>Tweet</b>
 									<th><b>ReTweet</b>
 								</tr>
-								<%
-									int count = 0;
-										String color = "#F9EBB3";
-										if (request.getAttribute("tweetList") != null) {
-											ArrayList tl = (ArrayList) request.getAttribute("tweetList");
-											Iterator itr = tl.iterator();
-											while (itr.hasNext()) {
-												if ((count % 2) == 0) {
-													color = "#eeffee";
-												}
-												count++;
-												ArrayList tList = (ArrayList) itr.next();
-								%>
 							</thead>
-							<tbody class="table-hover">
-								<tr>
-									<td><img src="<%=tList.get(1)%>" height="100" width="100"></td>
-									<td><%=tList.get(2)%></td>
-									<td><%=tList.get(3)%></td>
-									<td><%=tList.get(4)%></td>
-									<td><%=tList.get(5)%></td>
-									<td><%=tList.get(6)%></td>
-								</tr>
-								<%
-									}
-										}
-										if (count == 0) {
-								%>
-								<tr>
-									<td colspan=7 align="center" style="background-color: #eeffee"><b>No
-											Record Found..</b></td>
-								</tr>
-								<%
-									}
-								%>
-							
+							<tbody class="table-hover" id="results">
+							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
-	</c:if>
+		</div>
+	</div>
 </div>

@@ -4,12 +4,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <script type="text/javascript">
 	 $(function () {
-	        $('form').on('submit', function (e) {
+	        $('#twitter').on('submit', function (e) {
 	          $('#loading_bar').show();
 	          $.ajax({
 	            type: 'post',
 	            url: 'twitter',
-	            data: $('form').serialize(),
+	            data: $('#twitter').serialize(),
 	            success: function (responseText) {
 	            	 $('#results').html(responseText);
 	            	 $('#results_table').show();
@@ -20,20 +20,12 @@
 	        });
 	      });
 </script>
-<script>
-  function onLoad()
-  {
-   $('#loading_bar').hide();
-   $('#results_table').hide();
-  }
-  window.onload=onLoad;
-</script>
 <!-- ============ Forms ============ -->
 <div class="bs-docs-section">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="well bs-component">
-				<form action="twitter" method="post" class="form-horizontal">
+				<form action="twitter" id="twitter" method="post" class="form-horizontal">
 					<fieldset>
 						<legend>Input keywords or hashtags to find recent
 							discussions on those topics. You can also limit this to a

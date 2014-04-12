@@ -32,8 +32,7 @@ public class UserVisits extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
-				response);
+		//request.getRequestDispatcher("views/queryInterface.jsp").forward(request,response);
 	}
 
 	/**
@@ -50,7 +49,7 @@ public class UserVisits extends HttpServlet {
 			//gets the id of the required twitter user to be tracked
 			String userName = request.getParameter("userID");
 			long userid = twitter.showUser(userName).getId();
-			
+
 			int days = Integer.parseInt(request.getParameter("days"));
 			final List<String> streams = new ArrayList<String>();
 			// if number of days requested is greater than 0, then the twitter database is
@@ -71,12 +70,12 @@ public class UserVisits extends HttpServlet {
 				// foursquare checkins
 				Foursquare foursquare = new Foursquare();
 				request.setAttribute("userVisits", foursquare.checkins(result));			
-				
+
 				for (CompactVenue venue :  foursquare.checkins(result)) {
 					//saves the venue query results to the database
 					Database.userVisitsDB(userName, venue.getName());
 				}
-							
+
 			} else {
 				// use streaming api to get results for days = 0
 				String token_access = "263885132-oDic38nO96k91obUMBypD2V7gBkd664DPCSszpHa";
@@ -144,15 +143,18 @@ public class UserVisits extends HttpServlet {
 				twitterStream.filter(new FilterQuery(count, idToFollow, stringsToTrack,
 						locationsToTrack));
 				streams.add("Tracking user");
-				request.setAttribute("userVisits2", streams);
+				//request.setAttribute("userVisits2", streams);
+				response.getWriter().println("<tr><td> dsad dsa1</td></tr>");
 			}
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
-					response);
+			response.getWriter().println("<tr><td> dsad dsa2</td></tr>");
+			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,response);
 		} catch (Exception err) {
 			System.out.println("Error " + err.getStackTrace());
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
-					response);
+			response.getWriter().println("<tr><td> error </td></tr>");
+			//request.getRequestDispatcher("views/queryInterface.jsp").forward(request,response);
 		}
 	}
 
 }
+
+
