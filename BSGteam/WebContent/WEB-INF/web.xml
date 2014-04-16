@@ -104,6 +104,20 @@
     <servlet-name>Discussions</servlet-name>
     <url-pattern>/discussions</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <description></description>
+    <display-name>AdditionalFeatures</display-name>
+    <servlet-name>AdditionalFeatures</servlet-name>
+    <servlet-class>controllers.AdditionalFeatures</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdditionalFeatures</servlet-name>
+    <url-pattern>/additional_features</url-pattern>
+  </servlet-mapping>
+  
+  
+  
   <error-page>
     <error-code>404</error-code>
     <location>/views/not_found.jsp</location>
