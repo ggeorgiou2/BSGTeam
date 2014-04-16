@@ -90,11 +90,11 @@
 							class="table table-hover table-responsive table-bordered table-condensed">
 							<thead>
 								<tr>
+									<th>Profile pic
 									<th>Screen name
 									<th>Location
-									<th>Description
+									<th>Description</th>
 									<th>Tweet</th>
-									<th>Tweet2???</th>
 									<th>Retweets</th>
 								</tr>
 							</thead>
