@@ -3,29 +3,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <%@ include file="header.html"%>
-<!-- <script>
+<script>
 	var url = document.location.toString();
 	$(window).load(function() {
 		$('#mytab a[href=#' + url.split('#')[1] + ']').tab('show');
 	});
-</script> -->
-<script>
-  function onLoad()
-  {
-   $('#loading_bar').hide();
-   $('#results_table').hide();
-   $('#venue_loading').hide();
-   $('#venueTable').hide();
-   $('#loading_nearVenue').hide();
-   $('#nearVenue_table').hide();
-   $('#visitsTable').hide();
-   $('#visitsLoading').hide();
-   $('#venueVisitsTable').hide();
-   $('#venueVisitsLoading').hide();
-   $('#DisLocTable').hide();
-   $('#DisLocLoading').hide();
-  }
-  window.onload=onLoad;
 </script>
 <div class="bs-docs-section">
 	<div class="row">

@@ -115,9 +115,6 @@
     <servlet-name>AdditionalFeatures</servlet-name>
     <url-pattern>/additional_features</url-pattern>
   </servlet-mapping>
-  
-  
-  
   <error-page>
     <error-code>404</error-code>
     <location>/views/not_found.jsp</location>

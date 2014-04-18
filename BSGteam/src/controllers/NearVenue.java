@@ -66,13 +66,13 @@ public class NearVenue extends HttpServlet {
 			// if result code is 200 (OK) proceed
 			if (result2.getMeta().getCode() == 200) {
 				//passes the venue results to the view for display to the user
-				//request.setAttribute("nearVenues", result2.getResult().getVenues());
-				//request.getRequestDispatcher("views/queryInterface.jsp").forward(request, response);
-				response.getWriter().println("<tr><td>" + result2.toString() + 
-					 "</td></tr>");
+				request.setAttribute("nearVenues", result2.getResult().getVenues());
+				request.getRequestDispatcher("views/queryInterface.jsp").forward(
+						request, response);
 			}
 		} catch (Exception e) {
-			//request.getRequestDispatcher("views/queryInterface.jsp").forward(request,response);
+			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
+					response);
 		}
 	}
 }

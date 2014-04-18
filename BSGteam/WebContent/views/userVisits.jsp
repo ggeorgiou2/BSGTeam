@@ -3,31 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
-
-<script type="text/javascript">
-	 $(function () {
-	        $('#visits123').on('submit', function (e) {
-	          $('#visitsLoading').show();
-	          $.ajax({
-	            type: 'post',
-	            url: 'visits',
-	            data: $('#visits123').serialize(),
-	            success: function (responseText) {
-	            	 $('#visitsResults').html(responseText);
-	            	 $('#visitsTable').show();
-	            	 $('#visitsLoading').hide();
-	            }
-	          });
-	          e.preventDefault();
-	        });
-	      });
-</script>
 <!-- ============ Forms ============ -->
 <div class="bs-docs-section">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="well bs-component">
-				<form action="visits123" id="visits123" method="post" class="form-horizontal">
+				<form action="visits" method="post" class="form-horizontal">
 					<fieldset>
 						<legend>Find out what points of interest a user has visited (or is visiting)</legend>
 						<div class="form-group">
@@ -58,8 +39,28 @@
 </div>
 
 <!-- ============ Results Table ============ -->
-<img src="images/ajax-loader.gif" id="visitsLoading" align="middle">
-<div id="visitsTable">
+<div>
+	<c:if test="${not empty userVisits2}">
+		<script>
+			setTimeout(function() {
+				$('#mytab a[href=#UserVisits]').tab('show');
+				window.location.href = '#userVisitsResults';
+			});
+		</script>
+		<c:forEach var="venue" items="${userVisits2}">
+			<h1>
+				<c:out value="${venue}" />
+			</h1>
+		</c:forEach>
+	</c:if>
+
+	<c:if test="${not empty userVisits}">
+		<script>
+			setTimeout(function() {
+				$('#mytab a[href=#UserVisits]').tab('show');
+				window.location.href = '#userVisitsResults';
+			});
+		</script>
 		<div class="row" id="userVisitsResults">
 			<div class="well bs-component">
 				<h1>List of Venues</h1>
@@ -76,12 +77,35 @@
 									<th>Description
 								</tr>
 							</thead>
-							<tbody class="table-hover" id="visitsResults">
+							<tbody class="table-hover">
+								<c:forEach var="venue" items="${userVisits}">
+									<tr>
+										<td><a href='venue?id=<c:out value="${venue.id}"/>'><c:out
+													value="${venue.name}" /></a></td>
+										<td><a
+											href='views/venuemap.html?lat=<c:out value="${venue.location.lat}"/>
+											&lng=<c:out value="${venue.location.lng }"/>'>
+												<c:if test="${empty venue.location.address}">
+													<c:out value="${venue.location.lat}, ${venue.location.lng}"></c:out>
+												</c:if> <c:if test="${not empty venue.location.address}">
+													<c:out value="${venue.location.address}" />
+												</c:if>
+										</a></td>
+										<td><a href='<c:out value="${venue.url}"/>'><c:out
+													value="${venue.url}" /></a></td>
+										<td><c:forEach var="category" items="${venue.categories}">
+												<c:out value="${category.name}"></c:out>
+											</c:forEach></td>
+										<td><c:out value="${venue.stats.usersCount}"></c:out>
+											users have been here</td>
+									</tr>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
 		</div>
+	</c:if>
 </div>
 

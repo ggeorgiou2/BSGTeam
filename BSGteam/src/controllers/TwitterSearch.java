@@ -22,14 +22,14 @@ public class TwitterSearch extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("views/databaseSearch.jsp").forward(request, response);
+		request.getRequestDispatcher("views/databaseSearch.jsp").forward(
+				request, response);
 	}
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// sets the header
-
-		
+		response.setContentType("text/html");
 		// define the variable connection
 		Connection conn = null;
 		String url = "jdbc:mysql://stusql.dcs.shef.ac.uk/";
@@ -61,18 +61,19 @@ public class TwitterSearch extends HttpServlet {
 			ResultSet result = statement.executeQuery(query);
 
 			while (result.next()) {
-				
-				response.getWriter().println("<tr><td><img src='" + result.getString(2) + "' height='100' width='100'>" + 
-						"<td>" + result.getString(3) +
-						"<td>" + result.getString(4) +
-						"<td>" + result.getString(5) +
-						"<td>" + result.getString(6) +
-						"<td>" + result.getString(7) + "</td></tr>");
-				
-
+				twitterList = new ArrayList();
+				twitterList.add(result.getString(1));
+				twitterList.add(result.getString(2));
+				twitterList.add(result.getString(3));
+				twitterList.add(result.getString(4));
+				twitterList.add(result.getString(5));
+				twitterList.add(result.getString(6));
+				twitterList.add(result.getString(7));
+				tweetList.add(twitterList);
 			}
-			//request.setAttribute("tweetList", tweetList);
-			//request.getRequestDispatcher("views/databaseSearch.jsp").forward(request, response);
+			request.setAttribute("tweetList", tweetList);
+			request.getRequestDispatcher("views/databaseSearch.jsp").forward(
+					request, response);
 			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();

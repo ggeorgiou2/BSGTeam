@@ -2,30 +2,13 @@
 	pageEncoding="US-ASCII"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<script type="text/javascript">
-	 $(function () {
-	        $('#VenueVisits').on('submit', function (e) {
-	          $('#venueVisitsLoading').show();
-	          $.ajax({
-	            type: 'post',
-	            url: 'VenueVisits',
-	            data: $('#VenueVisits1').serialize(),
-	            success: function (responseText) {
-	            $('#venueVisitsResults').html(responseText);
-	            $('#venueVisitsTable').show();
-	            $('#venueVisitsLoading').hide();
-	            }
-	          });
-	          e.preventDefault();
-	        });
-	      });
-</script>
+
 <!-- ============ Forms ============ -->
 <div class="bs-docs-section">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="well bs-component">
-				<form action="VenueVisits1" id="VenueVisits1" method="post" class="form-horizontal">
+				<form action="VenueVisits" method="post" class="form-horizontal">
 					<fieldset>
 						<legend>Find out what users are visiting specific location</legend>
 						<div class="form-group">
@@ -67,8 +50,15 @@
 </div>
 
 <!-- ============ Results Table ============ -->
-<img src="images/ajax-loader.gif" id="venueVisitsLoading" align="middle">
-		<div class="row" id="venueVisitsTable">
+<div>
+	<c:if test="${not empty checkins}">
+		<script>
+			setTimeout(function() {
+				$('#mytab a[href=#VenueVisits]').tab('show');
+				window.location.href = '#venueVisitsResults';
+			});
+		</script>
+		<div class="row" id="venueVisitsResults">
 			<div class="well bs-component">
 				<h1>List of Users visiting venues in this location</h1>
 				<div class="row">
@@ -84,11 +74,40 @@
 									<th>Categories
 								</tr>
 							</thead>
-							<tbody class="table-hover" id="venueVisitsResults">
+							<tbody class="table-hover">
+								<c:forEach var="checkin" items="${checkins}">
+									<c:if test="${not empty checkin}">
+										<tr>
+											<td><c:out value="${checkin.user.firstName}" /> <c:out
+													value="${checkin.user.lastName}" /></td>
+											<td><a
+												href='venue?id=<c:out value="${checkin.venue.id}"/>'><c:out
+														value="${checkin.venue.name}" /></a></td>
+											<td><a
+												href='views/venuemap.html?lat=<c:out value="${checkin.venue.location.lat}"/>
+											&lng=<c:out value="${checkin.venue.location.lng }"/>'>
+													<c:if test="${empty checkin.venue.location.address}">
+														<c:out
+															value="${checkin.venue.location.lat}, ${checkin.venue.location.lng}"></c:out>
+													</c:if> <c:if test="${not empty checkin.venue.location.address}">
+														<c:out value="${checkin.venue.location.address}" />
+													</c:if>
+											</a></td>
+											<td><a href='<c:out value="${checkin.venue.url}"/>'><c:out
+														value="${checkin.venue.url}" /></a></td>
+											<td><c:forEach var="category"
+													items="${checkin.venue.categories}">
+													<c:out value="${category.name}"></c:out>
+												</c:forEach></td>
+											</tr>
+									</c:if>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
 		</div>
+	</c:if>
+</div>
 

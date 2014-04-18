@@ -2,32 +2,15 @@
 	pageEncoding="US-ASCII"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<script type="text/javascript">
-	 $(function () {
-	        $('#location').on('submit', function (e) {
-	          $('#DisLocLoading').show();
-	          $.ajax({
-	            type: 'post',
-	            url: 'location',
-	            data: $('#location').serialize(),
-	            success: function (responseText) {
-	            	 $('#DisLocResults').html(responseText);
-	            	 $('#DisLocTable').show();
-	            	 $('#DisLocLoading').hide();
-	            }
-	          });
-	          e.preventDefault();
-	        });
-	      });
-</script>
+
 <!-- ============ Forms ============ -->
 <div class="bs-docs-section">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="well bs-component">
-				<form action="location" id="location" method="post" class="form-horizontal">
+				<form action="location" method="post" class="form-horizontal">
 					<fieldset>
-						<legend>Discover what users have been discussing in a particular location1</legend>
+						<legend>Discover what users have been discussing in a particular location</legend>
 						<div class="form-group">
 							<label for="lat" class="col-lg-2 control-label">Latitude</label>
 							<div class="col-lg-10">
@@ -87,9 +70,15 @@
 </div>
 
 <!-- ============ Results Table ============ -->
-<img src="images/ajax-loader.gif" id="DisLocLoading" align="middle">
-<div id="DisLocTable">
-		<div class="row">
+<div>
+	<c:if test="${not empty words}">
+		<script>
+			setTimeout(function() {
+				$('#mytab a[href=#LocationKeywords]').tab('show');
+				window.location.href = '#discussionLocation';
+			});
+		</script>
+		<div class="row" id="discussLocation">
 			<div class="well bs-component">
 				<h1>List of Frequent Keywords</h1>
 				<div class="row">
@@ -102,12 +91,20 @@
 									<th>Frequency
 								</tr>
 							</thead>
-							<tbody class="table-hover" id="DisLocResults">
+							<tbody class="table-hover">
+								<c:forEach var="word" items="${words}">
+									<tr>
+										<td><c:out value="${word.key}" /></td>
+										<td><c:out value="${word.value}" /></td>
+
+									</tr>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
 		</div>
+	</c:if>
 </div>
 

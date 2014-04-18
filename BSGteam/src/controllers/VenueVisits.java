@@ -30,7 +30,8 @@ public class VenueVisits extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		//request.getRequestDispatcher("views/queryInterface.jsp").forward(request, response);
+		request.getRequestDispatcher("views/queryInterface.jsp").forward(
+				request, response);
 	}
 
 	/**
@@ -43,36 +44,16 @@ public class VenueVisits extends HttpServlet {
 			// instantiates a new object of the <code>TwitterBean</code> class
 			TwitterBean twitterConnection = new TwitterBean();
 			Twitter twitter = twitterConnection.init();
-			
-			System.out.println("1");
-			
 			// searches for tweets that contain foursquare checkins
 			String tweet = "Foursquare";
-			
-			System.out.println("1.1");
-			
 			// creates a new twitter query
 			Query query = new Query(tweet);
-			
-			
-			System.out.println("1.2");
-			
 			// gets the longitude and latitude of the geographical location
 			String longitude = request.getParameter("long");
 			String latitude = request.getParameter("lat");
 			
-			System.out.println("1.3");
-			
-
-			
 			int days = Integer.parseInt(request.getParameter("days"));
 
-			System.out.println(longitude  + " | " + latitude  + " | " + days);
-
-			
-			System.out.println("1.4");
-			
-			
 			long DAY_IN_MS = 1000 * 60 * 60 * 24;
 			Date date = new Date(System.currentTimeMillis()
 					- (days * DAY_IN_MS));
@@ -95,16 +76,15 @@ public class VenueVisits extends HttpServlet {
 			result = twitter.search(query);
 			//get checkin information from Foursquare
 			Foursquare foursquare = new Foursquare();
-/*			request.setAttribute("checkins", foursquare.venueCheckins(result));
+			request.setAttribute("checkins", foursquare.venueCheckins(result));
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(
-					request, response);*/
-			System.out.println("2");
-			response.getWriter().println("<tr><td> test </td></tr>");
-			
+					request, response);
 			// get the tweets returned in the query result
 		} catch (Exception err) {
 			System.out.println("Error while tweeting: " + err.getMessage());
-			response.getWriter().println("<tr><td> error occured </td></tr>");
+			request.setAttribute("statuses", err.getMessage());
+			request.getRequestDispatcher("views/queryInterface.jsp").forward(
+					request, response);
 		}
 	}
 }

@@ -48,19 +48,9 @@ public class Venue extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		System.out.println("inn");
 		//obtains the longitude and latitude parameters from the webform
 		String log = request.getParameter("long");
-		
-		System.out.println("1" + log);
-		
 		String lat = request.getParameter("lat");
-		
-		System.out.println("2");
-		
-		System.out.println(lat);
-		
 		//initiates a connection to the Foursquare API
 		FoursquareApi foursquareApi = new FoursquareApi(
 				"KTSRNGJZY4BGFSZAQYGKP2BBTZGGJAMXWKQSYTOSTV5WC31H",
@@ -79,7 +69,7 @@ public class Venue extends HttpServlet {
 		}
 		//checks that response code is 200 (OK) before proceeding
 		if (result2.getMeta().getCode() == 200) {
-System.out.println("2");
+
 			for (CompactVenue venue : result2.getResult().getVenues()) {
 				//retrieves the category(ies) of each venue
 				String category = "";
@@ -91,19 +81,12 @@ System.out.println("2");
 				//saves the venue query results to the database
 				models.Database.venuesDB(venue.getName(), venue.getLocation()
 						.getAddress(), venue.getUrl(), category);
-				System.out.println("3");
-				response.getWriter().println("<tr><td>" + venue.getName() + 
-						"<td>" + venue.getLocation().getAddress() +
-						"<td>" + venue.getUrl() +
-						"<td>" + category + "</td></tr>");
 			}
-			
-			
-			
 			//sends the list of venues as an attribute to the view for display
-			//request.setAttribute("venues", result2.getResult().getVenues());
+			request.setAttribute("venues", result2.getResult().getVenues());
 			
 		}
-		//request.getRequestDispatcher("views/queryInterface.jsp").forward(request,response);
+		request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
+				response);
 	}
 }

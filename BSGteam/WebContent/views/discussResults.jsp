@@ -2,30 +2,13 @@
 	pageEncoding="US-ASCII"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<script type="text/javascript">
-	 $(function () {
-	        $('#twitter').on('submit', function (e) {
-	          $('#loading_bar').show();
-	          $.ajax({
-	            type: 'post',
-	            url: 'twitter',
-	            data: $('#twitter').serialize(),
-	            success: function (responseText) {
-	            	 $('#results').html(responseText);
-	            	 $('#results_table').show();
-	            	 $('#loading_bar').hide();
-	            }
-	          });
-	          e.preventDefault();
-	        });
-	      });
-</script>
+
 <!-- ============ Forms ============ -->
 <div class="bs-docs-section">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="well bs-component">
-				<form action="twitter" id="twitter" method="post" class="form-horizontal">
+				<form action="twitter" method="post" class="form-horizontal">
 					<fieldset>
 						<legend>Input keywords or hashtags to find recent
 							discussions on those topics. You can also limit this to a
@@ -79,9 +62,14 @@
 </div>
 
 <!-- ============ Results Table ============ -->
-<img src="images/ajax-loader.gif" id="loading_bar" align="middle">
-<div id="results_table">
-		<div class="row">
+<div>
+	<c:if test="${not empty statuses}">
+		<script>
+			setTimeout(function() {
+				window.location.href = '#results';
+			});
+		</script>
+		<div class="row" id="results">
 			<div class="well bs-component">
 				<h1>List of Results</h1>
 				<div class="row">
@@ -90,19 +78,51 @@
 							class="table table-hover table-responsive table-bordered table-condensed">
 							<thead>
 								<tr>
-									<th>Profile pic
 									<th>Screen name
 									<th>Location
-									<th>Description</th>
+									<th>Description
 									<th>Tweet</th>
 									<th>Retweets</th>
 								</tr>
 							</thead>
-							<tbody class="table-hover" id="results">
+							<tbody class="table-hover">
+								<c:forEach var="status" items="${statuses}">
+									<tr>
+										<td><a
+											href='timelines?screenname=<c:out value="${status.user.screenName}"/>'>@<c:out
+													value="${status.user.screenName}" /></a>
+											<p>
+												<img src="<c:out value="${status.user.profileImageURL}" />">
+											</p></td>
+										<td><c:out value="${status.user.location}" /></td>
+										<td><c:out value="${status.user.description}" /></td>
+										<td><c:out value="${status.text}" /></td>
+										<td><c:choose>
+												<c:when test="${fn:contains(status.text, 'RT @')}">
+												No retweets
+											</c:when>
+												<c:when test="${status.retweetCount > 0 }">
+													<a href='timelines?tweetID=<c:out value="${status.id}"/>'>
+														Get Retweets</a>
+												</c:when>
+												<c:otherwise>
+												No retweets
+											</c:otherwise>
+											</c:choose></td>
+									</tr>
+								</c:forEach>
+								<%-- <c:forEach var="queryInterface" items="${timelines}">
+								<tr>
+									<td>@<c:out value="${timeline.user.screenName}" /></td>
+									<td>@<c:out value="${timeline.text}" /></td>
+								</tr>
+							</c:forEach> --%>
+
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
 		</div>
+	</c:if>
 </div>
