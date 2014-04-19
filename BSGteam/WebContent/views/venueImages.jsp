@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
 	pageEncoding="US-ASCII"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+ <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 <%@ include file="header.html"%>
@@ -61,9 +63,11 @@
 											<div class="item active">
 										</c:otherwise>
 									</c:choose>
-									<img src="<c:out value="${image.url}" ></c:out>" style="height:450px; width:auto"/>
+									<div id="carousel_image">
+									<img src="<c:out value="${image.url}" ></c:out>" />
+									</div>
 									<div class="carousel-caption">
-										<c:out value="${loop.count}"></c:out>
+										<c:out value="${loop.count}"></c:out>/<c:out value="${fn:length(images)}"></c:out>
 									</div>
 							</div>
 

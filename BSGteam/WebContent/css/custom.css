@@ -1,0 +1,24 @@
+/* 
+Custom CSS for...
+Our app
+*/
+
+#carousel_image{
+    height: 450px;
+    overflow: hidden;
+    border:10px solid #000000;
+    background: transparent;
+}    
+  
+#map-canvas {
+	height: 450px;
+	width: 90%;
+	margin: 10px;
+	border-radius: 10px;
+}
+
+.carousel-caption{
+	color: orange;
+	font-size: large;
+	font-weight: bold;
+}
