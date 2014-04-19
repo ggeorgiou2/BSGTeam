@@ -11,18 +11,20 @@
 </script>
 <div class="bs-docs-section">
 	<div class="row">
-		<div class="col-lg-7 col-md-10 col-md-push-3">
+		<div class="col-lg-8 col-md-10 col-md-push-2">
 			<h1>Hello! Query the social web as much as you like...</h1>
 			<div class="bs-component">
 				<ul class="nav nav-pills nav-justified"
 					style="margin-top: 20px; margin-bottom: 5px;" id="mytab">
-					<li class="active"><a href="#Discussion" data-toggle="tab">Public Discussion</a></li>
-					<li><a href="#Venues" data-toggle="tab">Venues</a></li>
-					<li><a href="#NearVenues" data-toggle="tab">Near Venues</a></li>
+					<li class="active"><a href="#Discussion" data-toggle="tab">Public
+							Discussion</a></li>
+					<li><a href="#TrackUsers" data-toggle="tab">Track Users</a></li>
 					<li><a href="#UserVisits" data-toggle="tab">User Visits</a></li>
 					<li><a href="#VenueVisits" data-toggle="tab">Venue Visits</a></li>
-					<li><a href="#LocationKeywords" data-toggle="tab">Trending discussions</a></li>
-					<li><a href="#TrackUsers" data-toggle="tab">Track Users</a></li>
+					<li><a href="#Venues" data-toggle="tab">Venues</a></li>
+					<li><a href="#NearVenues" data-toggle="tab">Near Venues</a></li>
+					<li><a href="#LocationKeywords" data-toggle="tab">Trending
+							discussions</a></li>
 				</ul>
 				<div id="myTabContent" class="tab-content">
 					<div class="tab-pane fade active in" id="Discussion">

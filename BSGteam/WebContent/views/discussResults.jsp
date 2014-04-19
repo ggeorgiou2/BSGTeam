@@ -70,10 +70,10 @@
 			});
 		</script>
 		<div class="row" id="results">
-			<div class="well bs-component">
-				<h1>List of Results</h1>
+			<div>
 				<div class="row">
-					<div class="col-md-10">
+					<div class="col-md-10 col-md-push-1">
+						<h1 align="center">List of Results</h1>
 						<table
 							class="table table-hover table-responsive table-bordered table-condensed">
 							<thead>
@@ -82,6 +82,7 @@
 									<th>Location
 									<th>Description
 									<th>Tweet</th>
+									<th>Date</th>
 									<th>Retweets</th>
 								</tr>
 							</thead>
@@ -97,13 +98,14 @@
 										<td><c:out value="${status.user.location}" /></td>
 										<td><c:out value="${status.user.description}" /></td>
 										<td><c:out value="${status.text}" /></td>
+										<td><c:out value="${status.createdAt}" /></td>
 										<td><c:choose>
 												<c:when test="${fn:contains(status.text, 'RT @')}">
 												No retweets
 											</c:when>
 												<c:when test="${status.retweetCount > 0 }">
 													<a href='timelines?tweetID=<c:out value="${status.id}"/>'>
-														Get Retweets</a>
+														Get Retweeters</a>
 												</c:when>
 												<c:otherwise>
 												No retweets

@@ -79,16 +79,17 @@
 			});
 		</script>
 		<div class="row" id="discussLocation">
-			<div class="well bs-component">
-				<h1>List of Frequent Keywords</h1>
+			<div >
+				
 				<div class="row">
-					<div class="col-md-10">
+					<div class="col-md-10 col-md-push-1">
+					<h1 align="center">List of Frequent Keywords</h1>
 						<table
-							class="table table-hover table-responsive table-bordered table-condensed">
+							class="table table-hover table-responsive table-condensed">
 							<thead>
 								<tr>
-									<th>Word
-									<th>Frequency
+									<th>Word</th>
+									<th>Frequency</th>
 								</tr>
 							</thead>
 							<tbody class="table-hover">

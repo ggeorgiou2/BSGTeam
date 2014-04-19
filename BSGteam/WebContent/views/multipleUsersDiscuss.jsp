@@ -57,10 +57,11 @@
 			});
 		</script>
 		<div class="row" id="multipleUsers">
-			<div class="well bs-component">
-				<h1>List of Frequent Keywords</h1>
+			<div >
+				
 				<div class="row">
-					<div class="col-md-10">
+					<div class="col-md-10 col-md-push-1">
+					<h1 align="center">List of Frequent Keywords</h1>
 						<c:forEach var="user" items="${users}" varStatus="counter">
 						<h3><c:out value="${user}"></c:out></h3>
 							<table
