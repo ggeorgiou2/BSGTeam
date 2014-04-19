@@ -156,8 +156,8 @@ public class Foursquare {
 	 *            a QueryResult from twitter
 	 * @return the location of checkin
 	 */
-	public List<CompactVenue> checkins(QueryResult result) {
-		List<CompactVenue> venues = new ArrayList<CompactVenue>();
+	public Map<Date,CompactVenue> checkins(QueryResult result) {
+		Map<Date,CompactVenue> venues = new HashMap<Date,CompactVenue>();
 		for (Status status : result.getTweets()) {
 			if (status.getGeoLocation() != null) {
 				int index = status.getText().indexOf("http");
@@ -165,7 +165,7 @@ public class Foursquare {
 				if (index >= 0) {
 					data = status.getText().substring(index);
 					try {
-						venues.add(getLocationInformation(data));
+						venues.put(status.getCreatedAt(),getLocationInformation(data));
 					} catch (FoursquareApiException e) {
 						e.printStackTrace();
 					}
@@ -175,8 +175,8 @@ public class Foursquare {
 		return venues;
 	}
 	
-	public List<Checkin> venueCheckins(QueryResult result) {
-		List<Checkin> checkins= new ArrayList<Checkin>();
+	public Map<Date,Checkin> venueCheckins(QueryResult result) {
+		Map<Date,Checkin> checkins = new HashMap<Date,Checkin>();
 		for (Status status : result.getTweets()) {
 			if (status.getGeoLocation() != null) {
 				int index = status.getText().indexOf("http");
@@ -184,7 +184,7 @@ public class Foursquare {
 				if (index >= 0) {
 					data = status.getText().substring(index);
 					try {
-						checkins.add(getCheckinInformation(data));
+						checkins.put(status.getCreatedAt(), getCheckinInformation(data));
 					} catch (FoursquareApiException e) {
 						e.printStackTrace();
 					}

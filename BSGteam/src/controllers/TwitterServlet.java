@@ -44,6 +44,7 @@ public class TwitterServlet extends HttpServlet {
 			TwitterBean twitterConnection = new TwitterBean();
 			Twitter twitter = twitterConnection.init();
 
+			//if (twitter.getRateLimitStatus("bla bla").)
 			// gets the required topic from the input webform
 			String tweet = request.getParameter("tweetData");
 			// creates a new twitter query
@@ -76,13 +77,13 @@ public class TwitterServlet extends HttpServlet {
 			List<Status> tweets = result.getTweets();
 			// loop through the results and save the users and tweets to the
 			// database
-			for (Status tweet1 : tweets) {
-				Database.twitterDB(tweet1.getUser()
-						.getOriginalProfileImageURL(), tweet1.getUser()
-						.getScreenName(), tweet1.getUser().getLocation(),
-						tweet1.getUser().getDescription(), tweet1.getText(),
-						tweet1.getRetweetCount());
-			}
+//			for (Status tweet1 : tweets) {
+//				Database.twitterDB(tweet1.getUser()
+//						.getOriginalProfileImageURL(), tweet1.getUser()
+//						.getScreenName(), tweet1.getUser().getLocation(),
+//						tweet1.getUser().getDescription(), tweet1.getText(),
+//						tweet1.getRetweetCount());
+//			}
 
 			// sends the list of tweets to the display interface
 			request.setAttribute("statuses", tweets);

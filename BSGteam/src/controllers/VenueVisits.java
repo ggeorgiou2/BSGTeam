@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
+import fi.foyt.foursquare.api.entities.Checkin;
 import models.*;
 import twitter4j.*;
 
@@ -79,6 +80,7 @@ public class VenueVisits extends HttpServlet {
 			request.setAttribute("checkins", foursquare.venueCheckins(result));
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(
 					request, response);
+			
 			// get the tweets returned in the query result
 		} catch (Exception err) {
 			System.out.println("Error while tweeting: " + err.getMessage());

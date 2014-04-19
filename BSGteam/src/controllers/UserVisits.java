@@ -70,12 +70,15 @@ public class UserVisits extends HttpServlet {
 				// creates a foursquare object and inspects the user's tweet for
 				// foursquare checkins
 				Foursquare foursquare = new Foursquare();
+				request.setAttribute("user", userName);
 				request.setAttribute("userVisits", foursquare.checkins(result));			
 				
-				for (CompactVenue venue :  foursquare.checkins(result)) {
-					//saves the venue query results to the database
-					Database.userVisitsDB(userName, venue.getName());
-				}
+			
+//				for (CompactVenue venue :  foursquare.checkins(result)) {
+//					//saves the venue query results to the database
+//					Database.userVisitsDB(userName, venue.getName());
+//					
+//				}
 							
 			} else {
 				// use streaming api to get results for days = 0
