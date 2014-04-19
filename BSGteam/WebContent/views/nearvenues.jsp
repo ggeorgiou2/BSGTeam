@@ -42,25 +42,30 @@
 			});
 		</script>
 		<div class="row" id="nearVenueResults">
-			<div class="well bs-component">
-				<h1>List of Venues</h1>
+			<div>
 				<div class="row">
-					<div class="col-md-10">
+					<div class="col-md-10 col-md-push-1">
+						<h1 align="center">List of Venues nearby</h1>
+
 						<table
-							class="table table-hover table-responsive table-bordered table-condensed">
+							class="table table-hover table-responsive table-condensed">
 							<thead>
 								<tr>
-									<th>Name (Click to view Images)
-									<th>Address (Click to view on map)
-									<th>URL
-									<th>Categories
-									<th>Description
+									<th>Name (Click to view Images)</th>
+									<th>Address (Click to view on map)</th>
+									<th>URL</th>
+									<th>Categories</th>
+									<th>Description</th>
 								</tr>
 							</thead>
 							<tbody class="table-hover">
 								<c:forEach var="venue" items="${nearVenues}">
 									<tr>
-										<td><a href='venue?id=<c:out value="${venue.id}"/>'><c:out
+
+										<td><a
+											href='venue?id=<c:out value="${venue.id}"/>
+											&lat=<c:out value="${venue.location.lat}"/>
+											&lng=<c:out value="${venue.location.lng }"/>'><c:out
 													value="${venue.name}" /></a></td>
 										<td><a
 											href='views/venuemap.html?lat=<c:out value="${venue.location.lat}"/>

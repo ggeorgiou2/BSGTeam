@@ -10,7 +10,8 @@
 			<div class="well bs-component">
 				<form action="venue" method="post" class="form-horizontal">
 					<fieldset>
-						<legend>Search for venues within a particular location</legend>
+						<legend>Search for venues and points of interest within a
+							particular location</legend>
 						<div class="form-group">
 							<label for="lat" class="col-lg-2 control-label">Latitude</label>
 							<div class="col-lg-10">
@@ -52,35 +53,34 @@
 			});
 		</script>
 		<div class="row" id="venueResults">
-			<div class="well bs-component">
-				<h1>List of Venues</h1>
+			<div>
 				<div class="row">
-					<div class="col-md-10">
+					<div class="col-md-10 col-md-push-1">
+						<h1 align="center">List of Venues</h1>
 						<table
-							class="table table-hover table-responsive table-bordered table-condensed">
+							class="table table-hover table-responsive table-condensed">
 							<thead>
 								<tr>
-									<th>Name (Click to view Images)
-									<th>Address (Click to view on map)
-									<th>URL
-									<th>Categories
-									<th>Description
+									<th>Name (Click to view Images)</th>
+									<th>Location</th>
+									<th>URL</th>
+									<th>Categories</th>
+									<th>Description</th>
 								</tr>
 							</thead>
 							<tbody class="table-hover">
 								<c:forEach var="venue" items="${venues}">
 									<tr>
-										<td><a href='venue?id=<c:out value="${venue.id}"/>'><c:out
-													value="${venue.name}" /></a></td>
 										<td><a
-											href='views/venuemap.html?lat=<c:out value="${venue.location.lat}"/>
-											&lng=<c:out value="${venue.location.lng }"/>'>
-												<c:if test="${empty venue.location.address}">
-													<c:out value="${venue.location.lat}, ${venue.location.lng}"></c:out>
-												</c:if> <c:if test="${not empty venue.location.address}">
-													<c:out value="${venue.location.address}" />
-												</c:if>
-										</a></td>
+											href='venue?id=<c:out value="${venue.id}"/>
+											&lat=<c:out value="${venue.location.lat}"/>
+											&lng=<c:out value="${venue.location.lng }"/>'><c:out
+													value="${venue.name}" /></a></td>
+										<td><c:if test="${empty venue.location.address}">
+												<c:out value="${venue.location.lat}, ${venue.location.lng}"></c:out>
+											</c:if> <c:if test="${not empty venue.location.address}">
+												<c:out value="${venue.location.address}" />
+											</c:if></td>
 										<td><a href='<c:out value="${venue.url}"/>'><c:out
 													value="${venue.url}" /></a></td>
 										<td><c:forEach var="category" items="${venue.categories}">
