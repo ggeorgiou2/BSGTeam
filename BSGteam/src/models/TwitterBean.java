@@ -81,7 +81,7 @@ public class TwitterBean {
 	 * @param tweetID the id of the tweet
 	 * @return an array list of the retweets (up to 10) of the tweet passed to it
 	 */
-	public List<Status> getRetweeters(String tweetID) {
+	public List<Status> getRetweeters(long id) {
 		Twitter twitterConnection = null;
 		List<Status> subItems = new ArrayList<Status>();
 		try {
@@ -91,7 +91,6 @@ public class TwitterBean {
 			if (i>0)
 			{
 			List<Status> retweets = null;
-			long id = Long.parseLong(tweetID);
 			//twitter query to get the retweets
 			retweets = twitterConnection.getRetweets(id);
 			//gets at most 10 retweets 
@@ -102,6 +101,10 @@ public class TwitterBean {
 				//selects the available retweets (less than 10) 
 				subItems = new ArrayList<Status>(retweets.subList(0, retweets.size()));
 			}
+			}
+			else{
+				System.out.println("u av exceeded");
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

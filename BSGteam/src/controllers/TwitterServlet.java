@@ -55,7 +55,7 @@ public class TwitterServlet extends HttpServlet {
 			String longitude = request.getParameter("long");
 			String latitude = request.getParameter("lat");
 			String area = request.getParameter("area");
-
+			//System.out.println(twitter.getRateLimitStatus().get("/statuses/retweets/:id").getRemaining());
 			QueryResult result = null;
 			// if location is empty, return results based on just the topic of
 			// discussion

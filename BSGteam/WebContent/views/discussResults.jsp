@@ -78,9 +78,9 @@
 							class="table table-hover table-responsive table-bordered table-condensed">
 							<thead>
 								<tr>
-									<th>Screen name
-									<th>Location
-									<th>Description
+									<th>Screen name</th>
+									<th>Location</th>
+									<th>Description</th>
 									<th>Tweet</th>
 									<th>Date</th>
 									<th>Retweets</th>
