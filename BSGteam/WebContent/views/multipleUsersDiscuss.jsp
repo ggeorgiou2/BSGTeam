@@ -57,52 +57,38 @@
 			});
 		</script>
 		<div class="row" id="multipleUsers">
-			<div >
-				
-				<div class="row">
-					<div class="col-md-10 col-md-push-1">
+			<div class="row">
+				<div class="col-md-10 col-md-push-1">
 					<h1 align="center">List of Frequent Keywords</h1>
-						<c:forEach var="user" items="${users}" varStatus="counter">
-						<h3><c:out value="${user}"></c:out></h3>
-							<table
-								class="table table-hover table-responsive table-bordered table-condensed">
-								
-								<thead>
-									<tr>
-										<th>Word
-										<th>Frequency
-									</tr>
-								</thead>
-								<tbody class="table-hover">
-										<c:forEach var="word" items="${finalList[counter.index]}">
-											<tr>
-												<td><c:out value="${word.key}" /></td>
-												<td><c:out value="${word.value}" /></td>
-											</tr>
+
+					<table
+						class="table table-hover table-responsive table-condensed">
+
+						<thead>
+							<tr>
+								<th>Keywords</th>
+								<c:forEach var="user" items="${users}">
+									<th><c:out value="${user}"></c:out>
+								</c:forEach>
+								<th>Total</th>
+							</tr>
+						</thead>
+						<tbody class="table-hover">
+							<c:forEach var="word" items="${totalList}">
+								<tr>
+									<td><c:out value="${word.key}" /></td>
+									<c:forEach var="list" items="${finalList}">
+										<c:forEach var="map" items="${list}">
+											<c:if test="${map.key == word.key}">
+												<td><c:out value="${map.value}" /></td>
+											</c:if>
 										</c:forEach>
-								</tbody>
-							</table>
-						</c:forEach>
-						<h2>Total count</h2>
-						<table
-								class="table table-hover table-responsive table-bordered table-condensed">
-								<thead>
-									<tr>
-										<th>Word
-										<th>Total
-										
-									</tr>
-								</thead>
-								<tbody class="table-hover">
-										<c:forEach var="word" items="${totalList}">
-											<tr>
-												<td><c:out value="${word.key}" /></td>
-												<td><c:out value="${word.value}" /></td>
-											</tr>
-										</c:forEach>
-								</tbody>
-							</table>
-					</div>
+									</c:forEach>
+									<td><c:out value="${word.value}" /></td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>

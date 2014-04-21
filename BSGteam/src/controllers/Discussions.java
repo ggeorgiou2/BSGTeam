@@ -11,8 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.FrequentWord;
+import models.TwitterBean;
 import twitter4j.*;
-import twitter4j.conf.ConfigurationBuilder;
+//import twitter4j.conf.ConfigurationBuilder;
 
 /**
  * Discussions.java This servlet class handles the tracking of what multiple
@@ -43,20 +44,9 @@ public class Discussions extends HttpServlet {
 		// System.out.println("Am caling the doGet method from  login twitter");
 
 		try {
-			String token_access = "263885132-oDic38nO96k91obUMBypD2V7gBkd664DPCSszpHa";
-			String token_secret = "7XPXklqAiP18xdw0kfQImShEWYf06fmVVveIfboAghRvT";
-			String customer_key = "MXH39rOd9mOxRWh9Exma7g";
-			String customer_sercet = "789P2oTcZL9liV2DhGjiDX8J7ZGXPwZRCCoWrSeVkoo";
-
-			ConfigurationBuilder cb = new ConfigurationBuilder();
-
-			cb.setDebugEnabled(true).setOAuthConsumerKey(customer_key)
-					.setOAuthConsumerSecret(customer_sercet)
-					.setOAuthAccessToken(token_access)
-					.setOAuthAccessTokenSecret(token_secret);
-
-			TwitterFactory tf = new TwitterFactory(cb.build());
-			twitter4j.Twitter twitter = tf.getInstance();
+			// Instantiate the twitterBean
+			TwitterBean tt = new TwitterBean();
+			Twitter twitter = tt.init();
 
 			// retrieve number of days data from form and convert to date format
 			// for twitter query
@@ -94,10 +84,27 @@ public class Discussions extends HttpServlet {
 				}
 				userWordTweets.add(temptext);
 			}
-
+			String root = getServletContext().getRealPath("/");
+			File words = new File(root + "common_words.txt");
+			List<String> list2 = new ArrayList<String>();			
+			try {
+				Scanner in = new Scanner(words);
+				in.useDelimiter(","); // <br /> marks end of line
+				String line; // thus skip duplicate records
+				while (in.hasNextLine()) {
+					line = in.nextLine();
+					list2.add(line);
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			System.out.println(list2);
+			
+			HashSet<String> commonWords = new HashSet<String>(list2);
+			
 			List<Map.Entry<String, Integer>> wordlist = null;
 			if (text != null) {
-				wordlist = w.countWord(text);
+				wordlist = w.countWord(text, commonWords);
 				System.out.println(wordlist.toString());
 			}
 			// retrieve required number of keywords and create a sub list
@@ -127,6 +134,22 @@ public class Discussions extends HttpServlet {
 			request.setAttribute("finalList", frequentWordList);
 			request.setAttribute("users", splitUser);
 			request.setAttribute("totalList", subWordList);
+			
+//			System.out.printf("\t");
+//			for(Map.Entry<String, Integer> s : frequentWordList.get(0))
+//			{
+//				System.out.printf("\t %s", s.getKey());
+//			}
+//			System.out.printf("\n");
+//			for(List<Entry<String, Integer>> list : frequentWordList)
+//			{
+//				System.out.printf("name");
+//				for(Map.Entry<String, Integer> s : list)
+//				{
+//					System.out.printf("\t %d", s.getValue());
+//				}
+//				System.out.printf("\n");
+//			}
 
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(
 					request, response);
