@@ -21,6 +21,7 @@
 						<c:out value="${user}"></c:out>
 
 					</h1>
+
 					<div class="row">
 						<table class="table table-striped table table-hover">
 							<thead>
@@ -33,7 +34,9 @@
 							<tbody>
 								<c:forEach var="timeline" items="${timelines}">
 									<tr>
-										<td><c:out value="${timeline.text}" /></td>
+										<td><img
+											src="<c:out value="${timeline.user.profileImageURL}" />">
+											<c:out value="${timeline.text}" /></td>
 										<td><c:out value="${timeline.createdAt}" /></td>
 										<td><c:choose>
 												<c:when test="${fn:contains(timeline.text, 'RT @')}">
@@ -108,6 +111,7 @@
 						<c:out value="${user}"></c:out>
 						has been in contact with recently
 					</h1>
+					<h2>Retweeted:</h2>
 					<div class="row">
 						<table
 							class="table table-bordered table-striped table table-hover">
@@ -121,7 +125,8 @@
 							</tbody>
 						</table>
 					</div>
-					<br/>
+					<c:if test="${not empty allcontacts2}">
+					<h2>Was retweeted by</h2>
 					<div class="row">
 						<table
 							class="table table-bordered table-striped table table-hover">
@@ -135,6 +140,7 @@
 							</tbody>
 						</table>
 					</div>
+					</c:if>
 				</c:if>
 			</div>
 		</div>

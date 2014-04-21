@@ -46,13 +46,12 @@
 				<div class="row">
 					<div class="col-md-10 col-md-push-1">
 						<h1 align="center">List of Venues nearby</h1>
-
-						<table
+<table
 							class="table table-hover table-responsive table-condensed">
 							<thead>
 								<tr>
 									<th>Name (Click to view Images)</th>
-									<th>Address (Click to view on map)</th>
+									<th>Location</th>
 									<th>URL</th>
 									<th>Categories</th>
 									<th>Description</th>
@@ -61,21 +60,16 @@
 							<tbody class="table-hover">
 								<c:forEach var="venue" items="${nearVenues}">
 									<tr>
-
 										<td><a
 											href='venue?id=<c:out value="${venue.id}"/>
 											&lat=<c:out value="${venue.location.lat}"/>
 											&lng=<c:out value="${venue.location.lng }"/>'><c:out
 													value="${venue.name}" /></a></td>
-										<td><a
-											href='views/venuemap.html?lat=<c:out value="${venue.location.lat}"/>
-											&lng=<c:out value="${venue.location.lng }"/>'>
-												<c:if test="${empty venue.location.address}">
-													<c:out value="${venue.location.lat}, ${venue.location.lng}"></c:out>
-												</c:if> <c:if test="${not empty venue.location.address}">
-													<c:out value="${venue.location.address}" />
-												</c:if>
-										</a></td>
+										<td><c:if test="${empty venue.location.address}">
+												<c:out value="${venue.location.lat}, ${venue.location.lng}"></c:out>
+											</c:if> <c:if test="${not empty venue.location.address}">
+												<c:out value="${venue.location.address}" />
+											</c:if></td>
 										<td><a href='<c:out value="${venue.url}"/>'><c:out
 													value="${venue.url}" /></a></td>
 										<td><c:forEach var="category" items="${venue.categories}">
