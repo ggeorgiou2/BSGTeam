@@ -80,21 +80,20 @@ public class UserDiscussion extends HttpServlet {
 			}
 			String root = getServletContext().getRealPath("/");
 			File words = new File(root + "common_words.txt");
-			List<String> list2 = new ArrayList<String>();			
+			String[] data = null;
 			try {
 				Scanner in = new Scanner(words);
-				in.useDelimiter(","); // <br /> marks end of line
 				String line; // thus skip duplicate records
 				while (in.hasNextLine()) {
 					line = in.nextLine();
-					list2.add(line);
+					System.out.println(line);
+					data= line.split(",");
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-			System.out.println(list2);
+			HashSet<String> commonWords = new HashSet<String>(Arrays.asList(data));
 			
-			HashSet<String> commonWords = new HashSet<String>(list2);
 			List<Map.Entry<String, Integer>> wordlist = w.countWord(text,commonWords);
 			request.setAttribute("words", wordlist.subList(0, keywords));
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,

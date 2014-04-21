@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import models.FrequentWord;
 import models.TwitterBean;
 import twitter4j.*;
+
 //import twitter4j.conf.ConfigurationBuilder;
 
 /**
@@ -86,22 +87,20 @@ public class Discussions extends HttpServlet {
 			}
 			String root = getServletContext().getRealPath("/");
 			File words = new File(root + "common_words.txt");
-			List<String> list2 = new ArrayList<String>();			
+			String[] data = null;
 			try {
 				Scanner in = new Scanner(words);
-				in.useDelimiter(","); // <br /> marks end of line
 				String line; // thus skip duplicate records
 				while (in.hasNextLine()) {
 					line = in.nextLine();
-					list2.add(line);
+					System.out.println(line);
+					data= line.split(",");
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-			System.out.println(list2);
-			
-			HashSet<String> commonWords = new HashSet<String>(list2);
-			
+			HashSet<String> commonWords = new HashSet<String>(Arrays.asList(data));
+
 			List<Map.Entry<String, Integer>> wordlist = null;
 			if (text != null) {
 				wordlist = w.countWord(text, commonWords);
@@ -134,22 +133,22 @@ public class Discussions extends HttpServlet {
 			request.setAttribute("finalList", frequentWordList);
 			request.setAttribute("users", splitUser);
 			request.setAttribute("totalList", subWordList);
-			
-//			System.out.printf("\t");
-//			for(Map.Entry<String, Integer> s : frequentWordList.get(0))
-//			{
-//				System.out.printf("\t %s", s.getKey());
-//			}
-//			System.out.printf("\n");
-//			for(List<Entry<String, Integer>> list : frequentWordList)
-//			{
-//				System.out.printf("name");
-//				for(Map.Entry<String, Integer> s : list)
-//				{
-//					System.out.printf("\t %d", s.getValue());
-//				}
-//				System.out.printf("\n");
-//			}
+
+			// System.out.printf("\t");
+			// for(Map.Entry<String, Integer> s : frequentWordList.get(0))
+			// {
+			// System.out.printf("\t %s", s.getKey());
+			// }
+			// System.out.printf("\n");
+			// for(List<Entry<String, Integer>> list : frequentWordList)
+			// {
+			// System.out.printf("name");
+			// for(Map.Entry<String, Integer> s : list)
+			// {
+			// System.out.printf("\t %d", s.getValue());
+			// }
+			// System.out.printf("\n");
+			// }
 
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(
 					request, response);
