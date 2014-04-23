@@ -34,20 +34,21 @@
 
 <!-- ============ Results Table ============ -->
 <div>
-	<c:if test="${not empty nearVenues}">
+	<c:if test="${not empty nearVenues_result}">
 		<script>
 			setTimeout(function() {
 				$('#mytab a[href=#NearVenues]').tab('show');
 				window.location.href = '#nearVenueResults';
 			});
 		</script>
+	</c:if>
+	<c:if test="${not empty nearVenues}">
 		<div class="row" id="nearVenueResults">
 			<div>
 				<div class="row">
 					<div class="col-md-10 col-md-push-1">
 						<h1 align="center">List of Venues nearby</h1>
-<table
-							class="table table-hover table-responsive table-condensed">
+						<table class="table table-hover table-responsive table-condensed">
 							<thead>
 								<tr>
 									<th>Name (Click to view Images)</th>

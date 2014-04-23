@@ -10,7 +10,8 @@
 			<div class="well bs-component">
 				<form action="location" method="post" class="form-horizontal">
 					<fieldset>
-						<legend>Discover what users have been discussing in a particular location</legend>
+						<legend>Discover what users have been discussing in a
+							particular location</legend>
 						<div class="form-group">
 							<label for="lat" class="col-lg-2 control-label">Latitude</label>
 							<div class="col-lg-10">
@@ -71,21 +72,23 @@
 
 <!-- ============ Results Table ============ -->
 <div>
-	<c:if test="${not empty words}">
+	<c:if test="${not empty words_result}">
 		<script>
 			setTimeout(function() {
 				$('#mytab a[href=#LocationKeywords]').tab('show');
 				window.location.href = '#discussionLocation';
 			});
 		</script>
+	</c:if>
+	<c:if test="${not empty words}">
+
 		<div class="row" id="discussLocation">
-			<div >
-				
+			<div>
+
 				<div class="row">
 					<div class="col-md-10 col-md-push-1">
-					<h1 align="center">List of Frequent Keywords</h1>
-						<table
-							class="table table-hover table-responsive table-condensed">
+						<h1 align="center">List of Frequent Keywords</h1>
+						<table class="table table-hover table-responsive table-condensed">
 							<thead>
 								<tr>
 									<th>Word</th>

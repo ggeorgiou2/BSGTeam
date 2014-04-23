@@ -63,12 +63,14 @@
 
 <!-- ============ Results Table ============ -->
 <div>
-	<c:if test="${not empty statuses}">
+	<c:if test="${not empty statuses_result}">
 		<script>
 			setTimeout(function() {
 				window.location.href = '#results';
 			});
 		</script>
+		</c:if>	<c:if test="${not empty statuses}">
+		
 		<div class="row" id="results">
 			<div>
 				<div class="row">

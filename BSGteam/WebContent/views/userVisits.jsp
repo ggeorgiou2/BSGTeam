@@ -55,13 +55,16 @@
 		</c:forEach>
 	</c:if>
 
-	<c:if test="${not empty userVisits}">
+	<c:if test="${not empty userVisits_result}">
 		<script>
 			setTimeout(function() {
 				$('#mytab a[href=#UserVisits]').tab('show');
 				window.location.href = '#userVisitsResults';
 			});
 		</script>
+	</c:if>
+	<c:if test="${not empty userVisits}">
+
 		<div class="row" id="userVisitsResults">
 			<div>
 
@@ -72,8 +75,7 @@
 							<c:out value="${user}"></c:out>
 							visited recently
 						</h1>
-						<table
-							class="table table-hover table-responsive table-condensed">
+						<table class="table table-hover table-responsive table-condensed">
 							<thead>
 								<tr>
 									<th>Name (Click to view Images)

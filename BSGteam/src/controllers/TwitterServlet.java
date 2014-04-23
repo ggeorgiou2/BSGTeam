@@ -44,7 +44,7 @@ public class TwitterServlet extends HttpServlet {
 			TwitterBean twitterConnection = new TwitterBean();
 			Twitter twitter = twitterConnection.init();
 
-			//if (twitter.getRateLimitStatus("bla bla").)
+			// if (twitter.getRateLimitStatus("bla bla").)
 			// gets the required topic from the input webform
 			String tweet = request.getParameter("tweetData");
 			// creates a new twitter query
@@ -55,45 +55,54 @@ public class TwitterServlet extends HttpServlet {
 			String longitude = request.getParameter("long");
 			String latitude = request.getParameter("lat");
 			String area = request.getParameter("area");
-			//System.out.println(twitter.getRateLimitStatus().get("/statuses/retweets/:id").getRemaining());
+			// System.out.println(twitter.getRateLimitStatus().get("/statuses/retweets/:id").getRemaining());
 			QueryResult result = null;
+			List<Status> tweets = null;
 			// if location is empty, return results based on just the topic of
 			// discussion
-			if (longitude.isEmpty() || latitude.isEmpty() || area.isEmpty()) {
-				// search twitter for the query
-				result = twitter.search(query);
+			int remaining = twitter.getRateLimitStatus().get("/search/tweets")
+					.getRemaining();
+			if (remaining > 1) {
+				if (longitude.isEmpty() || latitude.isEmpty() || area.isEmpty()) {
+					// search twitter for the query
+					result = twitter.search(query);
+				} else {
+					double log = Double.parseDouble(longitude);
+					double lat = Double.parseDouble(latitude);
+					double radius = Double.parseDouble(area);
+					// restrict the query to the specified location coordinates
+					query.setGeoCode(new GeoLocation(lat, log), radius,
+							Query.KILOMETERS);
+					// search twitter for the query
+					result = twitter.search(query);
+				}
+
+				// get the tweets returned in the query result
+				tweets = result.getTweets();
+				if (tweets.isEmpty()) {
+					request.setAttribute("error",
+							"Sorry, your search returned no results");
+				}
+				// loop through the results and save the users and tweets to the
+				// database
+				// for (Status tweet1 : tweets) {
+				// Database.twitterDB(tweet1.getUser()
+				// .getOriginalProfileImageURL(), tweet1.getUser()
+				// .getScreenName(), tweet1.getUser().getLocation(),
+				// tweet1.getUser().getDescription(), tweet1.getText(),
+				// tweet1.getRetweetCount());
+				// }
 			} else {
-				double log = Double.parseDouble(longitude);
-				double lat = Double.parseDouble(latitude);
-				double radius = Double.parseDouble(area);
-				// restrict the query to the specified location coordinates
-				query.setGeoCode(new GeoLocation(lat, log), radius,
-						Query.KILOMETERS);
-				// search twitter for the query
-				result = twitter.search(query);
+				request.setAttribute("error", "Sorry limit exceeded");
 			}
-
-			// get the tweets returned in the query result
-			List<Status> tweets = result.getTweets();
-			// loop through the results and save the users and tweets to the
-			// database
-//			for (Status tweet1 : tweets) {
-//				Database.twitterDB(tweet1.getUser()
-//						.getOriginalProfileImageURL(), tweet1.getUser()
-//						.getScreenName(), tweet1.getUser().getLocation(),
-//						tweet1.getUser().getDescription(), tweet1.getText(),
-//						tweet1.getRetweetCount());
-//			}
-
-			// sends the list of tweets to the display interface
+			request.setAttribute("statuses_result", "true");
 			request.setAttribute("statuses", tweets);
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(
-					request, response);
 		} catch (Exception err) {
 			System.out.println("Error while tweeting: " + err.getMessage());
-			request.setAttribute("statuses", err.getMessage());
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(
-					request, response);
+			request.setAttribute("error",
+					"Sorry, an error occurred. Please try again later");
 		}
+		request.getRequestDispatcher("views/queryInterface.jsp").forward(
+				request, response);
 	}
 }
