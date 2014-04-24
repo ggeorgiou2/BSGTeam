@@ -3,33 +3,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <%@ include file="header.html"%>
-
-
 <script>
-  function onLoad()
-  {
-   $('#loading_bar').hide();
-   $('#results_table').hide();
-   $('#venueLoading').hide();
-  }
-  window.onload=onLoad;
+	var url = document.location.toString();
+	$(window).load(function() {
+		$('#mytab a[href=#' + url.split('#')[1] + ']').tab('show');
+	});
 </script>
 <div class="bs-docs-section">
 	<div class="row">
-		<div class="col-lg-7 col-md-10 col-md-push-3">
-			<h1>Additional Features</h1>
+		<div class="col-lg-8 col-md-10 col-md-push-2">
+			<h1>Hello Welcome to Flickr...</h1>
 			<div class="bs-component">
-				<ul class="nav nav-pills" style="margin-bottom: 15px;" id="mytab">
-					<li class="active"><a href="#twitter" data-toggle="tab"> find User</a></li>
-					<li><a href="#Venues" data-toggle="tab">Find More options</a></li>
+				<ul class="nav nav-pills nav-justified"
+					style="margin-top: 20px; margin-bottom: 5px;" id="mytab">
+					<li class="active"><a href="#Discussion" data-toggle="tab">Search for GeoTag Photo</a></li>
+					<li><a href="#TrackUsers" data-toggle="tab">Search for photo</a></li>
+					
 				</ul>
 				<div id="myTabContent" class="tab-content">
-					<div class="tab-pane fade active in" id="twitter">
-						<jsp:include page="twitterSearch.jsp" />
-					</div>	
-					
-					<div class="tab-pane fade" id="Venues">
-						<jsp:include page="venueSearch.jsp" />
+					<div class="tab-pane fade active in" id="Discussion">
+						<jsp:include page="flickeResults.jsp" />
+					</div>
+					<div class="tab-pane fade" id="TrackUsers">
+						<jsp:include page="flickSearch.jsp" />
 					</div>
 				</div>
 			</div>
