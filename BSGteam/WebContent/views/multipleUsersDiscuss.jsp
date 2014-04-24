@@ -49,20 +49,21 @@
 
 <!-- ============ Results Table ============ -->
 <div>
-	<c:if test="${not empty finalList}">
+	<c:if test="${not empty finalList_result}">
 		<script>
 			setTimeout(function() {
 				$('#mytab a[href=#TrackUsers]').tab('show');
 				window.location.href = '#multipleUsers';
 			});
 		</script>
+	</c:if>
+	<c:if test="${not empty finalList}">
 		<div class="row" id="multipleUsers">
 			<div class="row">
 				<div class="col-md-10 col-md-push-1">
 					<h1 align="center">List of Frequent Keywords</h1>
 
-					<table
-						class="table table-hover table-responsive table-condensed">
+					<table class="table table-hover table-responsive table-condensed">
 
 						<thead>
 							<tr>

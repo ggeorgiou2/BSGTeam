@@ -52,17 +52,21 @@
 
 <!-- ============ Results Table ============ -->
 <div>
-	<c:if test="${not empty checkins}">
+	<c:if test="${not empty checkins_result}">
 		<script>
 			setTimeout(function() {
 				$('#mytab a[href=#VenueVisits]').tab('show');
 				window.location.href = '#venueVisitsResults';
 			});
 		</script>
+	</c:if>
+	<c:if test="${not empty checkins}">
+
 		<div class="row" id="venueVisitsResults">
 			<div>
 				<div class="row">
-					<h1 align="center">List of Users visiting venues in this location</h1>
+					<h1 align="center">List of Users visiting venues in this
+						location</h1>
 
 					<div class="col-md-10 col-md-push-1">
 						<table
@@ -85,10 +89,10 @@
 													value="${checkin.value.user.lastName}" /></td>
 											<td><c:out value="${checkin.key}"></c:out></td>
 											<td><a
-												href='venue?id=<c:out value="${venue.value.id}"/>
-											&lat=<c:out value="${venue.value.location.lat}"/>
-											&lng=<c:out value="${venue.value.location.lng }"/>'><c:out
-														value="${venue.value.name}" /></a></td>
+												href='venue?id=<c:out value="${checkin.value.venue.id}"/>
+											&lat=<c:out value="${checkin.value.venue.location.lat}"/>
+											&lng=<c:out value="${checkin.value.venue.location.lng }"/>'><c:out
+														value="${checkin.value.venue.name}" /></a></td>
 											<td><c:if
 													test="${empty checkin.value.venue.location.address}">
 													<c:out

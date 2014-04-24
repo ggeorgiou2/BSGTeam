@@ -16,7 +16,7 @@ import twitter4j.conf.ConfigurationBuilder;
 import models.*;
 
 /**
- * UserVisits.java 
+ * UserVisits.java
  * 
  * This class tracks the locations which a user has visited
  * 
@@ -30,56 +30,72 @@ public class UserVisits extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
-				response);
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("views/queryInterface.jsp").forward(
+				request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		try {
 			// establishes a twitter connection
 			TwitterBean twitterConnection = new TwitterBean();
 			Twitter twitter = twitterConnection.init();
 			// retrieves the parameters passed from the web form
-			//gets the id of the required twitter user to be tracked
+			// gets the id of the required twitter user to be tracked
+
 			String userName = request.getParameter("userID");
 			long userid = twitter.showUser(userName).getId();
-			
 			int days = Integer.parseInt(request.getParameter("days"));
 			final List<String> streams = new ArrayList<String>();
-			// if number of days requested is greater than 0, then the twitter database is
+			// if number of days requested is greater than 0, then the twitter
+			// database is
 			// queried
 			if (days > 0) {
-				// gets the date from which previous tweets should be retrieved and
+				// gets the date from which previous tweets should be retrieved
+				// and
 				// inspected for checkins
-				long DAY_IN_MS = 1000 * 60 * 60 * 24;
-				Date date = new Date(System.currentTimeMillis() - (days * DAY_IN_MS));
-				SimpleDateFormat dateformatyyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
+				int remaining = twitter.getRateLimitStatus()
+						.get("/search/tweets").getRemaining();
+				if (remaining > 1) {
+					long DAY_IN_MS = 1000 * 60 * 60 * 24;
+					Date date = new Date(System.currentTimeMillis()
+							- (days * DAY_IN_MS));
+					SimpleDateFormat dateformatyyyyMMdd = new SimpleDateFormat(
+							"yyyy-MM-dd");
 
-				String since = dateformatyyyyMMdd.format(date);
-				String user = "from:" + userName;
-				Query query = new Query(user);
-				query.setSince(since); // YYYY-MM-DD
-				QueryResult result = twitter.search(query);
-				// creates a foursquare object and inspects the user's tweet for
-				// foursquare checkins
-				Foursquare foursquare = new Foursquare();
-				request.setAttribute("user", userName);
-				request.setAttribute("userVisits", foursquare.checkins(result));			
-				
-			
-//				for (CompactVenue venue :  foursquare.checkins(result)) {
-//					//saves the venue query results to the database
-//					Database.userVisitsDB(userName, venue.getName());
-//					
-//				}
-							
+					String since = dateformatyyyyMMdd.format(date);
+					String user = "from:" + userName;
+					Query query = new Query(user);
+					query.setSince(since); // YYYY-MM-DD
+					QueryResult result = twitter.search(query);
+					// creates a foursquare object and inspects the user's tweet
+					// for
+					// foursquare checkins
+
+					Foursquare foursquare = new Foursquare();
+					Map<Date, CompactVenue> userVisits = foursquare.checkins(result);
+					if (userVisits.isEmpty()) {
+						request.setAttribute("error",
+								"Sorry, your search returned no results");
+					}
+					request.setAttribute("user", userName);
+					request.setAttribute("userVisits", userVisits);
+				} else {
+					request.setAttribute("error", "Sorry, limit exceeded");
+				}
+
+				// for (CompactVenue venue : foursquare.checkins(result)) {
+				// //saves the venue query results to the database
+				// Database.userVisitsDB(userName, venue.getName());
+				//
+				// }
+
 			} else {
 				// use streaming api to get results for days = 0
 				String token_access = "263885132-oDic38nO96k91obUMBypD2V7gBkd664DPCSszpHa";
@@ -93,7 +109,8 @@ public class UserVisits extends HttpServlet {
 						.setOAuthAccessToken(token_access)
 						.setOAuthAccessTokenSecret(token_secret);
 
-				TwitterStreamFactory twitter2 = new TwitterStreamFactory(cb.build());
+				TwitterStreamFactory twitter2 = new TwitterStreamFactory(
+						cb.build());
 				TwitterStream twitterStream = twitter2.getInstance();
 				StatusListener listener = new StatusListener() {
 
@@ -103,15 +120,16 @@ public class UserVisits extends HttpServlet {
 					}
 
 					@Override
-					public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
+					public void onDeletionNotice(
+							StatusDeletionNotice statusDeletionNotice) {
 						System.out.println("Got a status deletion notice id:"
 								+ statusDeletionNotice.getStatusId());
 					}
 
 					@Override
 					public void onScrubGeo(long userId, long upToStatusId) {
-						System.out.println("Got scrub_geo event userId:" + userId
-								+ " upToStatusId:" + upToStatusId);
+						System.out.println("Got scrub_geo event userId:"
+								+ userId + " upToStatusId:" + upToStatusId);
 					}
 
 					@Override
@@ -124,11 +142,12 @@ public class UserVisits extends HttpServlet {
 						String newtext = status.getText();
 						streams.add(newtext);
 						System.out.println("sta= " + newtext);
-						//To-do: inspect tweet for fourquare checkins
+						// To-do: inspect tweet for fourquare checkins
 					}
 
 					@Override
-					public void onTrackLimitationNotice(int numberOfLimitedStatuses) {
+					public void onTrackLimitationNotice(
+							int numberOfLimitedStatuses) {
 						System.out.println("Got track limitation notice:"
 								+ numberOfLimitedStatuses);
 					}
@@ -144,18 +163,21 @@ public class UserVisits extends HttpServlet {
 				stringsToTrack[0] = "foursquare";
 				double[][] locationsToTrack = new double[0][0];
 
-				twitterStream.filter(new FilterQuery(count, idToFollow, stringsToTrack,
-						locationsToTrack));
+				twitterStream.filter(new FilterQuery(count, idToFollow,
+						stringsToTrack, locationsToTrack));
 				streams.add("Tracking user");
 				request.setAttribute("userVisits2", streams);
 			}
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
-					response);
+			request.setAttribute("userVisits_result", "true");
+			request.getRequestDispatcher("views/queryInterface.jsp").forward(
+					request, response);
 		} catch (Exception err) {
+			request.setAttribute("userVisits_result", "false");
+			request.setAttribute("error",
+					"Sorry, your search returned no results");
 			System.out.println("Error " + err.getStackTrace());
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
-					response);
+			request.getRequestDispatcher("views/queryInterface.jsp").forward(
+					request, response);
 		}
 	}
-
 }

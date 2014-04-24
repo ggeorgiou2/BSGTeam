@@ -12,7 +12,7 @@ import fi.foyt.foursquare.api.*;
 import fi.foyt.foursquare.api.entities.*;
 
 /**
- * Venue.java 
+ * Venue.java
  * 
  * This servlet handles venue related queries
  * 
@@ -25,8 +25,8 @@ public class Venue extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		// gets the particular venue id for which images are requested
 		String id = request.getParameter("id");
 		if (id != null) {
@@ -34,11 +34,11 @@ public class Venue extends HttpServlet {
 			// obtained image urls to the view for display
 			Foursquare fsq = new Foursquare();
 			request.setAttribute("images", fsq.getImages(id));
-			request.getRequestDispatcher("views/venueImages.jsp").forward(request,
-					response);
+			request.getRequestDispatcher("views/venueImages.jsp").forward(
+					request, response);
 		} else {
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
-					response);
+			request.getRequestDispatcher("views/queryInterface.jsp").forward(
+					request, response);
 		}
 	}
 
@@ -46,12 +46,12 @@ public class Venue extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		//obtains the longitude and latitude parameters from the webform
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// obtains the longitude and latitude parameters from the webform
 		String log = request.getParameter("long");
 		String lat = request.getParameter("lat");
-		//initiates a connection to the Foursquare API
+		// initiates a connection to the Foursquare API
 		FoursquareApi foursquareApi = new FoursquareApi(
 				"KTSRNGJZY4BGFSZAQYGKP2BBTZGGJAMXWKQSYTOSTV5WC31H",
 				"4KYFXNFEMT5RAIO3DEXMBC52ALUQG3AIXJHGBDBNYISGTO1H",
@@ -62,33 +62,46 @@ public class Venue extends HttpServlet {
 		Result<VenuesSearchResult> result2 = null;
 		String result = lat + "," + log;
 		try {
-			result2 = foursquareApi.venuesSearch(result, null, null, null, null,
-					null, null, null, null, null, null);
+			result2 = foursquareApi.venuesSearch(result, null, null, null,
+					null, null, null, null, null, null, null);
 		} catch (FoursquareApiException e) {
 			e.printStackTrace();
 		}
-		//checks that response code is 200 (OK) before proceeding
+		// checks that response code is 200 (OK) before proceeding
 		if (result2.getMeta().getCode() == 200) {
 
 			for (CompactVenue venue : result2.getResult().getVenues()) {
-				//retrieves the category(ies) of each venue
+				// retrieves the category(ies) of each venue
 				String category = "";
 				Category[] categoryList = venue.getCategories();
-				
-				for (Category cat:categoryList)
-				{
+
+				for (Category cat : categoryList) {
 					category = cat.getName();
-					
 				}
-				//saves the venue query results to the database
-				/*models.Database.venuesDB(venue.getName(), venue.getLocation()
-						.getAddress(), venue.getUrl(), category);*/
+				// saves the venue query results to the database
+				/*
+				 * models.Database.venuesDB(venue.getName(), venue.getLocation()
+				 * .getAddress(), venue.getUrl(), category);
+				 */
 			}
-			//sends the list of venues as an attribute to the view for display
-			request.setAttribute("venues", result2.getResult().getVenues());
-			
+			CompactVenue[] venues = result2.getResult().getVenues();
+			if (venues.length < 0) {
+				request.setAttribute("error",
+						"Sorry, your search returned no results");
+			}
+			// sends the list of venues as an attribute to the view for display
+			request.setAttribute("venues", venues);
+		} else {
+			if (result2.getMeta().getCode() == 400) {
+				request.setAttribute("error",
+						"You have entered an invalid input");
+			} else {
+				request.setAttribute("error",
+						"Sorry, an error has occured, please try again later");
+			}
 		}
-		request.getRequestDispatcher("views/queryInterface.jsp").forward(request,
-				response);
+		request.setAttribute("venues_result", "false");
+		request.getRequestDispatcher("views/queryInterface.jsp").forward(
+				request, response);
 	}
 }

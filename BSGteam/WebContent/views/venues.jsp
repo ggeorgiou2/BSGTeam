@@ -45,20 +45,21 @@
 
 <!-- ============ Results Table ============ -->
 <div>
-	<c:if test="${not empty venues}">
+	<c:if test="${not empty venues_result}">
 		<script>
 			setTimeout(function() {
 				$('#mytab a[href=#Venues]').tab('show');
 				window.location.href = '#venueResults';
 			});
 		</script>
+	</c:if>
+	<c:if test="${not empty venues}">
 		<div class="row" id="venueResults">
 			<div>
 				<div class="row">
 					<div class="col-md-10 col-md-push-1">
 						<h1 align="center">List of Venues</h1>
-						<table
-							class="table table-hover table-responsive table-condensed">
+						<table class="table table-hover table-responsive table-condensed">
 							<thead>
 								<tr>
 									<th>Name (Click to view Images)</th>
