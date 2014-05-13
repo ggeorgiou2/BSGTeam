@@ -49,6 +49,7 @@ public class TwitterServlet extends HttpServlet {
 			String tweet = request.getParameter("tweetData");
 			// creates a new twitter query
 			Query query = new Query(tweet);
+			query.setCount(25);
 
 			// gets the longitude and latitude of the geographical location if
 			// specified
