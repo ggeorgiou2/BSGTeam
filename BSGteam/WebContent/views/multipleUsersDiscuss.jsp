@@ -3,6 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
+<% if (session.getAttribute("twitterToken") != null) { %>
+
+<a href='twitterToken?action=logout'>Logout</a>
+
 <!-- ============ Forms ============ -->
 <div class="bs-docs-section">
 	<div class="row">
@@ -46,6 +50,13 @@
 		</div>
 	</div>
 </div>
+
+
+		<% } else if (session.getAttribute("twitterToken") == null) { %>
+
+						<jsp:include page="twitterToken.jsp" />
+
+		<% } %> 
 
 <!-- ============ Results Table ============ -->
 <div>

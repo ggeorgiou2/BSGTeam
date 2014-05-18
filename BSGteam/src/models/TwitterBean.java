@@ -16,11 +16,26 @@ import twitter4j.conf.ConfigurationBuilder;
  * @author BSG Team
  * 
  */
+
 public class TwitterBean {
 	/**
 	 * @return a connection to the twitter api
 	 * @throws Exception
 	 */
+	public Twitter init(String customer_key, String customer_secret, String token_access, String token_secret) throws Exception {
+		//keys required for authentication
+		//String token_access = "2365765327-36scbtLWy1hLTnyBOZeF3nDOaW5yNpVs6cIH0iw";
+		//String token_secret = "2ZXFfrspEpf6MUEIuXKGMaWsMO5v5LziLqliGrcOKB7Wh";
+		//String customer_key = "Ne9MoF5eq2KyO5KEvWog";
+		//String customer_secret = "3S9GGpIZpkMDfJxW5fhHi4u3w45VDuIQIaEEpYNqM";
+
+		TwitterObject token = new TwitterObject();
+		
+		//creates a twitter connection using the above keys
+		Twitter twitterConnection = initTwitter(customer_key, customer_secret, token_access, token_secret);
+		return twitterConnection;
+	}
+	
 	public Twitter init() throws Exception {
 		//keys required for authentication
 		String token_access = "2365765327-36scbtLWy1hLTnyBOZeF3nDOaW5yNpVs6cIH0iw";
@@ -28,9 +43,10 @@ public class TwitterBean {
 		String customer_key = "Ne9MoF5eq2KyO5KEvWog";
 		String customer_secret = "3S9GGpIZpkMDfJxW5fhHi4u3w45VDuIQIaEEpYNqM";
 
+		TwitterObject token = new TwitterObject();
+		
 		//creates a twitter connection using the above keys
-		Twitter twitterConnection = initTwitter(customer_key, customer_secret,
-				token_access, token_secret);
+		Twitter twitterConnection = initTwitter(customer_key, customer_secret, token_access, token_secret);
 		return twitterConnection;
 	}
 

@@ -19,6 +19,11 @@
 					<strong><c:out value="${error}"></c:out></strong>
 				</div>
 			</c:if>
+			<c:if test="${not empty success}">
+				<div class="alert alert-success" align="center">
+					<strong><c:out value="${success}"></c:out></strong>
+				</div>
+			</c:if>
 			<h1>Hello! Query the social web as much as you like...</h1>
 			<div class="bs-component">
 				<ul class="nav nav-pills nav-justified"

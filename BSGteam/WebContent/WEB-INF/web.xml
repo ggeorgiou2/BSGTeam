@@ -104,7 +104,6 @@
     <servlet-name>Discussions</servlet-name>
     <url-pattern>/discussions</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description></description>
     <display-name>AdditionalFeatures</display-name>
@@ -120,7 +119,27 @@
     <location>/views/not_found.jsp</location>
   </error-page>
   <error-page>
-    <exception-type>java.lang.Throwable</exception-type >
+    <exception-type>java.lang.Throwable</exception-type>
     <location>/exception.jsp</location>
-</error-page>
+  </error-page>
+  <servlet>
+    <description></description>
+    <display-name>TwitterToken</display-name>
+    <servlet-name>TwitterToken</servlet-name>
+    <servlet-class>controllers.TwitterToken</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TwitterToken</servlet-name>
+    <url-pattern>/twitterToken</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>FoursquareToken</display-name>
+    <servlet-name>FoursquareToken</servlet-name>
+    <servlet-class>controllers.FoursquareToken</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FoursquareToken</servlet-name>
+    <url-pattern>/foursquareToken</url-pattern>
+  </servlet-mapping>
 </web-app>

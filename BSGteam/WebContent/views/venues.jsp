@@ -3,6 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
+<%
+	if (session.getAttribute("frousquareToken") != null) {
+%>
+
+<a href='twitterToken?action=logout'>Logout</a>
+
 <!-- ============ Forms ============ -->
 <div class="bs-docs-section">
 	<div class="row">
@@ -42,6 +48,14 @@
 		</div>
 	</div>
 </div>
+<%
+	} else if (session.getAttribute("frousquareToken") == null) {
+%>
+<jsp:include page="foursquareToken.jsp" />
+
+<%
+	}
+%>
 
 <!-- ============ Results Table ============ -->
 <div>

@@ -40,9 +40,23 @@ public class TwitterServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
+
+			HttpSession session = request.getSession();
+			// if (session.getAttribute("twitterToken") != null) {
+			System.out.println("3");
+			String token_access = (String) session.getAttribute("token_access");
+			String token_secret = (String) session.getAttribute("token_secret");
+			String customer_key = (String) session.getAttribute("customer_key");
+			String customer_secret = (String) session
+					.getAttribute("customer_secret");
+			System.out.println(token_access);
+
 			// instantiates a new object of the <code>TwitterBean</code> class
 			TwitterBean twitterConnection = new TwitterBean();
-			Twitter twitter = twitterConnection.init();
+			Twitter twitter = twitterConnection.init(token_access,
+					token_secret, customer_key, customer_secret);
+
+			System.out.println("4");
 
 			// if (twitter.getRateLimitStatus("bla bla").)
 			// gets the required topic from the input webform
@@ -93,6 +107,7 @@ public class TwitterServlet extends HttpServlet {
 				// tweet1.getUser().getDescription(), tweet1.getText(),
 				// tweet1.getRetweetCount());
 				// }
+
 			} else {
 				request.setAttribute("error", "Sorry limit exceeded");
 			}
