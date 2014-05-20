@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
-<%@ include file="header.html"%>
+<%@ include file="header.jsp"%>
 
 <div class="bs-docs-section">
 	<div class="row">

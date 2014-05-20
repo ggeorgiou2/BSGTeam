@@ -1,22 +1,11 @@
 package controllers;
 
 import models.*;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
+import java.util.*;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import fi.foyt.foursquare.api.entities.CompactVenue;
+import javax.servlet.http.*;
 import twitter4j.*;
 
 /**

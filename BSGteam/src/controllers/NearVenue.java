@@ -1,10 +1,13 @@
 package controllers;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import fi.foyt.foursquare.api.*;
 import fi.foyt.foursquare.api.entities.*;
 
@@ -38,13 +41,15 @@ public class NearVenue extends HttpServlet {
 		// retrieves information passed from the form
 		String venueId = request.getParameter("venueID");
 		// creates a connection with the foursquare api
-		FoursquareApi foursquareApi = new FoursquareApi(
-				"KTSRNGJZY4BGFSZAQYGKP2BBTZGGJAMXWKQSYTOSTV5WC31H",
-				"4KYFXNFEMT5RAIO3DEXMBC52ALUQG3AIXJHGBDBNYISGTO1H",
-				"https://twitter.com/Bbash184");
-		foursquareApi
-				.setoAuthToken("KCUQXPVAHFTVEJJC1JTZ3ETPIUYRN1JNA0CFZGY0S0310WUH");
+		HttpSession session = request.getSession();
 
+		FoursquareApi foursquareApi = new FoursquareApi(
+				session.getAttribute("clientID").toString(),
+				session.getAttribute("clinetSec").toString(),
+				session.getAttribute("redirectURL").toString());
+		foursquareApi
+				.setoAuthToken(session.getAttribute("accessToken").toString());
+		
 		Double latitude = 0.0;
 		Double longitude = 0.0;
 		try {

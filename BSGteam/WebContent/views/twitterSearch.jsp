@@ -2,10 +2,8 @@
 <%@ page import="java.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<div class="col-lg-7 col-md-10 col-md-push-3">
-	<!-- 	<div class="row"> -->
-	
-	<c:if test="${not empty tweetList}">
+<div class="bs-docs-section">
+	<c:if test="${not empty results}">
 		<script>
 			setTimeout(function() {
 				$('#mytab a[href=#twitter]').tab('show');
@@ -13,60 +11,33 @@
 			});
 		</script>
 		<div class="row">
-			<div class="well bs-component">
-				<h1>List of Saved User Tweets</h1>
+			<div class="col-lg-8 col-md-10 col-md-push-2">
+				<h1 align="center">List of Users</h1>
 				<div class="row">
-					<div class="col-md-10">
+					<div class="col-md-10 col-md-push-1">
 						<table
 							class="table table-hover table-responsive table-bordered table-condensed">
 							<thead>
 								<tr>
-									<th><b>Picture</b>
-									<th><b>Twitter Username</b>
+									<th><b>Name</b>
+									<th><b>Twitter Id</b>
 									<th><b>Location</b>
 									<th><b>Description</b>
-									<th><b>Tweet</b>
-									<th><b>ReTweet</b>
 								</tr>
-								<%
-									int count = 0;
-										String color = "#F9EBB3";
-										if (request.getAttribute("tweetList") != null) {
-											ArrayList tl = (ArrayList) request.getAttribute("tweetList");
-											Iterator itr = tl.iterator();
-											while (itr.hasNext()) {
-												if ((count % 2) == 0) {
-													color = "#eeffee";
-												}
-												count++;
-												ArrayList tList = (ArrayList) itr.next();
-								%>
 							</thead>
 							<tbody class="table-hover">
-								<tr>
-									<td><img src="<%=tList.get(1)%>" height="100" width="100"></td>
-									<td><%=tList.get(2)%></td>
-									<td><%=tList.get(3)%></td>
-									<td><%=tList.get(4)%></td>
-									<td><%=tList.get(5)%></td>
-									<td><%=tList.get(6)%></td>
-								</tr>
-								<%
-									}
-										}
-										if (count == 0) {
-								%>
-								<tr>
-									<td colspan=7 align="center" style="background-color: #eeffee"><b>No
-											Record Found..</b></td>
-								</tr>
-								<%
-									}
-								%>
-							
+								<c:forEach var="user" items="${results}">
+									<tr>
+										<td><c:out value="${user.userName}" /></td>
+										<td><c:out value="${user.id}" /></td>
+										<td><c:out value="${user.location}" /></td>
+										<td><c:out value="${user.description}" /></td>
+									</tr>
+								</c:forEach>
 						</table>
 					</div>
 				</div>
 			</div>
+		</div>
 	</c:if>
 </div>

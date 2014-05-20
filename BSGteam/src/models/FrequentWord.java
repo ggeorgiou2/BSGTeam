@@ -1,6 +1,5 @@
 package models;
 
-import java.io.*;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -22,7 +21,6 @@ public class FrequentWord {
 	public List<Map.Entry<String, Integer>> countWord(String tweets, HashSet<String> commonWords) {
 		// declares wordCounts as variable of type TreeMap
 		Map<String, Integer> wordCounts = new TreeMap<String, Integer>();
-
 		String text = tweets;
 		// splits the groups of words into tokens
 		List<String> list = Arrays.asList(text.split(" "));

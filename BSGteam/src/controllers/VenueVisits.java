@@ -43,11 +43,14 @@ public class VenueVisits extends HttpServlet {
 		try {
 			// instantiates a new object of the <code>TwitterBean</code> class
 			TwitterBean twitterConnection = new TwitterBean();
-			
+
 			HttpSession session = request.getSession();
 
-			
-			Twitter twitter = twitterConnection.init(session.getAttribute("customer_key").toString(), session.getAttribute("customer_secret").toString(), session.getAttribute("token_access").toString(), session.getAttribute("token_secret").toString());
+			Twitter twitter = twitterConnection.init(
+					session.getAttribute("customer_key").toString(), session
+							.getAttribute("customer_secret").toString(),
+					session.getAttribute("token_access").toString(), session
+							.getAttribute("token_secret").toString());
 
 			int remaining = twitter.getRateLimitStatus().get("/search/tweets")
 					.getRemaining();
@@ -83,23 +86,32 @@ public class VenueVisits extends HttpServlet {
 						Query.KILOMETERS);
 				// search twitter for the query
 				result = twitter.search(query);
-				
+
 				// get checkin information from Foursquare
 				Foursquare foursquare = new Foursquare();
-				if(foursquare.venueCheckins(result, session.getAttribute("clientID").toString(), session.getAttribute("clinetSec").toString(), session.getAttribute("redirectURL").toString(), session.getAttribute("accessToken").toString()).isEmpty())
-				{
-					request.setAttribute("error", "Sorry, your search returned no results");
+				if (foursquare.venueCheckins(result,
+						session.getAttribute("clientID").toString(),
+						session.getAttribute("clinetSec").toString(),
+						session.getAttribute("redirectURL").toString(),
+						session.getAttribute("accessToken").toString())
+						.isEmpty()) {
+					request.setAttribute("error",
+							"Sorry, your search returned no results");
 				}
-				request.setAttribute("checkins",
-						foursquare.venueCheckins(result, session.getAttribute("clientID").toString(), session.getAttribute("clinetSec").toString(), session.getAttribute("redirectURL").toString(), session.getAttribute("accessToken").toString()));
+				request.setAttribute("checkins", foursquare.venueCheckins(
+						result, session.getAttribute("clientID").toString(),
+						session.getAttribute("clinetSec").toString(), session
+								.getAttribute("redirectURL").toString(),
+						session.getAttribute("accessToken").toString()));
 			} else {
 				request.setAttribute("error", "Sorry, limit exceeded");
 			}
 			request.setAttribute("checkins_result", "true");
 			// get the tweets returned in the query result
 		} catch (Exception err) {
-			request.setAttribute("error", "Sorry, your search returned no results");
-			System.out.println("Error while tweeting: " + err.getMessage());	
+			request.setAttribute("error",
+					"Sorry, your search returned no results");
+			System.out.println("Error while tweeting: " + err.getMessage());
 		}
 		request.getRequestDispatcher("views/queryInterface.jsp").forward(
 				request, response);

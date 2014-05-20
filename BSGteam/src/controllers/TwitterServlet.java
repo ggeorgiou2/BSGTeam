@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -43,22 +44,18 @@ public class TwitterServlet extends HttpServlet {
 
 			HttpSession session = request.getSession();
 			// if (session.getAttribute("twitterToken") != null) {
-			System.out.println("3");
+			// System.out.println("3");
 			String token_access = (String) session.getAttribute("token_access");
 			String token_secret = (String) session.getAttribute("token_secret");
 			String customer_key = (String) session.getAttribute("customer_key");
 			String customer_secret = (String) session
 					.getAttribute("customer_secret");
-			System.out.println(token_access);
 
 			// instantiates a new object of the <code>TwitterBean</code> class
 			TwitterBean twitterConnection = new TwitterBean();
-			Twitter twitter = twitterConnection.init(customer_key, customer_secret, token_access,
-					token_secret);
+			Twitter twitter = twitterConnection.init(customer_key,
+					customer_secret, token_access, token_secret);
 
-			System.out.println("4");
-
-			// if (twitter.getRateLimitStatus("bla bla").)
 			// gets the required topic from the input webform
 			String tweet = request.getParameter("tweetData");
 			// creates a new twitter query
@@ -100,13 +97,22 @@ public class TwitterServlet extends HttpServlet {
 				}
 				// loop through the results and save the users and tweets to the
 				// database
-				// for (Status tweet1 : tweets) {
-				// Database.twitterDB(tweet1.getUser()
-				// .getOriginalProfileImageURL(), tweet1.getUser()
-				// .getScreenName(), tweet1.getUser().getLocation(),
-				// tweet1.getUser().getDescription(), tweet1.getText(),
-				// tweet1.getRetweetCount());
-				// }
+
+				String root = getServletContext().getRealPath("/");
+				File path = new File(root + "/Triple_store");
+				if (!path.exists()) {
+					path.mkdirs();
+				}
+
+				String filePath = path + "/";
+				System.out.println(path.getAbsolutePath());
+				Jena jena = new Jena(filePath);
+				for (Status tweet1 : tweets) {
+					jena.saveUser(tweet1.getUser().getName(), tweet1.getUser()
+							.getScreenName(), tweet1.getUser().getLocation(),
+							tweet1.getUser().getProfileImageURL(), tweet1
+									.getUser().getDescription(), "", "");
+				}
 
 			} else {
 				request.setAttribute("error", "Sorry limit exceeded");

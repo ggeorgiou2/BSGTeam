@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -11,8 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import fi.foyt.foursquare.api.entities.Category;
-import fi.foyt.foursquare.api.entities.CompactVenue;
+import fi.foyt.foursquare.api.entities.*;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 import models.*;
@@ -48,7 +48,11 @@ public class UserVisits extends HttpServlet {
 			// establishes a twitter connection
 			TwitterBean twitterConnection = new TwitterBean();
 			HttpSession session = request.getSession();
-			Twitter twitter = twitterConnection.init(session.getAttribute("customer_key").toString(), session.getAttribute("customer_secret").toString(), session.getAttribute("token_access").toString(), session.getAttribute("token_secret").toString());
+			Twitter twitter = twitterConnection.init(
+					session.getAttribute("customer_key").toString(), session
+							.getAttribute("customer_secret").toString(),
+					session.getAttribute("token_access").toString(), session
+							.getAttribute("token_secret").toString());
 
 			// retrieves the parameters passed from the web form
 			// gets the id of the required twitter user to be tracked
@@ -83,7 +87,29 @@ public class UserVisits extends HttpServlet {
 					// foursquare checkins
 
 					Foursquare foursquare = new Foursquare();
-					Map<Date, CompactVenue> userVisits = foursquare.checkins(result, session.getAttribute("clientID").toString(), session.getAttribute("clinetSec").toString(), session.getAttribute("redirectURL").toString(), session.getAttribute("accessToken").toString());
+					Map<Date, CompactVenue> userVisits = foursquare.checkins(
+							result,
+							session.getAttribute("clientID").toString(),
+							session.getAttribute("clinetSec").toString(),
+							session.getAttribute("redirectURL").toString(),
+							session.getAttribute("accessToken").toString());
+
+					String root = getServletContext().getRealPath("/");
+					File path = new File(root + "/Triple_store");
+					if (!path.exists()) {
+						path.mkdirs();
+					}
+					String filePath = path + "/";
+					Jena jena = new Jena(filePath);
+					for (Entry<Date, CompactVenue> entry : userVisits
+							.entrySet()) {
+						jena.venue(userName, entry.getValue().getName(), "",
+								entry.getValue().getCategories()[0].getName(),
+								entry.getValue().getLocation().getAddress(),
+								entry.getValue().getStats().getUsersCount()
+										.toString(), "", entry.getKey()
+										.toString());
+					}
 					if (userVisits.isEmpty()) {
 						request.setAttribute("error",
 								"Sorry, your search returned no results");
@@ -93,19 +119,20 @@ public class UserVisits extends HttpServlet {
 				} else {
 					request.setAttribute("error", "Sorry, limit exceeded");
 				}
-
-				// for (CompactVenue venue : foursquare.checkins(result)) {
-				// //saves the venue query results to the database
-				// Database.userVisitsDB(userName, venue.getName());
-				//
-				// }
+				request.setAttribute("userVisits_result", "true");
+				request.getRequestDispatcher("views/queryInterface.jsp")
+						.forward(request, response);
 
 			} else {
 				// use streaming api to get results for days = 0
-				String token_access = session.getAttribute("token_access").toString();
-				String token_secret = session.getAttribute("token_secret").toString();
-				String customer_key = session.getAttribute("customer_key").toString();
-				String customer_sercet = session.getAttribute("customer_sercet").toString();
+				String token_access = session.getAttribute("token_access")
+						.toString();
+				String token_secret = session.getAttribute("token_secret")
+						.toString();
+				String customer_key = session.getAttribute("customer_key")
+						.toString();
+				String customer_sercet = session
+						.getAttribute("customer_secret").toString();
 
 				ConfigurationBuilder cb = new ConfigurationBuilder();
 				cb.setDebugEnabled(true).setOAuthConsumerKey(customer_key)
@@ -149,7 +176,15 @@ public class UserVisits extends HttpServlet {
 						System.out.println("sta= " + newtext);
 						Foursquare foursquare = new Foursquare();
 						Map<Date, CompactVenue> userVisits = foursquare
-								.checkins(status, session.getAttribute("clientID").toString(), session.getAttribute("clinetSec").toString(), session.getAttribute("redirectURL").toString(), session.getAttribute("accessToken").toString());
+								.checkins(status,
+										session.getAttribute("clientID")
+												.toString(), session
+												.getAttribute("clinetSec")
+												.toString(), session
+												.getAttribute("redirectURL")
+												.toString(), session
+												.getAttribute("accessToken")
+												.toString());
 						for (Entry<Date, CompactVenue> entry : userVisits
 								.entrySet()) {
 							Database.userTweetsDB(user, entry.getValue()
@@ -192,6 +227,7 @@ public class UserVisits extends HttpServlet {
 			request.setAttribute("userVisits_result", "true");
 
 		} catch (Exception err) {
+			err.printStackTrace();
 			request.setAttribute("userVisits_result", "false");
 			request.setAttribute("error",
 					"Sorry, your search returned no results");

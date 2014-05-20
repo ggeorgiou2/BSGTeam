@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import twitter4j.*;
 
@@ -43,8 +44,23 @@ public class UserDiscussion extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
 			// Instantiate the twitterBean
-			TwitterBean tt = new TwitterBean();
-			Twitter twitter = tt.init();
+			
+			
+			HttpSession session = request.getSession();
+			// if (session.getAttribute("twitterToken") != null) {
+			//System.out.println("3");
+			String token_access = (String) session.getAttribute("token_access");
+			String token_secret = (String) session.getAttribute("token_secret");
+			String customer_key = (String) session.getAttribute("customer_key");
+			String customer_secret = (String) session
+					.getAttribute("customer_secret");
+			System.out.println(token_access);
+
+			// instantiates a new object of the <code>TwitterBean</code> class
+			TwitterBean twitterConnection = new TwitterBean();
+			Twitter twitter = twitterConnection.init(customer_key, customer_secret, token_access,
+					token_secret);		
+			
 			int remaining = twitter.getRateLimitStatus().get("/search/tweets")
 					.getRemaining();
 			if (remaining > 1) {

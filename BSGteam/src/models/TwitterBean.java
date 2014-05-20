@@ -22,40 +22,25 @@ public class TwitterBean {
 	 * @return a connection to the twitter api
 	 * @throws Exception
 	 */
-	public Twitter init(String customer_key, String customer_secret, String token_access, String token_secret) throws Exception {
-		//keys required for authentication
-		//String token_access = "2365765327-36scbtLWy1hLTnyBOZeF3nDOaW5yNpVs6cIH0iw";
-		//String token_secret = "2ZXFfrspEpf6MUEIuXKGMaWsMO5v5LziLqliGrcOKB7Wh";
-		//String customer_key = "Ne9MoF5eq2KyO5KEvWog";
-		//String customer_secret = "3S9GGpIZpkMDfJxW5fhHi4u3w45VDuIQIaEEpYNqM";
-
-		TwitterObject token = new TwitterObject();
-		
-		//creates a twitter connection using the above keys
-		Twitter twitterConnection = initTwitter(customer_key, customer_secret, token_access, token_secret);
-		return twitterConnection;
-	}
-	
-	public Twitter init() throws Exception {
-		//keys required for authentication
-		String token_access = "2365765327-36scbtLWy1hLTnyBOZeF3nDOaW5yNpVs6cIH0iw";
-		String token_secret = "2ZXFfrspEpf6MUEIuXKGMaWsMO5v5LziLqliGrcOKB7Wh";
-		String customer_key = "Ne9MoF5eq2KyO5KEvWog";
-		String customer_secret = "3S9GGpIZpkMDfJxW5fhHi4u3w45VDuIQIaEEpYNqM";
-
-		TwitterObject token = new TwitterObject();
-		
-		//creates a twitter connection using the above keys
-		Twitter twitterConnection = initTwitter(customer_key, customer_secret, token_access, token_secret);
+	public Twitter init(String customer_key, String customer_secret,
+			String token_access, String token_secret) throws Exception {
+		// creates a twitter connection using the above keys
+		Twitter twitterConnection = initTwitter(customer_key, customer_secret,
+				token_access, token_secret);
 		return twitterConnection;
 	}
 
 	/**
-	 * @param consumerKey consumerKey value gotten from Twitter for OAuth
-	 * @param consumerSecret consumerSecret value gotten from Twitter for OAuth
-	 * @param accessToken accessToken value gotten from Twitter for OAuth
-	 * @param accessTokenSecret accessTokenSecret value gotten from Twitter for OAuth
-	 * @return TwitterFactory configuration to initiate the connection to the twitter API
+	 * @param consumerKey
+	 *            consumerKey value gotten from Twitter for OAuth
+	 * @param consumerSecret
+	 *            consumerSecret value gotten from Twitter for OAuth
+	 * @param accessToken
+	 *            accessToken value gotten from Twitter for OAuth
+	 * @param accessTokenSecret
+	 *            accessTokenSecret value gotten from Twitter for OAuth
+	 * @return TwitterFactory configuration to initiate the connection to the
+	 *         twitter API
 	 * @throws Exception
 	 */
 	private Twitter initTwitter(String consumerKey, String consumerSecret,
@@ -72,14 +57,19 @@ public class TwitterBean {
 
 	/**
 	 * Gets the twitter timeline of a particular user
-	 * @param name screen name/twitter id of the user
-	 * @return an array list containing up to the 100 most recent tweets of the user
+	 * 
+	 * @param name
+	 *            screen name/twitter id of the user
+	 * @return an array list containing up to the 100 most recent tweets of the
+	 *         user
 	 */
-	public List<Status> getTimeline(String name, String customer_key, String customer_secret, String token_access, String token_secret) {
+	public List<Status> getTimeline(String name, String customer_key,
+			String customer_secret, String token_access, String token_secret) {
 		Twitter twitterConnection = null;
 		List<Status> timeline = null;
 		try {
-			twitterConnection = init(customer_key, customer_secret, token_access, token_secret);
+			twitterConnection = init(customer_key, customer_secret,
+					token_access, token_secret);
 			String user = "from:" + name;
 			Query query = new Query(user);
 			query.setCount(100);
@@ -94,33 +84,38 @@ public class TwitterBean {
 
 	/**
 	 * Gets the retweets of a particular tweet
-	 * @param tweetID the id of the tweet
-	 * @return an array list of the retweets (up to 10) of the tweet passed to it
+	 * 
+	 * @param tweetID
+	 *            the id of the tweet
+	 * @return an array list of the retweets (up to 10) of the tweet passed to
+	 *         it
 	 */
-	public List<Status> getRetweeters(long id, String customer_key, String customer_secret, String token_access, String token_secret) {
+	public List<Status> getRetweeters(long id, String customer_key,
+			String customer_secret, String token_access, String token_secret) {
 		Twitter twitterConnection = null;
 		List<Status> subItems = new ArrayList<Status>();
 		try {
-			//gets a twitter connection
-			twitterConnection = init(customer_key, customer_secret, token_access, token_secret);
-			int i = twitterConnection.getRateLimitStatus().get("/statuses/retweets/:id").getRemaining();
-			if (i>0)
-			{
-			List<Status> retweets = null;
-			//twitter query to get the retweets
-			retweets = twitterConnection.getRetweets(id);
-			//gets at most 10 retweets 
-			if (retweets.size() > 10) {
-				//selects the first 10 retweets if there are more than 10
-				subItems = new ArrayList<Status>(retweets.subList(0, 10));
+			// gets a twitter connection
+			twitterConnection = init(customer_key, customer_secret,
+					token_access, token_secret);
+			int i = twitterConnection.getRateLimitStatus()
+					.get("/statuses/retweets/:id").getRemaining();
+			if (i > 0) {
+				List<Status> retweets = null;
+				// twitter query to get the retweets
+				retweets = twitterConnection.getRetweets(id);
+				// gets at most 10 retweets
+				if (retweets.size() > 10) {
+					// selects the first 10 retweets if there are more than 10
+					subItems = new ArrayList<Status>(retweets.subList(0, 10));
+				} else {
+					// selects the available retweets (less than 10)
+					subItems = new ArrayList<Status>(retweets.subList(0,
+							retweets.size()));
+				}
 			} else {
-				//selects the available retweets (less than 10) 
-				subItems = new ArrayList<Status>(retweets.subList(0, retweets.size()));
-			}
-			}
-			else{
-				System.out.println("u av exceeded");
-				
+				System.out.println("Limit exceeded");
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

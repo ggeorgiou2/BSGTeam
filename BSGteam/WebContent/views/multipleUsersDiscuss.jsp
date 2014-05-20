@@ -5,7 +5,6 @@
 
 <% if (session.getAttribute("twitterToken") != null) { %>
 
-<a href='twitterToken?action=logout'>Logout</a>
 
 <!-- ============ Forms ============ -->
 <div class="bs-docs-section">

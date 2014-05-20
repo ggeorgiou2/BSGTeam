@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html lang="en">
-<%@ include file="header.html"%>
+<%@ include file="header.jsp"%>
 <script>
 	var url = document.location.toString();
 	$(window).load(function() {
@@ -11,7 +13,17 @@
 </script>
 <div class="bs-docs-section">
 	<div class="row">
-		<div class="col-lg-7 col-md-10 col-md-push-3">
+		<div class="col-lg-8 col-md-10 col-md-push-2">
+			<c:if test="${not empty error}">
+				<div class="alert alert-danger" align="center">
+					<strong><c:out value="${error}"></c:out></strong>
+				</div>
+			</c:if>
+			<c:if test="${not empty success}">
+				<div class="alert alert-success" align="center">
+					<strong><c:out value="${success}"></c:out></strong>
+				</div>
+			</c:if>
 			<h1>Search database for saved queries</h1>
 			<div class="bs-component">
 				<ul class="nav nav-pills" style="margin-bottom: 15px;" id="mytab">
@@ -30,7 +42,7 @@
 										<form action="databaseSearch" method="post"
 											class="form-horizontal">
 											<fieldset>
-												<legend>Search for saved users and tweets</legend>
+												<legend>Search for saved users</legend>
 												<div class="form-group">
 													<label for="tweetData" class="col-lg-2 control-label">Twitter
 														Name:</label>
@@ -64,7 +76,7 @@
 										<form action="venueSearch" method="post"
 											class="form-horizontal">
 											<fieldset>
-												<legend>Search for previous queries of user visits</legend>
+												<legend>Search for saved venues and visits</legend>
 												<div class="form-group">
 													<label for="tweetData" class="col-lg-2 control-label">Venue:</label>
 													<div class="col-lg-10">
