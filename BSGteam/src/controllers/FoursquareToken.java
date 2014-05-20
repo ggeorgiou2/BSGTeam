@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fi.foyt.foursquare.api.FoursquareApi;
+import twitter4j.Twitter;
 import models.*;
 
 /**
@@ -34,26 +36,49 @@ public class FoursquareToken extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("1");
+		System.out.println("11");
 
-		String fsAPI = request.getParameter("fsAPI");
-		String authToken = request.getParameter("authToken");
-		FoursquareToken foursquareToken = new FoursquareToken();
+		String clientID = request.getParameter("clientID");
+		String clinetSec = request.getParameter("clinetSec");
+		String redirectURL = request.getParameter("redirectURL");
+		String accessToken = request.getParameter("accessToken");
+		
+		FoursquareObject foursquareObject = new FoursquareObject(clientID, clinetSec, redirectURL, accessToken);
 
-		System.out.println("2");
+		System.out.println("22");
 
 		HttpSession session = request.getSession();
-		if (request.getParameter("frousquareToken") == null) {
+		
+		if (request.getParameter("foursquareToken") == null) {
 			System.out.println("3");
-
-			// try {
-			request.setAttribute("error", "Sorry, your token is invalid");
-			// }
-			// } catch (Exception e) {
-			// e.printStackTrace();
-			// request.setAttribute("error", "Sorry, your token is invalid");
-			// }
+			try {
+				FoursquareApi fsAPI = new FoursquareApi(
+						clientID,
+						clinetSec,
+						redirectURL);
+				fsAPI.setoAuthToken(accessToken);
+		
+				//check it again
+		if (fsAPI.getAuthenticationUrl() != null) {
+			session.setAttribute("foursquareToken", "foursquareToken");
+			session.setAttribute("clientID", foursquareObject.getClientID());
+			session.setAttribute("clinetSec", foursquareObject.getClinetSec());
+			session.setAttribute("redirectURL", foursquareObject.getRedirectURL());
+			session.setAttribute("accessToken",	foursquareObject.getAccessToken());
+			request.setAttribute("success",
+					"You have been successfully login on frousquare");
 		}
+		else{
+			request.setAttribute("error",
+					"Sorry, your token is invalid");
+		}
+			} catch (Exception e) {
+				// e.printStackTrace();
+				request.setAttribute("error", "Sorry, your token is invalid");
+			}
+		}
+		System.out.println("33");
+		
 		request.getRequestDispatcher("views/queryInterface.jsp").forward(
 				request, response);
 	}

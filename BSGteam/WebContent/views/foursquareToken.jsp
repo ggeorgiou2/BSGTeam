@@ -1,4 +1,4 @@
-			<h1>Hello, GuestUser!</h1>
+			<h1>Hello, foursquareToken!</h1>
 <div class="bs-docs-section">
 	<div class="row">
 		<div class="col-lg-12">
@@ -7,17 +7,31 @@
 					<fieldset>
 						<legend>Please insert your Foursquare Token</legend>
 						<div class="form-group">
-							<label for="fsAPI" class="col-lg-2 control-label">fsAPI:</label>
+							<label for="clientID" class="col-lg-2 control-label">clientID:</label>
 							<div class="col-lg-10">
-								<input type="text" class="form-control" name="fsAPI"
-									id="fsAPI" placeholder="fsAPI" required>
+								<input type="text" class="form-control" name="clientID"
+									id="clientID" placeholder="clientID" required>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="authToken" class="col-lg-2 control-label">token_secret:</label>
+							<label for="clinetSec" class="col-lg-2 control-label">clinetSec:</label>
 							<div class="col-lg-10">
-								<input type="text" class="form-control" name="authToken"
-									id="authToken" placeholder="authToken">
+								<input type="text" class="form-control" name="clinetSec"
+									id="clinetSec" placeholder="clinetSec">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="redirectURL" class="col-lg-2 control-label">redirectURL:</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" name="redirectURL"
+									id="redirectURL" placeholder="redirectURL" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="accessToken" class="col-lg-2 control-label">accessToken:</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" name="accessToken"
+									id="accessToken" placeholder="accessToken">
 							</div>
 						</div>
 						<div class="form-group">

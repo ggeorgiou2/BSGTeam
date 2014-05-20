@@ -53,8 +53,8 @@ public class TwitterServlet extends HttpServlet {
 
 			// instantiates a new object of the <code>TwitterBean</code> class
 			TwitterBean twitterConnection = new TwitterBean();
-			Twitter twitter = twitterConnection.init(token_access,
-					token_secret, customer_key, customer_secret);
+			Twitter twitter = twitterConnection.init(customer_key, customer_secret, token_access,
+					token_secret);
 
 			System.out.println("4");
 

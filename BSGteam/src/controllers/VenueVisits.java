@@ -43,7 +43,11 @@ public class VenueVisits extends HttpServlet {
 		try {
 			// instantiates a new object of the <code>TwitterBean</code> class
 			TwitterBean twitterConnection = new TwitterBean();
-			Twitter twitter = twitterConnection.init();
+			
+			HttpSession session = request.getSession();
+
+			
+			Twitter twitter = twitterConnection.init(session.getAttribute("customer_key").toString(), session.getAttribute("customer_secret").toString(), session.getAttribute("token_access").toString(), session.getAttribute("token_secret").toString());
 
 			int remaining = twitter.getRateLimitStatus().get("/search/tweets")
 					.getRemaining();
@@ -82,12 +86,12 @@ public class VenueVisits extends HttpServlet {
 				
 				// get checkin information from Foursquare
 				Foursquare foursquare = new Foursquare();
-				if(foursquare.venueCheckins(result).isEmpty())
+				if(foursquare.venueCheckins(result, session.getAttribute("clientID").toString(), session.getAttribute("clinetSec").toString(), session.getAttribute("redirectURL").toString(), session.getAttribute("accessToken").toString()).isEmpty())
 				{
 					request.setAttribute("error", "Sorry, your search returned no results");
 				}
 				request.setAttribute("checkins",
-						foursquare.venueCheckins(result));
+						foursquare.venueCheckins(result, session.getAttribute("clientID").toString(), session.getAttribute("clinetSec").toString(), session.getAttribute("redirectURL").toString(), session.getAttribute("accessToken").toString()));
 			} else {
 				request.setAttribute("error", "Sorry, limit exceeded");
 			}

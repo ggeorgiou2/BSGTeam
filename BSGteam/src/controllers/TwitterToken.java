@@ -1,12 +1,16 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
 
 import models.TwitterBean;
 import models.TwitterObject;
@@ -33,6 +37,9 @@ public class TwitterToken extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("1");
 
+	    //List<String> list = new ArrayList<String>();
+
+	    
 		String token_access = request.getParameter("token_access");
 		String token_secret = request.getParameter("token_secret");
 		String customer_key = request.getParameter("customer_key");
@@ -62,20 +69,28 @@ public class TwitterToken extends HttpServlet {
 					session.setAttribute("customer_secret",
 							twitterTokens.getCustomer_secret());
 					System.out.println(twitter);
-					request.setAttribute("success",
-							"You have been successfully login on twitter");
-				}
-				else{
-					request.setAttribute("error",
-							"Sorry, your token is invalid");
+					response.getWriter().write("success"); 
+				    //list.add("success");
+					//request.setAttribute("success",	"You have been successfully login on twitter");
+				} else {
+					response.getWriter().write("error"); 
+				    //list.add("error");
+//					request.setAttribute("error","Sorry, your token is invalid");
 				}
 			} catch (Exception e) {
 				// e.printStackTrace();
-				request.setAttribute("error", "Sorry, your token is invalid");
+				response.getWriter().write("error"); 
+			    //list.add("error123");
+				//request.setAttribute("error", "Sorry, your token is invalid");
 			}
 		}
-		request.getRequestDispatcher("views/queryInterface.jsp").forward(
-				request, response);
+		//request.getRequestDispatcher("views/queryInterface.jsp").forward(request, response);
+	   /* String json = new Gson().toJson(list);
+		System.out.println(json);
+
+		response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    response.getWriter().write(json);*/
 	}
 
 }

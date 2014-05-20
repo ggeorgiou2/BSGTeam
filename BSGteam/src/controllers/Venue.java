@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import models.Foursquare;
 import fi.foyt.foursquare.api.*;
@@ -29,11 +30,13 @@ public class Venue extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		// gets the particular venue id for which images are requested
 		String id = request.getParameter("id");
+		HttpSession session = request.getSession();
+
 		if (id != null) {
 			// creates a new foursquare object, calls getImages and passes the
 			// obtained image urls to the view for display
 			Foursquare fsq = new Foursquare();
-			request.setAttribute("images", fsq.getImages(id));
+			request.setAttribute("images", fsq.getImages(id,  session.getAttribute("clientID").toString(), session.getAttribute("clinetSec").toString(), session.getAttribute("redirectURL").toString(), session.getAttribute("accessToken").toString()));
 			request.getRequestDispatcher("views/venueImages.jsp").forward(
 					request, response);
 		} else {
@@ -52,12 +55,14 @@ public class Venue extends HttpServlet {
 		String log = request.getParameter("long");
 		String lat = request.getParameter("lat");
 		// initiates a connection to the Foursquare API
+		HttpSession session = request.getSession();
+
 		FoursquareApi foursquareApi = new FoursquareApi(
-				"KTSRNGJZY4BGFSZAQYGKP2BBTZGGJAMXWKQSYTOSTV5WC31H",
-				"4KYFXNFEMT5RAIO3DEXMBC52ALUQG3AIXJHGBDBNYISGTO1H",
-				"https://twitter.com/Bbash184");
+				session.getAttribute("clientID").toString(),
+				session.getAttribute("clinetSec").toString(),
+				session.getAttribute("redirectURL").toString());
 		foursquareApi
-				.setoAuthToken("KCUQXPVAHFTVEJJC1JTZ3ETPIUYRN1JNA0CFZGY0S0310WUH");
+				.setoAuthToken(session.getAttribute("accessToken").toString());
 
 		Result<VenuesSearchResult> result2 = null;
 		String result = lat + "," + log;

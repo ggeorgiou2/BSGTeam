@@ -1,4 +1,4 @@
-			<h1>Hello, GuestUser!</h1>
+			<h1>Hello, twitterToken!</h1>
 <div class="bs-docs-section">
 	<div class="row">
 		<div class="col-lg-12">

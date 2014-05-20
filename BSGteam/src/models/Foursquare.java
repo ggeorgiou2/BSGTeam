@@ -78,14 +78,14 @@ public class Foursquare {
 	 * This method accept short Url as argument, expand it and return
 	 * information about the venue.
 	 */
-	public CompactVenue getLocationInformation(String shortURLs)
+	public CompactVenue getLocationInformation(String shortURLs, String clientID, String clinetSec, String redirectURL, String accessToken)
 			throws FoursquareApiException {
 		// Instantiate the FourSquare Api and authenticate the user
 		FoursquareApi fsAPI = new FoursquareApi(
-				"O2A21N0HUIM5UVFL2AYY4OMQ35DIUKVYBCVR5EJSHZWP52UF",
-				"FVL0GI21DP5ULAAM5BHO4I4X3D4YQNWHKOTVQDDZDWBCXCYV",
-				"http://www.sheffield.ac.uk");
-		fsAPI.setoAuthToken("3BD5LBHSXOQQGA2NFRWQYQ4R44XUTSMXZCXIQDCFGIWLIOYN");
+				clientID,
+				clinetSec,
+				redirectURL);
+		fsAPI.setoAuthToken(accessToken);
 		// expand the url if it is a short url!
 		String url = expandUrl(shortURLs);
 		// if it is not a 4square login url then we return!
@@ -116,14 +116,14 @@ public class Foursquare {
 		return venue;
 	}
 	
-	public Checkin getCheckinInformation(String shortURLs)
+	public Checkin getCheckinInformation(String shortURLs, String clientID, String clinetSec, String redirectURL, String accessToken)
 			throws FoursquareApiException {
 		// Instantiate the FourSquare Api and authenticate the user
 		FoursquareApi fsAPI = new FoursquareApi(
-				"O2A21N0HUIM5UVFL2AYY4OMQ35DIUKVYBCVR5EJSHZWP52UF",
-				"FVL0GI21DP5ULAAM5BHO4I4X3D4YQNWHKOTVQDDZDWBCXCYV",
-				"http://www.sheffield.ac.uk");
-		fsAPI.setoAuthToken("3BD5LBHSXOQQGA2NFRWQYQ4R44XUTSMXZCXIQDCFGIWLIOYN");
+				clientID,
+				clinetSec,
+				redirectURL);
+		fsAPI.setoAuthToken(accessToken);
 		// expand the url if it is a short url!
 		String url = expandUrl(shortURLs);
 		// if it is not a 4square login url then we return!
@@ -156,7 +156,7 @@ public class Foursquare {
 	 *            a QueryResult from twitter
 	 * @return the location of checkin
 	 */
-	public Map<Date,CompactVenue> checkins(QueryResult result) {
+	public Map<Date,CompactVenue> checkins(QueryResult result, String clientID, String clinetSec, String redirectURL, String accessToken) {
 		Map<Date,CompactVenue> venues = new HashMap<Date,CompactVenue>();
 		for (Status status : result.getTweets()) {
 			if (status.getGeoLocation() != null) {
@@ -165,7 +165,7 @@ public class Foursquare {
 				if (index >= 0) {
 					data = status.getText().substring(index);
 					try {
-						venues.put(status.getCreatedAt(),getLocationInformation(data));
+						venues.put(status.getCreatedAt(),getLocationInformation(data, clientID, clinetSec, redirectURL, accessToken));
 					} catch (FoursquareApiException e) {
 						e.printStackTrace();
 					}
@@ -175,8 +175,26 @@ public class Foursquare {
 		return venues;
 	}
 	
-	public Map<Date,Checkin> venueCheckins(QueryResult result) {
-		Map<Date,Checkin> checkins = new HashMap<Date,Checkin>();
+	public Map<Date, CompactVenue> checkins(Status status, String clientID, String clinetSec, String redirectURL, String accessToken) {
+		Map<Date, CompactVenue> venues = new HashMap<Date, CompactVenue>();
+		if (status.getGeoLocation() != null) {
+			int index = status.getText().indexOf("http");
+			String data = "nan";
+			if (index >= 0) {
+				data = status.getText().substring(index);
+				try {
+					venues.put(status.getCreatedAt(),
+							getLocationInformation(data, clientID, clinetSec, redirectURL, accessToken));
+				} catch (FoursquareApiException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return venues;
+	}
+	
+	public Map<Date, Checkin> venueCheckins(QueryResult result, String clientID, String clinetSec, String redirectURL, String accessToken) {
+		Map<Date, Checkin> checkins = new HashMap<Date, Checkin>();
 		for (Status status : result.getTweets()) {
 			if (status.getGeoLocation() != null) {
 				int index = status.getText().indexOf("http");
@@ -184,7 +202,8 @@ public class Foursquare {
 				if (index >= 0) {
 					data = status.getText().substring(index);
 					try {
-						checkins.put(status.getCreatedAt(), getCheckinInformation(data));
+						checkins.put(status.getCreatedAt(),
+								getCheckinInformation(data, clientID, clinetSec, redirectURL, accessToken));
 					} catch (FoursquareApiException e) {
 						e.printStackTrace();
 					}
@@ -194,18 +213,36 @@ public class Foursquare {
 		return checkins;
 	}
 
+	public Map<Date, Checkin> venueCheckins(Status status, String clientID, String clinetSec, String redirectURL, String accessToken) {
+		Map<Date, Checkin> checkins = new HashMap<Date, Checkin>();
+
+		if (status.getGeoLocation() != null) {
+			int index = status.getText().indexOf("http");
+			String data = "nan";
+			if (index >= 0) {
+				data = status.getText().substring(index);
+				try {
+					checkins.put(status.getCreatedAt(),
+							getCheckinInformation(data, clientID, clinetSec, redirectURL, accessToken));
+				} catch (FoursquareApiException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return checkins;
+	}
 
 	/**
 	 * @param venueID
 	 *            the identification number of the venue
 	 * @return the available pictures in the venue
 	 */
-	public Photo[] getImages(String venueID) {
+	public Photo[] getImages(String venueID, String clientID, String clinetSec, String redirectURL, String accessToken) {
 		FoursquareApi fsAPI = new FoursquareApi(
-				"O2A21N0HUIM5UVFL2AYY4OMQ35DIUKVYBCVR5EJSHZWP52UF",
-				"FVL0GI21DP5ULAAM5BHO4I4X3D4YQNWHKOTVQDDZDWBCXCYV",
-				"http://www.sheffield.ac.uk");
-		fsAPI.setoAuthToken("3BD5LBHSXOQQGA2NFRWQYQ4R44XUTSMXZCXIQDCFGIWLIOYN");
+				clientID,
+				clinetSec,
+				redirectURL);
+		fsAPI.setoAuthToken(accessToken);
 		Result<PhotoGroup> venuephoto;
 		Photo[] image = null;
 		try {

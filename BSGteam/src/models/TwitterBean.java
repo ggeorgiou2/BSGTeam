@@ -75,11 +75,11 @@ public class TwitterBean {
 	 * @param name screen name/twitter id of the user
 	 * @return an array list containing up to the 100 most recent tweets of the user
 	 */
-	public List<Status> getTimeline(String name) {
+	public List<Status> getTimeline(String name, String customer_key, String customer_secret, String token_access, String token_secret) {
 		Twitter twitterConnection = null;
 		List<Status> timeline = null;
 		try {
-			twitterConnection = init();
+			twitterConnection = init(customer_key, customer_secret, token_access, token_secret);
 			String user = "from:" + name;
 			Query query = new Query(user);
 			query.setCount(100);
@@ -97,12 +97,12 @@ public class TwitterBean {
 	 * @param tweetID the id of the tweet
 	 * @return an array list of the retweets (up to 10) of the tweet passed to it
 	 */
-	public List<Status> getRetweeters(long id) {
+	public List<Status> getRetweeters(long id, String customer_key, String customer_secret, String token_access, String token_secret) {
 		Twitter twitterConnection = null;
 		List<Status> subItems = new ArrayList<Status>();
 		try {
 			//gets a twitter connection
-			twitterConnection = init();
+			twitterConnection = init(customer_key, customer_secret, token_access, token_secret);
 			int i = twitterConnection.getRateLimitStatus().get("/statuses/retweets/:id").getRemaining();
 			if (i>0)
 			{

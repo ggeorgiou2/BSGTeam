@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fi.foyt.foursquare.api.entities.CompactVenue;
 import twitter4j.*;
@@ -38,18 +39,20 @@ public class UserTimelines extends HttpServlet {
 		String screenName = request.getParameter("screenname");
 		String tweetID = request.getParameter("tweetID");
 
+		HttpSession session = request.getSession();
+		
 		// gets timeline request
 		if (screenName != null) {
 			// creates a TwitterBean object for a connection to the twitter API
 			try {
 				TwitterBean twitterConnection = new TwitterBean();
 
-				Twitter twitter = twitterConnection.init();
+				Twitter twitter = twitterConnection.init(session.getAttribute("customer_key").toString(), session.getAttribute("customer_secret").toString(), session.getAttribute("token_access").toString(), session.getAttribute("token_secret").toString());
 				// gets the timeline of the user with the screen name and passes
 				// the
 				// tweets to the view
 				List<Status> results = twitterConnection
-						.getTimeline(screenName);
+						.getTimeline(screenName, session.getAttribute("customer_key").toString(), session.getAttribute("customer_secret").toString(), session.getAttribute("token_access").toString(), session.getAttribute("token_secret").toString());
 
 				request.setAttribute("timelines", results);
 				request.setAttribute("user", screenName);
@@ -74,7 +77,7 @@ public class UserTimelines extends HttpServlet {
 				// creates a foursquare object and inspects the user's tweet for
 				// foursquare checkins
 				Foursquare foursquare = new Foursquare();
-				request.setAttribute("userVisits", foursquare.checkins(result));
+				request.setAttribute("userVisits", foursquare.checkins(result, session.getAttribute("clientID").toString(), session.getAttribute("clinetSec").toString(), session.getAttribute("redirectURL").toString(), session.getAttribute("accessToken").toString()));
 
 				List<Status> contacters = new ArrayList<Status>();
 				List<Status> contactees = new ArrayList<Status>();
@@ -147,13 +150,13 @@ public class UserTimelines extends HttpServlet {
 			TwitterBean twitterConnection = new TwitterBean();
 			try {
 				// gets the tweet which was retweeted and passes it to the view
-				Twitter connection = twitterConnection.init();
+				Twitter connection = twitterConnection.init(session.getAttribute("customer_key").toString(), session.getAttribute("customer_secret").toString(), session.getAttribute("token_access").toString(), session.getAttribute("token_secret").toString());
 				Status status = connection.showStatus(Long.parseLong(tweetID));
 				request.setAttribute("tweet", status.getText());
 
 				// gets a list of the retweet(ers) and passes it to the view
 				request.setAttribute("retweeters",
-						twitterConnection.getRetweeters(id));
+						twitterConnection.getRetweeters(id, session.getAttribute("customer_key").toString(), session.getAttribute("customer_secret").toString(), session.getAttribute("token_access").toString(), session.getAttribute("token_secret").toString()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

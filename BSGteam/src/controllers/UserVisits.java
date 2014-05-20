@@ -3,11 +3,13 @@ package controllers;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fi.foyt.foursquare.api.entities.Category;
 import fi.foyt.foursquare.api.entities.CompactVenue;
@@ -40,12 +42,14 @@ public class UserVisits extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
+	protected void doPost(final HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
 			// establishes a twitter connection
 			TwitterBean twitterConnection = new TwitterBean();
-			Twitter twitter = twitterConnection.init();
+			HttpSession session = request.getSession();
+			Twitter twitter = twitterConnection.init(session.getAttribute("customer_key").toString(), session.getAttribute("customer_secret").toString(), session.getAttribute("token_access").toString(), session.getAttribute("token_secret").toString());
+
 			// retrieves the parameters passed from the web form
 			// gets the id of the required twitter user to be tracked
 
@@ -79,7 +83,7 @@ public class UserVisits extends HttpServlet {
 					// foursquare checkins
 
 					Foursquare foursquare = new Foursquare();
-					Map<Date, CompactVenue> userVisits = foursquare.checkins(result);
+					Map<Date, CompactVenue> userVisits = foursquare.checkins(result, session.getAttribute("clientID").toString(), session.getAttribute("clinetSec").toString(), session.getAttribute("redirectURL").toString(), session.getAttribute("accessToken").toString());
 					if (userVisits.isEmpty()) {
 						request.setAttribute("error",
 								"Sorry, your search returned no results");
@@ -98,10 +102,10 @@ public class UserVisits extends HttpServlet {
 
 			} else {
 				// use streaming api to get results for days = 0
-				String token_access = "263885132-oDic38nO96k91obUMBypD2V7gBkd664DPCSszpHa";
-				String token_secret = "7XPXklqAiP18xdw0kfQImShEWYf06fmVVveIfboAghRvT";
-				String customer_key = "MXH39rOd9mOxRWh9Exma7g";
-				String customer_sercet = "789P2oTcZL9liV2DhGjiDX8J7ZGXPwZRCCoWrSeVkoo";
+				String token_access = session.getAttribute("token_access").toString();
+				String token_secret = session.getAttribute("token_secret").toString();
+				String customer_key = session.getAttribute("customer_key").toString();
+				String customer_sercet = session.getAttribute("customer_sercet").toString();
 
 				ConfigurationBuilder cb = new ConfigurationBuilder();
 				cb.setDebugEnabled(true).setOAuthConsumerKey(customer_key)
@@ -111,7 +115,8 @@ public class UserVisits extends HttpServlet {
 
 				TwitterStreamFactory twitter2 = new TwitterStreamFactory(
 						cb.build());
-				TwitterStream twitterStream = twitter2.getInstance();
+				final TwitterStream twitterStream = twitter2.getInstance();
+				final String user = userName;
 				StatusListener listener = new StatusListener() {
 
 					@Override
@@ -139,10 +144,20 @@ public class UserVisits extends HttpServlet {
 
 					@Override
 					public void onStatus(Status status) {
+						HttpSession session = request.getSession();
 						String newtext = status.getText();
-						streams.add(newtext);
 						System.out.println("sta= " + newtext);
-						// To-do: inspect tweet for fourquare checkins
+						Foursquare foursquare = new Foursquare();
+						Map<Date, CompactVenue> userVisits = foursquare
+								.checkins(status, session.getAttribute("clientID").toString(), session.getAttribute("clinetSec").toString(), session.getAttribute("redirectURL").toString(), session.getAttribute("accessToken").toString());
+						for (Entry<Date, CompactVenue> entry : userVisits
+								.entrySet()) {
+							Database.userTweetsDB(user, entry.getValue()
+									.getName(), entry.getKey().toString());
+						}
+						if (Database.getStreamStop()) {
+							stopStream(twitterStream);
+						}
 					}
 
 					@Override
@@ -159,18 +174,23 @@ public class UserVisits extends HttpServlet {
 				int count = 0;
 				long[] idToFollow = new long[1];
 				idToFollow[0] = userid;
-				String[] stringsToTrack = new String[1];
-				stringsToTrack[0] = "foursquare";
+				String[] stringsToTrack = null;
+				// stringsToTrack[0] = "foursquare";
 				double[][] locationsToTrack = new double[0][0];
 
 				twitterStream.filter(new FilterQuery(count, idToFollow,
 						stringsToTrack, locationsToTrack));
+
 				streams.add("Tracking user");
+				System.out.println("Started");
 				request.setAttribute("userVisits2", streams);
+				request.setAttribute("userVisits_result", "true");
+
+				response.sendRedirect("http://localhost:8080/BSGteam/streams?user="
+						+ userName);
 			}
 			request.setAttribute("userVisits_result", "true");
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(
-					request, response);
+
 		} catch (Exception err) {
 			request.setAttribute("userVisits_result", "false");
 			request.setAttribute("error",
@@ -179,5 +199,10 @@ public class UserVisits extends HttpServlet {
 			request.getRequestDispatcher("views/queryInterface.jsp").forward(
 					request, response);
 		}
+	}
+
+	private void stopStream(TwitterStream twitterStream) {
+		twitterStream.cleanUp();
+		twitterStream = null;
 	}
 }

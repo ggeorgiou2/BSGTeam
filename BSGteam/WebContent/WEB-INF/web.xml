@@ -142,4 +142,14 @@
     <servlet-name>FoursquareToken</servlet-name>
     <url-pattern>/foursquareToken</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>StreamVisits</display-name>
+    <servlet-name>StreamVisits</servlet-name>
+    <servlet-class>controllers.StreamVisits</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StreamVisits</servlet-name>
+    <url-pattern>/streams</url-pattern>
+  </servlet-mapping>
 </web-app>
