@@ -59,9 +59,7 @@ public class TwitterToken extends HttpServlet {
 					response.getWriter().write("error");
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
 				response.getWriter().write("error");
-
 			}
 		}
 

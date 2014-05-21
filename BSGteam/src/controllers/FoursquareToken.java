@@ -27,13 +27,14 @@ public class FoursquareToken extends HttpServlet {
 		request.getRequestDispatcher("views/queryInterface.jsp").forward(
 				request, response);
 	}
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("11");
+		//System.out.println("11");
 
 		String clientID = request.getParameter("clientID");
 		String clientSecret = request.getParameter("clinetSec");
@@ -48,8 +49,10 @@ public class FoursquareToken extends HttpServlet {
 				FoursquareApi fsAPI = new FoursquareApi(clientID, clientSecret,
 						redirectURL);
 				fsAPI.setoAuthToken(accessToken);
-
-				if (fsAPI.getAuthenticationUrl() != null) {
+				if (fsAPI
+						.venuesSearch("40.7,-74", null, null, null, null,
+								null, null, null, null, null, null).getMeta()
+						.getCode() == 200) {
 					session.setAttribute("foursquareToken", "foursquareToken");
 					session.setAttribute("clientID",
 							foursquareObject.getClientID());
@@ -63,14 +66,13 @@ public class FoursquareToken extends HttpServlet {
 							"You have been successfully logged in on Foursquare");
 				} else {
 					request.setAttribute("error",
-							"Sorry, your token is invalid");
+							"Sorry, your foursquare token is invalid");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				request.setAttribute("error", "Sorry, your token is invalid");
+				request.setAttribute("error", "Sorry, your foursquare token is invalid");
 			}
 		}
-		response.sendRedirect("twitter");
-	}
-
+		request.getRequestDispatcher("views/queryInterface.jsp").forward(
+				request, response);	}
 }

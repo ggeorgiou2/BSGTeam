@@ -14,6 +14,16 @@
 <div class="bs-docs-section">
 	<div class="row">
 		<div class="col-lg-8 col-md-10 col-md-push-2">
+			<c:if test="${not empty error}">
+				<div class="alert alert-danger" align="center">
+					<strong><c:out value="${error}"></c:out></strong>
+				</div>
+			</c:if>
+			<c:if test="${not empty success}">
+				<div class="alert alert-success" align="center">
+					<strong><c:out value="${success}"></c:out></strong>
+				</div>
+			</c:if>
 			<script type="text/javascript">
 				$(function() {
 					$('#twitterToken').on('submit', function(e) {
@@ -46,14 +56,19 @@
 				}
 				window.onload = onLoad;
 			</script>
-			<img src="images/ajax-loader.gif" id="loading_bar" hidden="true" align="middle">
+			<img src="images/ajax-loader.gif" id="loading_bar" hidden="true"
+				align="middle">
 
-			<div class="alert alert-danger" id="alert-danger" hidden="true" align="center">
-				<strong><c:out value="Problem occurred: Please check your token"></c:out></strong>
+			<div class="alert alert-danger" id="alert-danger" hidden="true"
+				align="center">
+				<strong><c:out
+						value="Problem occurred: Please check your token"></c:out></strong>
 			</div>
 
-			<div class="alert alert-success" id="alert-success" hidden="true" align="center">
-				<strong><c:out value="You have been successfully login into twitter"></c:out></strong>
+			<div class="alert alert-success" id="alert-success" hidden="true"
+				align="center">
+				<strong><c:out
+						value="You have been successfully login into twitter"></c:out></strong>
 			</div>
 			<%
 				if ((session.getAttribute("twitterToken") != null)
@@ -70,13 +85,13 @@
 							Users</a></li>
 					<li><a href="#UserVisits" data-toggle="tab">User Visits</a></li>
 					<li><a href="#VenueVisits" data-toggle="tab">Venue Visits</a></li>
-					
+
 				</ul>
 				<div id="myTabContent" class="tab-content">
 					<div class="tab-pane fade active in" id="Discussion">
 						<jsp:include page="public_discussion.jsp" />
 					</div>
-					
+
 					<div class="tab-pane fade" id="UserVisits">
 						<jsp:include page="userVisits.jsp" />
 					</div>
@@ -102,9 +117,7 @@
 				if ((session.getAttribute("twitterToken") != null)
 						&& (session.getAttribute("foursquareToken") == null)) {
 			%>
-			<div class="alert alert-success" id="alert-success" align="center">
-				<strong><c:out value="You have been successfully login into twitter"></c:out></strong>
-			</div>
+			
 			<jsp:include page="foursquareToken.jsp" />
 			<%
 				}
