@@ -2,7 +2,8 @@
 <%@ page import="java.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<div class="bs-docs-section">
+<div class="bs-docs-section"
+	xmlns:intelligentWeb="https://sites.google.com/site/sheffieldbash/home/web2.rdfs/">
 	<c:if test="${not empty venue_results}">
 		<script>
 			setTimeout(function() {
@@ -27,7 +28,7 @@
 							</thead>
 							<tbody class="table-hover">
 								<c:forEach var="venue" items="${venue_results}">
-									<tr>
+									<tr about="/">
 										<td><c:out value="${venue.visitorName}" /></td>
 										<td><c:out value="${venue.venueName}" /></td>
 										<td><c:out value="${venue.url}" /></td>
