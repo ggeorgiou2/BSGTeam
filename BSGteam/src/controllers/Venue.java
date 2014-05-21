@@ -35,8 +35,8 @@ public class Venue extends HttpServlet {
 		if (id != null) {
 			// creates a new foursquare object, calls getImages and passes the
 			// obtained image urls to the view for display
-			Foursquare fsq = new Foursquare();
-			request.setAttribute("images", fsq.getImages(id,  session.getAttribute("clientID").toString(), session.getAttribute("clinetSec").toString(), session.getAttribute("redirectURL").toString(), session.getAttribute("accessToken").toString()));
+			Foursquare foursquare = new Foursquare();
+			request.setAttribute("images", foursquare.getImages(id,  session.getAttribute("clientID").toString(), session.getAttribute("clinetSec").toString(), session.getAttribute("redirectURL").toString(), session.getAttribute("accessToken").toString()));
 			request.getRequestDispatcher("views/venueImages.jsp").forward(
 					request, response);
 		} else {

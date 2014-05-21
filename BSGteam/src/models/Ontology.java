@@ -132,6 +132,9 @@ public class Ontology {
 	public static final Property venueCategory = m_model
 			.createProperty("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#venueCategory");
 
+	public static final Property checkinTime = m_model
+			.createProperty("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#checkinTime");
+
 	public static final Property venueDescription = m_model
 			.createProperty("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#venueDescription");
 

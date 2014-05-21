@@ -103,7 +103,7 @@ public class UserVisits extends HttpServlet {
 					Jena jena = new Jena(filePath);
 					for (Entry<Date, CompactVenue> entry : userVisits
 							.entrySet()) {
-						jena.venue(userName, entry.getValue().getName(), "",
+						jena.saveVenue(userName, entry.getValue().getName(), "",
 								entry.getValue().getCategories()[0].getName(),
 								entry.getValue().getLocation().getAddress(),
 								entry.getValue().getStats().getUsersCount()

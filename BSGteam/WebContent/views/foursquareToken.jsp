@@ -7,31 +7,31 @@
 					<fieldset>
 						<legend>Please insert your Foursquare Token</legend>
 						<div class="form-group">
-							<label for="clientID" class="col-lg-2 control-label">clientID:</label>
+							<label for="clientID" class="col-lg-2 control-label">Client ID:</label>
 							<div class="col-lg-10">
 								<input type="text" class="form-control" name="clientID"
-									id="clientID" placeholder="clientID" required>
+									id="clientID" placeholder="Client ID" required>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="clinetSec" class="col-lg-2 control-label">clinetSec:</label>
+							<label for="clinetSec" class="col-lg-2 control-label">Client Secret:</label>
 							<div class="col-lg-10">
 								<input type="text" class="form-control" name="clinetSec"
-									id="clinetSec" placeholder="clinetSec">
+									id="clinetSec" placeholder="Client Secret">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="redirectURL" class="col-lg-2 control-label">redirectURL:</label>
+							<label for="redirectURL" class="col-lg-2 control-label">Redirect URL:</label>
 							<div class="col-lg-10">
 								<input type="text" class="form-control" name="redirectURL"
-									id="redirectURL" placeholder="redirectURL" required>
+									id="redirectURL" placeholder="Redirect URL" required>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="accessToken" class="col-lg-2 control-label">accessToken:</label>
+							<label for="accessToken" class="col-lg-2 control-label">Access Token:</label>
 							<div class="col-lg-10">
 								<input type="text" class="form-control" name="accessToken"
-									id="accessToken" placeholder="accessToken">
+									id="accessToken" placeholder="Access Token">
 							</div>
 						</div>
 						<div class="form-group">

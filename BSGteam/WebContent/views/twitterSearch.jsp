@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="bs-docs-section">
-	<c:if test="${not empty results}">
+	<c:if test="${not empty user_results}">
 		<script>
 			setTimeout(function() {
 				$('#mytab a[href=#twitter]').tab('show');
@@ -26,7 +26,7 @@
 								</tr>
 							</thead>
 							<tbody class="table-hover">
-								<c:forEach var="user" items="${results}">
+								<c:forEach var="user" items="${user_results}">
 									<tr>
 										<td><c:out value="${user.userName}" /></td>
 										<td><c:out value="${user.id}" /></td>

@@ -43,11 +43,11 @@ public class TwitterSearch extends HttpServlet {
 
 		String filePath = path + "/";
 		Jena jena = new Jena(filePath);
-		ArrayList<TwitterUser> results = jena.query(twitterId);
+		ArrayList<TwitterUser> results = jena.queryUsers(twitterId);
 		if (results.isEmpty()) {
 			request.setAttribute("error", "Sorry your search yielded no results");
 		} else {
-			request.setAttribute("results", results);
+			request.setAttribute("user_results", results);
 		}
 		request.getRequestDispatcher("views/databaseSearch.jsp").forward(
 				request, response);
