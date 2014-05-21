@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * AdditionalFeatures.java
  * 
- * This class is used for additional features like instagram 
+ * This class is used for additional features like Flickr and Instagram 
  * 
  * @author BSG Team
  * 

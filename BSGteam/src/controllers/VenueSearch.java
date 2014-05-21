@@ -2,20 +2,18 @@ package controllers;
 
 import java.io.*;
 import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import models.Jena;
 import models.Venue;
 
 /**
  * VenueSearch.java
  * 
- * This class is used to connect to the team database and is used to retrieve
- * records from the database and pass them to the views for display
+ * This class is used to connect to the triple store for venues and is used to retrieve
+ * records and pass them to the views for display
  * 
  * @author BSG Team
  * 

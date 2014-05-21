@@ -15,8 +15,8 @@ import models.TwitterUser;
 /**
  * TwitterSearch.java
  * 
- * This class is used to connect to the team database and retrieve records of
- * tweets
+ * This class is used to connect to the triple store and retrieve records of
+ * users
  * 
  * @author BSG Team
  * 
