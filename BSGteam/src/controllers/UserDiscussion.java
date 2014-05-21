@@ -32,7 +32,7 @@ public class UserDiscussion extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("views/queryInterface.jsp").forward(
+		request.getRequestDispatcher("views/additional_features.jsp").forward(
 				request, response);
 	}
 
@@ -135,7 +135,7 @@ public class UserDiscussion extends HttpServlet {
 					"Sorry, an error occurred. Please try again later");
 			System.out.println("Error while tweeting" + err.getMessage());
 		}
-		request.getRequestDispatcher("views/queryInterface.jsp").forward(
+		request.getRequestDispatcher("views/additional_features.jsp").forward(
 				request, response);
 	}
 }

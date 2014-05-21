@@ -3,7 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="bs-docs-section"
-	xmlns:intelligentWeb="https://sites.google.com/site/sheffieldbash/home/web2.rdfs/">
+	xmlns:intelligentWeb="https://sites.google.com/site/sheffieldbash/home/web2.rdfs/"
+	xmlns:foaf="http://xmlns.com/foaf/0.1/">
 	<c:if test="${not empty venue_results}">
 		<script>
 			setTimeout(function() {

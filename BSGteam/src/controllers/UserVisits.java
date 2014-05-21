@@ -103,10 +103,10 @@ public class UserVisits extends HttpServlet {
 					Jena jena = new Jena(filePath);
 					for (Entry<Date, CompactVenue> entry : userVisits
 							.entrySet()) {
-						jena.saveVenue(userName, entry.getValue().getName(), "",
-								entry.getValue().getCategories()[0].getName(),
-								entry.getValue().getLocation().getAddress(),
-								entry.getValue().getStats().getUsersCount()
+						jena.saveVenue(userName, entry.getValue().getName(),
+								"", entry.getValue().getCategories()[0]
+										.getName(), "", entry
+										.getValue().getStats().getUsersCount()
 										.toString(), "", entry.getKey()
 										.toString());
 					}
@@ -133,6 +133,15 @@ public class UserVisits extends HttpServlet {
 						.toString();
 				String customer_sercet = session
 						.getAttribute("customer_secret").toString();
+
+				final String clientID = session.getAttribute("clientID")
+						.toString();
+				final String clientSecret = session.getAttribute("clinetSec")
+						.toString();
+				final String redirectURL = session.getAttribute("redirectURL")
+						.toString();
+				final String accessToken = session.getAttribute("accessToken")
+						.toString();
 
 				ConfigurationBuilder cb = new ConfigurationBuilder();
 				cb.setDebugEnabled(true).setOAuthConsumerKey(customer_key)
@@ -171,20 +180,12 @@ public class UserVisits extends HttpServlet {
 
 					@Override
 					public void onStatus(Status status) {
-						HttpSession session = request.getSession();
 						String newtext = status.getText();
 						System.out.println("sta= " + newtext);
 						Foursquare foursquare = new Foursquare();
 						Map<Date, CompactVenue> userVisits = foursquare
-								.checkins(status,
-										session.getAttribute("clientID")
-												.toString(), session
-												.getAttribute("clinetSec")
-												.toString(), session
-												.getAttribute("redirectURL")
-												.toString(), session
-												.getAttribute("accessToken")
-												.toString());
+								.checkins(status, clientID, clientSecret,
+										redirectURL, accessToken);
 						for (Entry<Date, CompactVenue> entry : userVisits
 								.entrySet()) {
 							Database.userTweetsDB(user, entry.getValue()

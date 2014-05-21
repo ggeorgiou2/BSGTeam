@@ -40,7 +40,7 @@ public class Venue extends HttpServlet {
 			request.getRequestDispatcher("views/venueImages.jsp").forward(
 					request, response);
 		} else {
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(
+			request.getRequestDispatcher("views/additional_features.jsp").forward(
 					request, response);
 		}
 	}
@@ -106,7 +106,7 @@ public class Venue extends HttpServlet {
 			}
 		}
 		request.setAttribute("venues_result", "false");
-		request.getRequestDispatcher("views/queryInterface.jsp").forward(
+		request.getRequestDispatcher("views/additional_features.jsp").forward(
 				request, response);
 	}
 }

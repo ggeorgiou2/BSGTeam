@@ -1,34 +1,41 @@
-			<h1>Hello, twitterToken!</h1>
+
+<h1>Hello!</h1>
 <div class="bs-docs-section">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="well bs-component">
-				<form action="twitterToken" id="twitterToken" method="post" class="form-horizontal">
+				<form action="twitterToken" id="twitterToken" method="post"
+					class="form-horizontal">
 					<fieldset>
-						<legend>Please insert your Twitter Authentication Token</legend>
+						<legend>This application requires twitter and foursquare
+							API tokens. First, insert your Twitter Authentication Tokens</legend>
 						<div class="form-group">
-							<label for="token_access" class="col-lg-2 control-label">Token access:</label>
+							<label for="token_access" class="col-lg-2 control-label">Token
+								access:</label>
 							<div class="col-lg-10">
 								<input type="text" class="form-control" name="token_access"
 									id="token_access" placeholder="Token access" required>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="token_secret" class="col-lg-2 control-label">Token secret:</label>
+							<label for="token_secret" class="col-lg-2 control-label">Token
+								secret:</label>
 							<div class="col-lg-10">
 								<input type="text" class="form-control" name="token_secret"
 									id="token_secret" placeholder="Token secret">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="customer_key" class="col-lg-2 control-label">Customer key:</label>
+							<label for="customer_key" class="col-lg-2 control-label">Customer
+								key:</label>
 							<div class="col-lg-10">
 								<input type="text" class="form-control" name="customer_key"
 									id="customer_key" placeholder="Customer key">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="customer_secret" class="col-lg-2 control-label">Customer secret:</label>
+							<label for="customer_secret" class="col-lg-2 control-label">Customer
+								secret:</label>
 							<div class="col-lg-10">
 								<input type="text" class="form-control" name="customer_secret"
 									id="customer_secret" placeholder="Customer Secret">

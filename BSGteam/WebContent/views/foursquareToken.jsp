@@ -1,11 +1,11 @@
-			<h1>Hello, foursquareToken!</h1>
+			<h1>Hello!</h1>
 <div class="bs-docs-section">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="well bs-component">
 				<form action=foursquareToken id="foursquareToken" method="post" class="form-horizontal">
 					<fieldset>
-						<legend>Please insert your Foursquare Token</legend>
+						<legend>Now, insert your Foursquare Token</legend>
 						<div class="form-group">
 							<label for="clientID" class="col-lg-2 control-label">Client ID:</label>
 							<div class="col-lg-10">

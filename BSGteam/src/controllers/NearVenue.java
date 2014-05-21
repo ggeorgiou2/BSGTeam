@@ -28,7 +28,7 @@ public class NearVenue extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("views/queryInterface.jsp").forward(
+		request.getRequestDispatcher("views/additional_features.jsp").forward(
 				request, response);
 	}
 
@@ -80,13 +80,13 @@ public class NearVenue extends HttpServlet {
 				request.setAttribute("error", "Sorry, try again later");
 			}
 			request.setAttribute("nearVenues_result", "false");
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(
+			request.getRequestDispatcher("views/additional_features.jsp").forward(
 					request, response);
 		} catch (Exception e) {
 			request.setAttribute("nearVenues_result", "false");
 			request.setAttribute("error",
 					"Sorry, your search yielded no results");
-			request.getRequestDispatcher("views/queryInterface.jsp").forward(
+			request.getRequestDispatcher("views/additional_features.jsp").forward(
 					request, response);
 		}
 	}

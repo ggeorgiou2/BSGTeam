@@ -41,7 +41,7 @@ public class Database {
 		}
 	}
 
-	public static ArrayList<Stream> readStream(String user, int previous_id) {
+	public static ArrayList<Stream> readStream(String user) {
 		ArrayList<Stream> streams = new ArrayList<Stream>();
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -51,9 +51,8 @@ public class Database {
 			connection = DriverManager
 					.getConnection(url, "team003", "20ec79a9");
 			statement = connection
-					.prepareStatement("SELECT * FROM userVisits where username=? and id >?");
+					.prepareStatement("SELECT * FROM userVisits where username=? order by id desc");
 			statement.setString(1, user);
-			statement.setInt(2, previous_id);
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
@@ -85,8 +84,7 @@ public class Database {
 		return streams;
 	}
 
-	public static ArrayList<Stream> readVenueStream(String venue,
-			int previous_id) {
+	public static ArrayList<Stream> readVenueStream(String venue) {
 		ArrayList<Stream> streams = new ArrayList<Stream>();
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -96,9 +94,9 @@ public class Database {
 			connection = DriverManager
 					.getConnection(url, "team003", "20ec79a9");
 			statement = connection
-					.prepareStatement("SELECT * FROM userVisits where venue=? and id >?");
+					.prepareStatement("SELECT * FROM userVisits where venue=?");
 			statement.setString(1, venue);
-			statement.setInt(2, previous_id);
+
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");

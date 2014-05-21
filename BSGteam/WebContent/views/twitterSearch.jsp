@@ -3,7 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="bs-docs-section"
-	xmlns:intelligentWeb="https://sites.google.com/site/sheffieldbash/home/web2.rdfs/">
+	xmlns:intelligentWeb="https://sites.google.com/site/sheffieldbash/home/web2.rdfs/"
+	xmlns:foaf="http://xmlns.com/foaf/0.1/">
 	<c:if test="${not empty user_results}">
 		<script>
 			setTimeout(function() {
@@ -29,7 +30,7 @@
 							<tbody class="table-hover">
 								<c:forEach var="user" items="${user_results}">
 									<tr about="/">
-										<td><c:out value="${user.userName}" /></td>
+										<td property="foaf:name"><c:out value="${user.userName}" /></td>
 										<td><c:out value="${user.id}" /></td>
 										<td property="intelligentWeb:location"><c:out
 												value="${user.location}" /></td>

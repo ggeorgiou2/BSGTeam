@@ -56,11 +56,17 @@
 					<ul class="nav navbar-nav navbar-right">
 						<li><a class="navbar-brand" href="twitter"><span
 								class="glyphicon glyphicon-home"></span> Home</a></li>
-						<li><a class="navbar-brand" href="databaseSearch"><span
-								class="glyphicon glyphicon-search"></span> Search Database</a></li>
-						<li><a class="navbar-brand" href="additional_features"><span
+								
+						<% if ((session.getAttribute("twitterToken") != null) && (session.getAttribute("foursquareToken") != null))  { %>					
+						<li><a class="navbar-brand" href="additional_features?action=additional"><span
 								class="glyphicon glyphicon-book"></span> Additional Features</a>
 						</li>
+						<% } %>
+						<li><a class="navbar-brand" href="additional_features?action=more"><span
+								class="glyphicon glyphicon-book"></span> More APIs</a>
+						</li>
+						<li><a class="navbar-brand" href="databaseSearch"><span
+								class="glyphicon glyphicon-search"></span> Search Database</a></li>
 						<% if ((session.getAttribute("twitterToken") != null) || (session.getAttribute("foursquareToken") != null))  { %>
 						<li>
 								<a class="navbar-brand" href='twitterToken?action=logout'><span

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * AdditionalFeatures.java
  * 
- * This class is used for additional features like Flickr and Instagram 
+ * This class is used for additional features like Flickr and Instagram
  * 
  * @author BSG Team
  * 
@@ -19,7 +19,19 @@ public class AdditionalFeatures extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("views/additional_features.jsp").forward(request, response);
+		String action = request.getParameter("action");
+		if (action != null) {
+			if (action.equals("more")) {
+				request.getRequestDispatcher("views/more_apis.jsp").forward(
+						request, response);
+			} else if (action.equals("additional")) {
+				request.getRequestDispatcher("views/additional_features.jsp")
+						.forward(request, response);
+			}
+		} else {
+			request.getRequestDispatcher("views/additional_features.jsp")
+					.forward(request, response);
+		}
 	}
 
 	protected void doPost(HttpServletRequest request,
