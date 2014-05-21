@@ -3,10 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
-
-<%
-	if (session.getAttribute("foursquareToken") != null) {
-%>
 <!-- ============ Forms ============ -->
 <div class="bs-docs-section">
 	<div class="row">
@@ -42,16 +38,6 @@
 		</div>
 	</div>
 </div>
-
-<%
-	} else if (session.getAttribute("foursquareToken") == null) {
-%>
-<jsp:include page="foursquareToken.jsp" />
-<jsp:include page="twitterToken.jsp" />
-
-<%
-	}
-%>
 
 <!-- ============ Results Table ============ -->
 <div>

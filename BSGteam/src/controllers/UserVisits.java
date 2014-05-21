@@ -221,8 +221,7 @@ public class UserVisits extends HttpServlet {
 				request.setAttribute("userVisits2", streams);
 				request.setAttribute("userVisits_result", "true");
 
-				response.sendRedirect("http://localhost:8080/BSGteam/streams?user="
-						+ userName);
+				response.sendRedirect("streams?user=" + userName);
 			}
 			request.setAttribute("userVisits_result", "true");
 

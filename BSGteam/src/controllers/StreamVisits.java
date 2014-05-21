@@ -34,7 +34,6 @@ public class StreamVisits extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
 		response.addHeader("Refresh", "5");
 		String user = request.getParameter("user");
 		String venue = request.getParameter("venue");
@@ -42,32 +41,35 @@ public class StreamVisits extends HttpServlet {
 
 		if (user != null) {
 			streams.addAll(Database.readStream(user, id));
-			out.println("<h1>Tracking user: " + user + " </h1>");
-			for (Stream stream : streams) {
-				out.println("<br>" + stream.getVenue() + " " + stream.getDate()
-						+ "<br/>");
-				if (id < stream.getId())
-					id = stream.getId();
-			}
+			//out.println("<h1>Tracking user: " + user + " </h1>");
+		    request.setAttribute("user", user);
+			//for (Stream stream : streams) {
+			    request.setAttribute("streams", streams);
+				//out.println("<br>" + stream.getVenue() + " " + stream.getDate()	+ "<br/>");
+				//if (id < stream.getId())
+					//id = stream.getId(); ??????
+			//}
 		} else if (venue != null) {
 			streams.addAll(Database.readVenueStream(venue, id));
 			out.println("<h1>Tracking locations: </h1>");
 			for (Stream stream : streams) {
-				out.println("<br>" + stream.getUserId() + " " + stream.getDate()
-						+ "<br/>");
+				//out.println("<br>" + stream.getUserId() + " " + stream.getDate() + "<br/>");
+			    request.setAttribute("userID_Date", stream.getUserId() + " " + stream.getDate());
 				if (id < stream.getId())
 					id = stream.getId();
 			}
 		}
-		out.println("<form action='streams' method='post'>");
-		out.println("<button type='submit'>Stop Streaming</input>");
-		out.println("</form>");
+				request.getRequestDispatcher("views/streams.jsp").forward(request, response);
+
+		/*out.println("<form action='streams' method='post'>");
+		out.println("<button type='submit'>Stop Streaming</button>");
+		out.println("</form>");*/
 	}
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		Database.setStreamStop();
 		response.setContentType("text/html");
-		response.sendRedirect("http://localhost:8080/BSGteam/twitter#UserVisits");
+		response.sendRedirect("twitter#UserVisits");
 	}
 }
