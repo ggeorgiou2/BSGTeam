@@ -23,12 +23,12 @@
 							</div>
 						</div>
 						<style>
-#mapCanvas {
-	width: 100%;
-	height: 250px;
-	float: right;
-}
-</style>
+							#mapCanvas {
+								width: 100%;
+								height: 250px;
+								float: right;
+							}
+						</style>
 						<div id="mapCanvas"></div>
 						<div id="markerStatus">
 							<i>Click and drag the marker.</i>

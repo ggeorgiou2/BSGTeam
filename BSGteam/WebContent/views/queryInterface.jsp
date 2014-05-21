@@ -14,16 +14,6 @@
 <div class="bs-docs-section">
 	<div class="row">
 		<div class="col-lg-8 col-md-10 col-md-push-2">
-			<c:if test="${not empty error}">
-				<div class="alert alert-danger" align="center">
-					<strong><c:out value="${error}"></c:out></strong>
-				</div>
-			</c:if>
-			<c:if test="${not empty success}">
-				<div class="alert alert-success" align="center">
-					<strong><c:out value="${success}"></c:out></strong>
-				</div>
-			</c:if>
 			<script type="text/javascript">
 				$(function() {
 					$('#twitterToken').on('submit', function(e) {
@@ -34,24 +24,13 @@
 							data : $('#twitterToken').serialize(),
 							success : function(responseJson) {
 								if (responseJson == "success") {
-									//     $.each(responseJson, function(index, item) { 
-									//  	 $("#tokenResults").append(item);
-									// });
-
 									$('#alert-success').show();
 									$('#loading_bar').hide();
-									//$('#twitterToken').hide();
-									// $('#foursquareToken').show();
 									location.reload();
-
 								} else if (responseJson == "error") {
-									//  $.each(responseJson, function(index, item) {
-									//	 $("#tokenResults").append(item);
-									// });
 									$('#alert-danger').show();
 									$('#loading_bar').hide();
 								}
-
 							}
 						});
 						e.preventDefault();
@@ -64,18 +43,17 @@
 					$('#results_table').hide();
 					$('#alert-success').hide();
 					$('#alert-danger').hide();
-					// $('#foursquareToken').hide();
 				}
 				window.onload = onLoad;
 			</script>
 			<img src="images/ajax-loader.gif" id="loading_bar" align="middle">
 
 			<div class="alert alert-danger" id="alert-danger" align="center">
-				<strong><c:out value="error"></c:out></strong>
+				<strong><c:out value="Problem occurred: Please check your token"></c:out></strong>
 			</div>
 
 			<div class="alert alert-success" id="alert-success" align="center">
-				<strong><c:out value="success"></c:out></strong>
+				<strong><c:out value="You have been successfully login into twitter"></c:out></strong>
 			</div>
 			<%
 				if ((session.getAttribute("twitterToken") != null)
@@ -88,11 +66,14 @@
 					style="margin-top: 20px; margin-bottom: 5px;" id="mytab">
 					<li class="active"><a href="#Discussion" data-toggle="tab">Public
 							Discussions</a></li>
-					<li><a href="#TrackUsers" data-toggle="tab">Track Multiple Users</a></li>
+					<li><a href="#TrackUsers" data-toggle="tab">Track Multiple
+							Users</a></li>
 					<li><a href="#UserVisits" data-toggle="tab">User Visits</a></li>
 					<li><a href="#VenueVisits" data-toggle="tab">Venue Visits</a></li>
-					<li><a href="#Venues" data-toggle="tab">Venues within Location</a></li>
-					<li><a href="#NearVenues" data-toggle="tab">Venues around Location</a></li>
+					<li><a href="#Venues" data-toggle="tab">Venues within
+							Location</a></li>
+					<li><a href="#NearVenues" data-toggle="tab">Venues around
+							Location</a></li>
 					<li><a href="#LocationKeywords" data-toggle="tab">Trending
 							discussions</a></li>
 				</ul>
@@ -134,6 +115,9 @@
 				if ((session.getAttribute("twitterToken") != null)
 						&& (session.getAttribute("foursquareToken") == null)) {
 			%>
+			<div class="alert alert-success" id="alert-success" align="center">
+				<strong><c:out value="You have been successfully login into twitter"></c:out></strong>
+			</div>
 			<jsp:include page="foursquareToken.jsp" />
 			<%
 				}
