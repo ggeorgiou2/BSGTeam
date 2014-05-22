@@ -87,7 +87,7 @@
 							<thead>
 								<tr>
 									<th>Name
-									<th>Checked in at
+									<th>Checkin time
 									<th>Venue Name (Click to view images and location on a map)
 									<th>Address 
 									<th>URL

@@ -36,12 +36,16 @@ public class Venue extends HttpServlet {
 			// creates a new foursquare object, calls getImages and passes the
 			// obtained image urls to the view for display
 			Foursquare foursquare = new Foursquare();
-			request.setAttribute("images", foursquare.getImages(id,  session.getAttribute("clientID").toString(), session.getAttribute("clinetSec").toString(), session.getAttribute("redirectURL").toString(), session.getAttribute("accessToken").toString()));
+			request.setAttribute("images", foursquare.getImages(id, session
+					.getAttribute("clientID").toString(),
+					session.getAttribute("clinetSec").toString(), session
+							.getAttribute("redirectURL").toString(), session
+							.getAttribute("accessToken").toString()));
 			request.getRequestDispatcher("views/venueImages.jsp").forward(
 					request, response);
 		} else {
-			request.getRequestDispatcher("views/additional_features.jsp").forward(
-					request, response);
+			request.getRequestDispatcher("views/additional_features.jsp")
+					.forward(request, response);
 		}
 	}
 
@@ -57,12 +61,11 @@ public class Venue extends HttpServlet {
 		// initiates a connection to the Foursquare API
 		HttpSession session = request.getSession();
 
-		FoursquareApi foursquareApi = new FoursquareApi(
-				session.getAttribute("clientID").toString(),
-				session.getAttribute("clinetSec").toString(),
-				session.getAttribute("redirectURL").toString());
-		foursquareApi
-				.setoAuthToken(session.getAttribute("accessToken").toString());
+		FoursquareApi foursquareApi = new FoursquareApi(session.getAttribute(
+				"clientID").toString(), session.getAttribute("clinetSec")
+				.toString(), session.getAttribute("redirectURL").toString());
+		foursquareApi.setoAuthToken(session.getAttribute("accessToken")
+				.toString());
 
 		Result<VenuesSearchResult> result2 = null;
 		String result = lat + "," + log;

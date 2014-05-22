@@ -111,7 +111,7 @@ public class TwitterServlet extends HttpServlet {
 					jena.saveUser(tweet1.getUser().getName(), tweet1.getUser()
 							.getScreenName(), tweet1.getUser().getLocation(),
 							tweet1.getUser().getProfileImageURL(), tweet1
-									.getUser().getDescription(), "", "");
+									.getUser().getDescription(), null, null);
 				}
 
 			} else {

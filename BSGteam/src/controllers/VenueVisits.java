@@ -11,6 +11,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
 import fi.foyt.foursquare.api.entities.Checkin;
+import fi.foyt.foursquare.api.entities.Location;
+import fi.foyt.foursquare.api.entities.Photo;
 import models.*;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
@@ -113,13 +115,33 @@ public class VenueVisits extends HttpServlet {
 							session.getAttribute("accessToken").toString());
 					Jena jena = new Jena(filePath);
 					for (Entry<Date, Checkin> entry : venueVisits.entrySet()) {
+						Photo[] photos = foursquare.getImages(entry.getValue()
+								.getId(), session.getAttribute("clientID")
+								.toString(), session.getAttribute("clinetSec")
+								.toString(), session
+								.getAttribute("redirectURL").toString(),
+								session.getAttribute("accessToken").toString());
+						String venueUrl = "";
+						String url = entry.getValue().getVenue().getUrl();
+						if (url != null) {
+							venueUrl = url;
+						}
+						String venueAddress = "";
+						Location location = entry.getValue().getVenue()
+								.getLocation();
+						if (location.getAddress() != null) {
+							venueAddress = location.getAddress();
+						} else {
+							venueAddress = "Longitude: " + location.getLat()
+									+ " Latitude: " + location.getLng();
+						}
 						jena.saveVenue(entry.getValue().getUser()
 								.getFirstName(), entry.getValue().getVenue()
-								.getName(), "", entry.getValue().getVenue()
-								.getCategories()[0].getName(), "", entry
+								.getName(), photos, entry.getValue().getVenue()
+								.getCategories(), venueAddress, entry
 								.getValue().getVenue().getStats()
-								.getUsersCount().toString(), "", entry.getKey()
-								.toString());
+								.getUsersCount().toString(), venueUrl, entry
+								.getKey().toString());
 					}
 					if (venueVisits.isEmpty()) {
 						request.setAttribute("error",
@@ -199,17 +221,36 @@ public class VenueVisits extends HttpServlet {
 										redirectURL, accessToken);
 						for (Entry<Date, Checkin> entry : venueVisits
 								.entrySet()) {
+							Photo[] photos = foursquare.getImages(entry
+									.getValue().getId(), clientID,
+									clientSecret, redirectURL, accessToken);
+							String venueUrl = "";
+							String url = entry.getValue().getVenue().getUrl();
+							if (url != null) {
+								venueUrl = url;
+							}
+							String venueAddress = "";
+							Location location = entry.getValue().getVenue()
+									.getLocation();
+							if (location.getAddress() != null) {
+								venueAddress = location.getAddress();
+							} else {
+								venueAddress = "Longitude: "
+										+ location.getLat() + " Latitude: "
+										+ location.getLng();
+							}
 							Database.userTweetsDB(entry.getValue().getUser()
 									.getFirstName(), entry.getValue()
 									.getVenue().getName(), entry.getKey()
 									.toString());
 							jena.saveVenue(entry.getValue().getUser()
 									.getFirstName(), entry.getValue()
-									.getVenue().getName(), "", entry.getValue()
-									.getVenue().getCategories()[0].getName(),
-									"", entry.getValue().getVenue().getStats()
-											.getUsersCount().toString(), "",
-									entry.getKey().toString());
+									.getVenue().getName(), photos, entry
+									.getValue().getVenue().getCategories(),
+									venueAddress, entry.getValue().getVenue()
+											.getStats().getUsersCount()
+											.toString(), venueUrl, entry
+											.getKey().toString());
 						}
 						if (Database.getStreamStop()) {
 							stopStream(twitterStream);

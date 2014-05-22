@@ -79,7 +79,7 @@
 							<thead>
 								<tr>
 									<th>Name (Click to view Images)
-									<th>Address (Click to view on map)
+									<th>Address 
 									<th>URL
 									<th>Categories
 									<th>Description
