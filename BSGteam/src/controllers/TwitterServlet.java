@@ -108,6 +108,7 @@ public class TwitterServlet extends HttpServlet {
 				System.out.println(path.getAbsolutePath());
 				Jena jena = new Jena(filePath);
 				for (Status tweet1 : tweets) {
+					
 					jena.saveUser(tweet1.getUser().getName(), tweet1.getUser()
 							.getScreenName(), tweet1.getUser().getLocation(),
 							tweet1.getUser().getProfileImageURL(), tweet1

@@ -43,12 +43,11 @@ public class Jena {
 
 		if (!userExists(id)) {
 			Model m = ModelFactory.createDefaultModel();
-			String xmlbase = "https://sites.google.com/site/sheffieldbash/home/result.rdf/";
+			String xmlbase = "https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/result.rdf";
 
 			// String uri = xmlbase + "#" + id;
 			// create Resource for twitter use
-			Resource user = m
-					.createResource(xmlbase + id, Ontology.twitterUser);
+			Resource user = m.createResource(xmlbase + "#" + id);
 
 			// add to properties to twitterUser
 			user.addProperty(FOAF.name, userName)
@@ -57,11 +56,15 @@ public class Jena {
 					.addProperty(FOAF.img, image)
 					.addProperty(Ontology.description, description);
 
-			for (String visited : locationVisited) {
-				user.addProperty(Ontology.locationVisited, visited);
+			if (locationVisited != null) {
+				for (String visited : locationVisited) {
+					user.addProperty(Ontology.locationVisited, visited);
+				}
 			}
-			for (String contact : peopleContacted) {
-				user.addProperty(FOAF.knows, contact);
+			if (peopleContacted != null) {
+				for (String contact : peopleContacted) {
+					user.addProperty(FOAF.knows, contact);
+				}
 			}
 
 			m.setNsPrefix("intelligentWeb", Ontology.NS);
@@ -74,8 +77,6 @@ public class Jena {
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-			// OutputStream out = (OutputStream) camera_File;
-
 			m.write(userRDF, "TURTLE", xmlbase);
 		}
 	}
@@ -86,9 +87,9 @@ public class Jena {
 
 		// if (!checkinExists(visitorName, venueName, checkinTime)) {
 		Model m = ModelFactory.createDefaultModel();
-		String xmlbase = "https://sites.google.com/site/sheffieldbash/home/venueResult.rdf/";
+		String xmlbase = "https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/venueResult.rdf";
 		// create Resource for twitter use
-		Resource venue = m.createResource(Ontology.venue);
+		Resource venue = m.createResource(xmlbase+"#"+venueName);
 		// add to properties to twitterUser
 		venue.addProperty(Ontology.nameOFVisitor, visitorName)
 				.addProperty(Ontology.venueName, venueName)
@@ -126,7 +127,7 @@ public class Jena {
 		ArrayList<TwitterUser> users = new ArrayList<TwitterUser>();
 		InputStream in;
 		try {
-			String xmlbase = "https://sites.google.com/site/sheffieldbash/home/web2.rdfs/";
+			String xmlbase = "https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/result.rdf";
 
 			in = new FileInputStream(new File(folder + "result.rdf"));
 
@@ -138,8 +139,10 @@ public class Jena {
 			in.close();
 			// Create a new query
 			String queryString = "PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
-					+ "PREFIX intelWeb: <https://sites.google.com/site/sheffieldbash/home/web2.rdfs#> "
-					+ "SELECT DISTINCT ?id ?userName ?image ?location ?description ?locationVisited ?contactPeople "
+					+ "PREFIX intelWeb: <https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#> "
+					+ "SELECT (min(?x) as ?uri) ?id (min(?userName) as ?name) (min(?image) as ?profile) (min(?location) as ?loc) "
+					+ "(min(?description) as ?des) (group_concat(?locationVisited; separator=',') as ?visited) "
+					+ "(group_concat(?contactPeople; separator=',') as ?knows) "
 					+ "WHERE {"
 					+ " ?x foaf:name ?userName . "
 					+ " ?x intelWeb:userId ?id. "
@@ -148,19 +151,20 @@ public class Jena {
 					+ "OPTIONAL {?x intelWeb:description ?description .}"
 					+ "OPTIONAL {?x intelWeb:locationVisited ?locationVisited .}"
 					+ "OPTIONAL {?x foaf:knows ?contactPeople . " + "}"
-					+ "FILTER regex(?id,'^" + userId + "','i')" + " }";
+					+ "FILTER regex(?id,'^" + userId + "','i')" + " }"
+					+ "GROUP BY ?id";
 			// System.out.println(queryString);
 			Query query = QueryFactory.create(queryString);
 			// Execute the query and obtain results
 			QueryExecution qe = QueryExecutionFactory.create(query, model);
 			ResultSet results = qe.execSelect();
 			String userName = null;
+			String uri = null;
 			String id = null;
 			String location = null;
 			String image = null;
 			String description = null;
 			String locationVisited = null;
-			ArrayList<String> locationsVisited = new ArrayList<String>();
 			String contactPeople = null;
 
 			while (results.hasNext()) {
@@ -168,26 +172,27 @@ public class Jena {
 				Iterator<String> res1 = res.varNames();
 				while (res1.hasNext()) {
 					String var = res1.next();
-					if (var.equals("x")) {
-						// System.out.println(res.getResource(var));
-					} else if (var.equals("userName")) {
+					if (var.equals("uri")) {
+						uri = res.getResource(var).toString();
+					} else if (var.equals("name")) {
 						userName = res.getLiteral(var).toString();
 					} else if (var.equals("id")) {
 						id = res.getLiteral(var).toString();
-					} else if (var.equals("location")) {
+					} else if (var.equals("loc")) {
 						location = res.getLiteral(var).toString();
-					} else if (var.equals("image")) {
+					} else if (var.equals("profile")) {
 						image = res.getLiteral(var).toString();
-					} else if (var.equals("description")) {
+					} else if (var.equals("des")) {
 						description = res.getLiteral(var).toString();
-					} else if (var.equals("locationVisited")) {
-						locationsVisited.add(res.getLiteral(var).toString());
-					} else if (var.equals("contactPeople")) {
+					} else if (var.equals("visited")) {
+						locationVisited = res.getLiteral(var).toString();
+					} else if (var.equals("knows")) {
 						contactPeople = res.getLiteral(var).toString();
 					}
 				}
 				TwitterUser user = new TwitterUser(userName, id, location,
 						image, description, locationVisited, contactPeople);
+				user.setUri(uri);
 				users.add(user);
 			}
 
@@ -212,7 +217,7 @@ public class Jena {
 		boolean exists = false;
 		InputStream in;
 		try {
-			String xmlbase = "https://sites.google.com/site/sheffieldbash/home/web2.rdfs/";
+			String xmlbase = "https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/result.rdf";
 			in = new FileInputStream(new File(folder + "result.rdf"));
 			// Create an empty in-memory model and populate it from the graph
 			Model model = ModelFactory.createDefaultModel();
@@ -221,7 +226,7 @@ public class Jena {
 			// absolute
 			in.close();
 			// Create a new query
-			String queryString = "PREFIX intelWeb: <https://sites.google.com/site/sheffieldbash/home/web2.rdfs#> "
+			String queryString = "PREFIX intelWeb: <https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#> "
 					+ "SELECT ?id "
 					+ "WHERE {"
 					+ " ?x intelWeb:userId ?id. "
@@ -251,7 +256,7 @@ public class Jena {
 		boolean exists = false;
 		InputStream in;
 		try {
-			String xmlbase = "https://sites.google.com/site/sheffieldbash/home/web2.rdfs/";
+			String xmlbase = "https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/venueResult.rdf";
 			in = new FileInputStream(new File(folder + "venueResult.rdf"));
 			// Create an empty in-memory model and populate it from the graph
 			Model model = ModelFactory.createDefaultModel();
@@ -261,7 +266,7 @@ public class Jena {
 			in.close();
 
 			// Create a new query
-			String queryString = "PREFIX intelWeb: <https://sites.google.com/site/sheffieldbash/home/web2.rdfs#> "
+			String queryString = "PREFIX intelWeb: <https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#> "
 					+ "SELECT distinct ?visitorName ?venueName ?checkinTime "
 					+ "WHERE {"
 					+ "?x intelWeb:nameOFVisitor ?visitorName . "
@@ -300,7 +305,8 @@ public class Jena {
 		ArrayList<Venue> venues = new ArrayList<Venue>();
 		InputStream in;
 		try {
-			String xmlbase = "https://sites.google.com/site/sheffieldbash/home/web2.rdfs/";
+			String xmlbase = "https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/venueResult.rdf";
+
 			in = new FileInputStream(new File(folder + "venueResult.rdf"));
 			// Create an empty in-memory model and populate it from the graph
 			Model model = ModelFactory.createDefaultModel();
@@ -310,8 +316,10 @@ public class Jena {
 			in.close();
 
 			// Create a new query
-			String queryString = "PREFIX intelWeb: <https://sites.google.com/site/sheffieldbash/home/web2.rdfs#> "
-					+ "SELECT DISTINCT ?visitorName ?venueName ?checkinTime ?venueDescription ?venuePhoto "
+			String queryString = "PREFIX intelWeb: <https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#> "
+					+ "SELECT (min(?x) as ?uri) ?venueName (min(?visitorName) as ?visitor) (min(?checkinTime) as ?time) "
+					+ "(min(?venueDescription) as ?description) (group_concat(?venuePhoto) as ?photos) "
+					+ "(min(?venueUrl) as ?url) (min(?venueAddress) as ?address) (group_concat(distinct ?venueCategory) as ?category) "
 					+ "WHERE {"
 					+ "?x intelWeb:nameOFVisitor ?visitorName . "
 					+ "?x intelWeb:venueName ?venueName . "
@@ -321,7 +329,11 @@ public class Jena {
 					+ "OPTIONAL {?x intelWeb:venueAddress ?venueAddress .}"
 					+ "OPTIONAL {?x intelWeb:venueDescription ?venueDescription .}"
 					+ "OPTIONAL {?x intelWeb:venueCategory ?venueCategory .}"
-					+ "FILTER regex(?venueName,'^" + name + "','i')" + " }";
+					+ "FILTER regex(?venueName,'^"
+					+ name
+					+ "','i')"
+					+ " }"
+					+ "GROUP BY ?venueName ";
 			// System.out.println(queryString);
 			Query query = QueryFactory.create(queryString);
 			// Execute the query and obtain results
@@ -336,36 +348,37 @@ public class Jena {
 			ArrayList<String> photos = new ArrayList<String>();
 			String venueCategory = null;
 			String checkinTime = null;
+			String uri = null;
 
 			while (results.hasNext()) {
 				QuerySolution res = results.next();
 				Iterator<String> res1 = res.varNames();
 				while (res1.hasNext()) {
 					String var = res1.next();
-					if (var.equals("x")) {
-						// System.out.println(res.getResource(var));
-					} else if (var.equals("visitorName")) {
+					if (var.equals("uri")) {
+						uri = res.getResource(var).toString();
+					} else if (var.equals("visitor")) {
 						visitorName = res.getLiteral(var).toString();
 					} else if (var.equals("venueName")) {
 						venueName = res.getLiteral(var).toString();
-					} else if (var.equals("venueUrl")) {
+					} else if (var.equals("url")) {
 						venueUrl = res.getLiteral(var).toString();
-					} else if (var.equals("venueAddress")) {
+					} else if (var.equals("address")) {
 						venueAddress = res.getLiteral(var).toString();
-					} else if (var.equals("venueDescription")) {
+					} else if (var.equals("description")) {
 						venueDescription = res.getLiteral(var).toString();
-					} else if (var.equals("venuePhoto")) {
-						photos.add(res.getLiteral(var).toString());
-					} else if (var.equals("venueCategory")) {
+					} else if (var.equals("photos")) {
+						venuePhoto = res.getLiteral(var).toString();
+					} else if (var.equals("category")) {
 						venueCategory = res.getLiteral(var).toString();
-					} else if (var.equals("checkinTime")) {
+					} else if (var.equals("time")) {
 						checkinTime = res.getLiteral(var).toString();
 					}
-
 				}
 				Venue venue = new Venue(visitorName, venueName, venueUrl,
 						venueAddress, venueDescription, venuePhoto,
 						venueCategory, checkinTime);
+				venue.setUri(uri);
 				venues.add(venue);
 			}
 
@@ -389,9 +402,10 @@ public class Jena {
 	public static void main(String args[]) {
 		Jena j = new Jena(
 				"C:\\Users\\Solomon\\workspace\\work\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\BSGteam\\Triple_store\\");
-		j.queryUsers("s");
+		// j.queryUsers("m");
 		// System.out.println(j.checkinExists("soloistic1",
 		// "St George\\'s Library", "Wed May 21 16:05:32 BST 2014"));
-		j.queryVenues("R");
+		j.saveUser("me", "you", "", "", "", null, null);
+		// j.queryVenues("T");
 	}
 }

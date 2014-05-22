@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="bs-docs-section"
-	xmlns:intelligentWeb="https://sites.google.com/site/sheffieldbash/home/web2.rdfs/"
+	xmlns:intelligentWeb="https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#"
 	xmlns:foaf="http://xmlns.com/foaf/0.1/">
 	<c:if test="${not empty user_results}">
 		<script>
@@ -32,33 +32,30 @@
 							</thead>
 							<tbody class="table-hover">
 								<c:forEach var="user" items="${user_results}">
-									<tr about="c:out value=${user.uri}">
+									<tr about='<c:out value="${user.uri}"/>'>
 										<td property="foaf:name"><c:out value="${user.userName}" /></td>
-										<td><c:out value="${user.id}" /></td>
-										<td property="foaf:img"><c:out value="${user.image}" /></td>
+										<td property="intelligentWeb:userId"><c:out value="${user.id}" /></td>
+										<td property="foaf:img"><img
+											src='<c:out value="${user.image}" />' /></td>
 										<td property="intelligentWeb:location"><c:out
 												value="${user.location}" /></td>
 										<td property="intelligentWeb:description"><c:out
 												value="${user.description}" /></td>
-										
-										<td property="intelligentWeb:locationVisited">
-											<c:forEach var="visit"
-												items="${user.locations}">
-												<c:out value="${visit}"></c:out>
-											</c:forEach>
-										</td>
-										
-										<td property="foaf:knows">
-											<c:forEach var="knows"
+
+										<td property="intelligentWeb:locationVisited"><c:forEach
+												var="visit" items="${user.locations}">
+												<li><c:out value="${visit}"></c:out></li>
+											</c:forEach></td>
+
+										<td property="foaf:knows"><c:forEach var="knows"
 												items="${user.people}">
-												<c:out value="${knows}"></c:out>
-											</c:forEach>
-										</td>	
+												<li><c:out value="${knows}"></c:out></li>
+											</c:forEach></td>
 									</tr>
 								</c:forEach>
 						</table>
-						
-						
+
+
 					</div>
 				</div>
 			</div>

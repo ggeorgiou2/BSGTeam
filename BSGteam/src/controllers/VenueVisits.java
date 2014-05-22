@@ -283,6 +283,7 @@ public class VenueVisits extends HttpServlet {
 						+ ", Latitude:" + lat);
 			}
 		} catch (Exception err) {
+			err.printStackTrace();
 			request.setAttribute("error",
 					"Sorry, your search returned no results");
 			System.out.println("Error while tweeting: " + err.getMessage());

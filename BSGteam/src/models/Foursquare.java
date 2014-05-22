@@ -234,8 +234,8 @@ public class Foursquare {
 			if (index >= 0) {
 				data = status.getText().substring(index);
 				try {
-					Checkin tempCheckin = getCheckinInformation(data,
-							clientID, clinetSec, redirectURL, accessToken);
+					Checkin tempCheckin = getCheckinInformation(data, clientID,
+							clinetSec, redirectURL, accessToken);
 					if (tempCheckin != null) {
 						checkins.put(status.getCreatedAt(), tempCheckin);
 					}
@@ -261,8 +261,12 @@ public class Foursquare {
 		Photo[] image = null;
 		try {
 			venuephoto = fsAPI.venuesPhotos(venueID, "venue", null, null);
-			if (venuephoto.getResult().getCount() > 0) {
-				image = venuephoto.getResult().getItems();
+			if (venuephoto != null) {
+				if (venuephoto.getResult() != null) {
+					if (venuephoto.getResult().getCount() > 0) {
+						image = venuephoto.getResult().getItems();
+					}
+				}
 			}
 		} catch (FoursquareApiException e) {
 			e.printStackTrace();

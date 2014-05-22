@@ -13,7 +13,6 @@ public class Venue {
 	private String url;
 	private String checkinTime;
 	private String uri;
-	private String[] venuePhoto;
 
 	/**
 	 * @return the uri
@@ -175,7 +174,10 @@ public class Venue {
 	}
 
 	public String[] getPhotos(){
-		venuePhoto = getPhoto().split(" ");
-		return venuePhoto;
+		String[] photos = null;
+		if(getPhoto()!=null)
+		{
+		photos = getPhoto().split(" ");}
+		return photos;
 	}
 }

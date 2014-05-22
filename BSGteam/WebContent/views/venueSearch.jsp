@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="bs-docs-section"
-	xmlns:intelligentWeb="https://sites.google.com/site/sheffieldbash/home/web2.rdfs/"
+	xmlns:intelligentWeb="https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#"
 	xmlns:foaf="http://xmlns.com/foaf/0.1/">
 	<c:if test="${not empty venue_results}">
 		<script>
@@ -21,43 +21,43 @@
 							class="table table-hover table-responsive table-bordered table-condensed">
 							<thead>
 								<tr>
-									<th><b>Visitor Name</b>
+									<th><b>Visitors</b>
 									<th><b>Venue Name</b>
 									<th><b>Url</b>
 									<th><b>Address</b>
 									<th><b>Description</b>
-									<th><b>Time checkin</b>
+									<th><b>Time of checkin</b>
 									<th><b>Categories</b>
 									<th><b>Pictures</b>
 								</tr>
 							</thead>
 							<tbody class="table-hover">
 								<c:forEach var="venue" items="${venue_results}">
-									<tr about="c:out value=${venue.uri}">
+									<tr about='<c:out value="${venue.uri}"/>'>
 										
-										<td property="intelligentWeb:visitorName"><c:out
-												value="${user.visitorName}" /></td>
+										<td property="intelligentWeb:visitorName">
+										<a href="databaseSearch?visitor=<c:out
+												value="${venue.visitorName}" />"><c:out
+												value="${venue.visitorName}" /></a></td>
 										<td property="intelligentWeb:venueName"><c:out
-												value="${user.venueName}" /></td>
+												value="${venue.venueName}" /></td>
 										<td property="intelligentWeb:url"><c:out
-												value="${user.url}" /></td>
+												value="${venue.url}" /></td>
 										<td property="intelligentWeb:address"><c:out
-												value="${user.address}" /></td>
+												value="${venue.address}" /></td>
 										<td property="intelligentWeb:description"><c:out
-												value="${user.description}" /></td>
+												value="${venue.description}" /></td>
 										<td property="intelligentWeb:checkinTime"><c:out
-												value="${user.checkinTime}" /></td>
+												value="${venue.checkinTime}" /></td>
 										<td property="intelligentWeb:venueCategory">
-											<c:forEach var="category"
-												items="${venue.value.categories}">
-												<c:out value="${category.name}"></c:out>
-											</c:forEach>
+											<c:out
+												value="${venue.category}" />
 										</td>
 										<td property="intelligentWeb:venuePhoto">
-											<c:forEach var="photo"
-												items="${venue.Photos}">
-												<c:out value="${photo}"></c:out>
-											</c:forEach>
+<%-- 											<c:forEach var="photo" --%>
+<%-- 												items="${venue.photos}"> --%>
+<%-- 												<c:out value="${photo}"></c:out> --%>
+<%-- 											</c:forEach> --%>
 										</td>
 										
 									</tr>
