@@ -88,8 +88,8 @@
 								<tr>
 									<th>Name
 									<th>Checked in at
-									<th>Venue Name
-									<th>Address (Click to view on map)
+									<th>Venue Name (Click to view images and location on a map)
+									<th>Address 
 									<th>URL
 									<th>Categories
 								</tr>

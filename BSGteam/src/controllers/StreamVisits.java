@@ -36,40 +36,30 @@ public class StreamVisits extends HttpServlet {
 
 		if (user != null) {
 			streams.addAll(Database.readStream(user));
-			// out.println("<h1>Tracking user: " + user + " </h1>");
 			request.setAttribute("user", user);
-			// for (Stream stream : streams) {
 			request.setAttribute("streams", streams);
-			// out.println("<br>" + stream.getVenue() + " " + stream.getDate() +
-			// "<br/>");
-			// if (id < stream.getId())
-			// id = stream.getId(); ??????
-			// }
+			request.getRequestDispatcher("views/streams.jsp").forward(request,
+					response);
 		} else if (venue != null) {
 			streams.addAll(Database.readVenueStream(venue));
 			out.println("<h1>Tracking locations: </h1>");
-			for (Stream stream : streams) {
-				// out.println("<br>" + stream.getUserId() + " " +
-				// stream.getDate() + "<br/>");
-				request.setAttribute("userID_Date", stream.getUserId() + " "
-						+ stream.getDate());
-
-			}
+			request.setAttribute("venue", venue);
+			request.setAttribute("streams", streams);
+			request.getRequestDispatcher("views/venueStreams.jsp").forward(request,
+					response);
 		}
-		request.getRequestDispatcher("views/streams.jsp").forward(request,
-				response);
-
-		/*
-		 * out.println("<form action='streams' method='post'>");
-		 * out.println("<button type='submit'>Stop Streaming</button>");
-		 * out.println("</form>");
-		 */
+		
 	}
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		Database.setStreamStop();
+		String venue = request.getParameter("venue");
 		response.setContentType("text/html");
-		response.sendRedirect("twitter#UserVisits");
+		if (venue != null) {
+			response.sendRedirect("twitter#VenueVisits");
+		} else {
+			response.sendRedirect("twitter#UserVisits");
+		}
 	}
 }
