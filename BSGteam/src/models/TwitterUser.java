@@ -9,6 +9,8 @@ public class TwitterUser {
 	private String description;
 	private String locationVisited;
 	private String contactPeople;
+	private String uri;
+	private String[] peopleKnows;
 
 	
 	public TwitterUser(String userName, String id, String location,
@@ -23,6 +25,26 @@ public class TwitterUser {
 		this.locationVisited = locationVisited;
 		this.contactPeople = contactPeople;
 	}
+
+
+	
+	/**
+	 * @return the uri
+	 */
+	public String getUri() {
+		return uri;
+	}
+
+
+
+	/**
+	 * @param uri the uri to set
+	 */
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+
+
 
 	/**
 	 * @return the userName
@@ -127,6 +149,16 @@ public class TwitterUser {
 	 */
 	public void setContactPeople(String contactPeople) {
 		this.contactPeople = contactPeople;
+	}
+	
+	public String[] getPeople(){
+		peopleKnows = getContactPeople().split(",");
+		return peopleKnows;
+	}
+	
+	public String[] getLocations(){
+		peopleKnows = getLocationVisited().split(",");
+		return peopleKnows;
 	}
 
 }

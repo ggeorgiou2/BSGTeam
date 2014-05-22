@@ -23,22 +23,42 @@
 								<tr>
 									<th><b>Name</b>
 									<th><b>Twitter Id</b>
+									<th><b>Picture</b>
 									<th><b>Location</b>
 									<th><b>Description</b>
+									<th><b>Locations visited</b>
+									<th><b>People in contact with</b>
 								</tr>
 							</thead>
 							<tbody class="table-hover">
 								<c:forEach var="user" items="${user_results}">
-									<tr about="/">
+									<tr about="c:out value=${user.uri}">
 										<td property="foaf:name"><c:out value="${user.userName}" /></td>
 										<td><c:out value="${user.id}" /></td>
+										<td property="foaf:img"><c:out value="${user.image}" /></td>
 										<td property="intelligentWeb:location"><c:out
 												value="${user.location}" /></td>
 										<td property="intelligentWeb:description"><c:out
 												value="${user.description}" /></td>
+										
+										<td property="intelligentWeb:locationVisited">
+											<c:forEach var="visit"
+												items="${user.locations}">
+												<c:out value="${visit}"></c:out>
+											</c:forEach>
+										</td>
+										
+										<td property="foaf:knows">
+											<c:forEach var="knows"
+												items="${user.people}">
+												<c:out value="${knows}"></c:out>
+											</c:forEach>
+										</td>	
 									</tr>
 								</c:forEach>
 						</table>
+						
+						
 					</div>
 				</div>
 			</div>

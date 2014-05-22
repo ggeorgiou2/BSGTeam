@@ -25,18 +25,41 @@
 									<th><b>Venue Name</b>
 									<th><b>Url</b>
 									<th><b>Address</b>
+									<th><b>Description</b>
+									<th><b>Time checkin</b>
+									<th><b>Categories</b>
+									<th><b>Pictures</b>
 								</tr>
 							</thead>
 							<tbody class="table-hover">
 								<c:forEach var="venue" items="${venue_results}">
-									<tr about="/">
-										<td><a
-											href="databaseSearch?visitor=
-											<c:out value="${venue.visitorName}" />"><c:out
-													value="${venue.visitorName}" /></a></td>
-										<td><c:out value="${venue.venueName}" /></td>
-										<td><c:out value="${venue.url}" /></td>
-										<td><c:out value="${venue.address}" /></td>
+									<tr about="c:out value=${venue.uri}">
+										
+										<td property="intelligentWeb:visitorName"><c:out
+												value="${user.visitorName}" /></td>
+										<td property="intelligentWeb:venueName"><c:out
+												value="${user.venueName}" /></td>
+										<td property="intelligentWeb:url"><c:out
+												value="${user.url}" /></td>
+										<td property="intelligentWeb:address"><c:out
+												value="${user.address}" /></td>
+										<td property="intelligentWeb:description"><c:out
+												value="${user.description}" /></td>
+										<td property="intelligentWeb:checkinTime"><c:out
+												value="${user.checkinTime}" /></td>
+										<td property="intelligentWeb:venueCategory">
+											<c:forEach var="category"
+												items="${venue.value.categories}">
+												<c:out value="${category.name}"></c:out>
+											</c:forEach>
+										</td>
+										<td property="intelligentWeb:venuePhoto">
+											<c:forEach var="photo"
+												items="${venue.Photos}">
+												<c:out value="${photo}"></c:out>
+											</c:forEach>
+										</td>
+										
 									</tr>
 								</c:forEach>
 						</table>

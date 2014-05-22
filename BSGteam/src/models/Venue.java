@@ -1,5 +1,7 @@
 package models;
 
+import java.util.ArrayList;
+
 public class Venue {
 
 	private String visitorName;
@@ -10,7 +12,24 @@ public class Venue {
 	private String description;
 	private String url;
 	private String checkinTime;
+	private String uri;
+	private String[] venuePhoto;
 
+	/**
+	 * @return the uri
+	 */
+	public String getUri() {
+		return uri;
+	}
+
+	/**
+	 * @param uri the uri to set
+	 */
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+
+	
 	/**
 	 * @param visitorName
 	 * @param venueName
@@ -155,4 +174,8 @@ public class Venue {
 		this.checkinTime = checkinTime;
 	}
 
+	public String[] getPhotos(){
+		venuePhoto = getPhoto().split(" ");
+		return venuePhoto;
+	}
 }

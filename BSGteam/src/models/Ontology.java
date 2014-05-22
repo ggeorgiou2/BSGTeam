@@ -7,49 +7,33 @@ import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
 
 /**
- * Vocabulary definitions from
- * https://sites.google.com/site/sheffieldbash/home/web2.owl
+ * This class define the vocabulary of the twitter user and venue, with their properties.
+ * tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs
  * 
- * @author Bash on 17 May 2014 21:12
+ * @author BSGTeam on 17 May 2014 21:12
  */
-public class Ontology {
-	/**
-	 * <p>
-	 * The RDF model that holds the vocabulary terms
-	 * </p>
-	 */
 
+public class Ontology {
+	
+	
+	//The RDF model that holds the vocabulary terms
 	private static Model m_model = ModelFactory
 			.createOntologyModel(OntModelSpec.RDFS_MEM);
 
-	// m_model.read(new FileInputStream(
-	// "https://sites.google.com/site/sheffieldbash/home/web2.rdfs"),
-	// "");
-	// private static Model m_model = ModelFactory.createDefaultModel();
+	
+	 // The namespace of the vocabulary as a string
+	
+	public static final String NS = "tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#";
 
-	/**
-	 * <p>
-	 * The namespace of the vocabulary as a string
-	 * </p>
-	 */
-	public static final String NS = "https://sites.google.com/site/sheffieldbash/home/web2.rdfs#";
-
-	/**
-	 * <p>
-	 * The namespace of the vocabulary as a string
-	 * </p>
-	 * 
-	 * @see #NS
-	 */
+	
+	//Return the namespace of the vocabulary as a string
+	
 	public static String getURI() {
 		return NS;
 	}
 
-	/**
-	 * <p>
-	 * The namespace of the vocabulary as a resource
-	 * </p>
-	 */
+	
+	 //The namespace of the vocabulary as a resource
 	public static final Resource NAMESPACE = m_model.createResource(NS);
 
 	/**
@@ -58,96 +42,118 @@ public class Ontology {
 	 * </p>
 	 */
 	public static final Property USERID = m_model
-			.createProperty("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#userId");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#userId");
 
+	
 	/**
-	 * <p>
-	 * Links a Contact with a ContactGroup it belongs to.
-	 * </p>
-	 */
-	public static final Property NAME = m_model
-			.createProperty("http://xmlns.com/foaf/0.1/name");
-
-	/**
-	 * <p>
-	 * Birth date of the object represented by this Contact. An equivalent of
-	 * the 'BDAY' property as defined in RFC 2426 Sec. 3.1.5.
-	 * </p>
+	 * 
+	 * This create the location of where the tweet is posted (geoTag). A property of twitter user
+	 * 
 	 */
 	public static final Property LOCATION = m_model
-			.createProperty("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#location");
-
-	/**
-	 * <p>
-	 * A Blog url.
-	 * </p>
-	 */
-	public static final Property n_get = m_model.getProperty(NS, "location");
-
-	public static final Property image = m_model
-			.createProperty("http://xmlns.com/foaf/0.1/img");
-
-	/**
-	 * <p>
-	 * The name of the contact group. This property was NOT defined in the VCARD
-	 * standard. See documentation of the 'ContactGroup' class for details
-	 * </p>
-	 */
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#location");
+	 
+	// A property of twitter user	
 	public static final Property description = m_model
-			.createProperty("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#description");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#description");
 
 	/**
-	 * <p>
-	 * A comment about the contact medium.
-	 * </p>
+	 * This create the name of the location the user had visited. A property of twitter user
 	 */
 	public static final Property locationVisited = m_model
-			.createProperty("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#locationVisited");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#locationVisited");
 
 	/**
-	 * <p>
-	 * A value that represents a globally unique identifier corresponding to the
-	 * individual or resource associated with the Contact. An equivalent of the
-	 * 'UID' property defined in RFC 2426 Sec. 3.6.7
-	 * </p>
+	 * 
+	 * This create the name of visitor that visited the venue. A property of venue
+	 * 
 	 */
-	public static final Property peopleContacted = m_model
-			.createProperty("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#People_he_contacted");
-
 	public static final Property nameOFVisitor = m_model
-			.createProperty("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#nameOFVisitor");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#nameOFVisitor");
 
+	/**
+	 * 
+	 * This create the name of the venue. A property of venue
+	 * 
+	 */
 	public static final Property venueName = m_model
-			.createProperty("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#venueName");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venueName");
 
+	/**
+	 * 
+	 * This create the location of the venue. A property of venue
+	 * 
+	 */
 	public static final Property venueLocation = m_model
-			.createProperty("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#venueLocation");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venueLocation");
 
+	/**
+	 * 
+	 * This create the url the venue. A property of venue
+	 * 
+	 */
 	public static final Property venueUrl = m_model
-			.createProperty("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#venueUrl");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venueUrl");
 
+	/**
+	 * 
+	 * This create the address the venue. A property of venue
+	 * 
+	 */
 	public static final Property venueAddress = m_model
-			.createProperty("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#venueAddress");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venueAddress");
 
+	/**
+	 * 
+	 * This create the name of visitor that visited the venue. A property of venue
+	 * 
+	 */
 	public static final Property venueCategory = m_model
-			.createProperty("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#venueCategory");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venueCategory");
 
+	/**
+	 * 
+	 * This create the time at which a user checkin in a venue. A property of venue
+	 * 
+	 */
 	public static final Property checkinTime = m_model
-			.createProperty("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#checkinTime");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#checkinTime");
 
+	/**
+	 * 
+	 * This create the description of the  venue. A property of venue
+	 * 
+	 */
 	public static final Property venueDescription = m_model
-			.createProperty("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#venueDescription");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venueDescription");
 
+	
+	/**
+	 * 
+	 * This create the photos available in the venue. A property of venue
+	 * 
+	 */
 	public static final Property venuePhoto = m_model
-			.createProperty("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#venuePhoto");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venuePhoto");
 
+	
 	public static final Property nameOfPeopleVisitedVenue = m_model
-			.createProperty("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#nameOfPeopleVisitedVenue");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#nameOfPeopleVisitedVenue");
 
+	/**
+	 * 
+	 * This  create the resource twitter user.
+	 * 
+	 */
 	public static final Resource twitterUser = m_model
-			.createResource("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#twitterUser");
-
+			.createResource("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#twitterUser");
+	/**
+	 * 
+	 * This  create the resource venue.
+	 * 
+	 */
+	
 	public static final Resource venue = m_model
-			.createResource("https://sites.google.com/site/sheffieldbash/home/web2.rdfs#venue");
+			.createResource("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venue");
 
 }
