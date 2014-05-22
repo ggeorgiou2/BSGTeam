@@ -132,22 +132,22 @@ public class Jena {
 
 			// Create an empty in-memory model and populate it from the graph
 			Model model = ModelFactory.createDefaultModel();
-			model.read(in, xmlbase, "TURTLE"); // null base URI, since model
+			model.read(in, xmlbase, "TURTLE"); // null base URI, since model //
 												// URIs are
 			// absolute
 			in.close();
-
 			// Create a new query
 			String queryString = "PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
 					+ "PREFIX intelWeb: <https://sites.google.com/site/sheffieldbash/home/web2.rdfs#> "
-					+ "SELECT distinct ?userName ?id ?location ?description "
-					+ "WHERE {" + " ?x foaf:name ?userName . "
+					+ "SELECT DISTINCT ?id ?userName ?image ?location ?description ?locationVisited ?contactPeople "
+					+ "WHERE {"
+					+ " ?x foaf:name ?userName . "
 					+ " ?x intelWeb:userId ?id. "
-					+ "OPTIONAL {?x intelWeb:location ?location ."
-					+ "?x foaf:img ?image ."
-					+ "?x intelWeb:description ?description ."
-					+ "?x intelWeb:locationVisited ?locationVisited ."
-					+ "?x foaf:knows ?contactPeople . " + "}"
+					+ "OPTIONAL {?x intelWeb:location ?location .}"
+					+ "OPTIONAL {?x foaf:img ?image .}"
+					+ "OPTIONAL {?x intelWeb:description ?description .}"
+					+ "OPTIONAL {?x intelWeb:locationVisited ?locationVisited .}"
+					+ "OPTIONAL {?x foaf:knows ?contactPeople . " + "}"
 					+ "FILTER regex(?id,'^" + userId + "','i')" + " }";
 			// System.out.println(queryString);
 			Query query = QueryFactory.create(queryString);
@@ -160,6 +160,7 @@ public class Jena {
 			String image = null;
 			String description = null;
 			String locationVisited = null;
+			ArrayList<String> locationsVisited = new ArrayList<String>();
 			String contactPeople = null;
 
 			while (results.hasNext()) {
@@ -180,11 +181,10 @@ public class Jena {
 					} else if (var.equals("description")) {
 						description = res.getLiteral(var).toString();
 					} else if (var.equals("locationVisited")) {
-						locationVisited = res.getLiteral(var).toString();
+						locationsVisited.add(res.getLiteral(var).toString());
 					} else if (var.equals("contactPeople")) {
 						contactPeople = res.getLiteral(var).toString();
 					}
-
 				}
 				TwitterUser user = new TwitterUser(userName, id, location,
 						image, description, locationVisited, contactPeople);
@@ -311,17 +311,16 @@ public class Jena {
 
 			// Create a new query
 			String queryString = "PREFIX intelWeb: <https://sites.google.com/site/sheffieldbash/home/web2.rdfs#> "
-					+ "SELECT distinct ?visitorName ?venueName ?checkinTime ?venueDescription "
+					+ "SELECT DISTINCT ?visitorName ?venueName ?checkinTime ?venueDescription ?venuePhoto "
 					+ "WHERE {"
 					+ "?x intelWeb:nameOFVisitor ?visitorName . "
 					+ "?x intelWeb:venueName ?venueName . "
 					+ "?x intelWeb:checkinTime ?checkinTime ."
-					+ "OPTIONAL {?x intelWeb:venuePhoto ?venuePhoto ."
-					+ "?x intelWeb:venueUrl ?venueUrl ."
-					+ "?x intelWeb:venueAddress ?venueAddress ."
-					+ "?x intelWeb:venueDescription ?venueDescription ."
-					+ "?x intelWeb:venueCategory ?venueCategory ."
-					+ "}"
+					+ "OPTIONAL {?x intelWeb:venuePhoto ?venuePhoto .}"
+					+ "OPTIONAL {?x intelWeb:venueUrl ?venueUrl .}"
+					+ "OPTIONAL {?x intelWeb:venueAddress ?venueAddress .}"
+					+ "OPTIONAL {?x intelWeb:venueDescription ?venueDescription .}"
+					+ "OPTIONAL {?x intelWeb:venueCategory ?venueCategory .}"
 					+ "FILTER regex(?venueName,'^" + name + "','i')" + " }";
 			// System.out.println(queryString);
 			Query query = QueryFactory.create(queryString);
@@ -391,8 +390,8 @@ public class Jena {
 		Jena j = new Jena(
 				"C:\\Users\\Solomon\\workspace\\work\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\BSGteam\\Triple_store\\");
 		j.queryUsers("s");
-		System.out.println(j.checkinExists("soloistic1",
-				"St George\\'s Library", "Wed May 21 16:05:32 BST 2014"));
-		j.queryVenues("Re");
+		// System.out.println(j.checkinExists("soloistic1",
+		// "St George\\'s Library", "Wed May 21 16:05:32 BST 2014"));
+		j.queryVenues("R");
 	}
 }

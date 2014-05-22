@@ -30,8 +30,9 @@
 							<tbody class="table-hover">
 								<c:forEach var="venue" items="${venue_results}">
 									<tr about="/">
-										<td><a href="databaseSearch?visitor="
-											<c:out value="${venue.visitorName}" />><c:out
+										<td><a
+											href="databaseSearch?visitor=
+											<c:out value="${venue.visitorName}" />"><c:out
 													value="${venue.visitorName}" /></a></td>
 										<td><c:out value="${venue.venueName}" /></td>
 										<td><c:out value="${venue.url}" /></td>

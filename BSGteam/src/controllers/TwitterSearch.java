@@ -26,6 +26,24 @@ public class TwitterSearch extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		String visitor = request.getParameter("visitor");
+		if (visitor != null) {
+			String root = getServletContext().getRealPath("/");
+			File path = new File(root + "/Triple_store");
+			if (!path.exists()) {
+				path.mkdirs();
+			}
+
+			String filePath = path + "/";
+			Jena jena = new Jena(filePath);
+			ArrayList<TwitterUser> results = jena.queryUsers(visitor);
+			if (results.isEmpty()) {
+				request.setAttribute("error",
+						"Sorry your search yielded no results");
+			} else {
+				request.setAttribute("user_results", results);
+			}
+		}
 		request.getRequestDispatcher("views/databaseSearch.jsp").forward(
 				request, response);
 	}
@@ -45,7 +63,8 @@ public class TwitterSearch extends HttpServlet {
 		Jena jena = new Jena(filePath);
 		ArrayList<TwitterUser> results = jena.queryUsers(twitterId);
 		if (results.isEmpty()) {
-			request.setAttribute("error", "Sorry your search yielded no results");
+			request.setAttribute("error",
+					"Sorry your search yielded no results");
 		} else {
 			request.setAttribute("user_results", results);
 		}
