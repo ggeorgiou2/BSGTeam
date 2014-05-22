@@ -28,8 +28,8 @@
 			<div class="bs-component">
 				<ul class="nav nav-pills nav-justified"
 					style="margin-top: 20px; margin-bottom: 5px;" id="mytab">
-					<li><a href="#Photos" data-toggle="tab">Search for pictures</a></li>
-					<li class="active"><a href="#Geotagged" data-toggle="tab">Search
+					<li class="active"><a href="#Photos" data-toggle="tab">Search for pictures</a></li>
+					<li><a href="#Geotagged" data-toggle="tab">Search
 							for GeoTagged Photos</a></li>
 				</ul>
 				<div id="myTabContent" class="tab-content">
