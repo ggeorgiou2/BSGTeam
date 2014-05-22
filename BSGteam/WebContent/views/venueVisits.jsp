@@ -96,7 +96,7 @@
 							</thead>
 							<tbody class="table-hover">
 								<c:forEach var="checkin" items="${checkins}">
-									<c:if test="${not empty checkin}">
+									<c:if test="${not empty checkin.value.venue.name}">
 										<tr>
 											<td><c:out value="${checkin.value.user.firstName}" /> <c:out
 													value="${checkin.value.user.lastName}" /></td>

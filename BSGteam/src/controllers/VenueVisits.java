@@ -115,33 +115,44 @@ public class VenueVisits extends HttpServlet {
 							session.getAttribute("accessToken").toString());
 					Jena jena = new Jena(filePath);
 					for (Entry<Date, Checkin> entry : venueVisits.entrySet()) {
-						Photo[] photos = foursquare.getImages(entry.getValue()
-								.getId(), session.getAttribute("clientID")
-								.toString(), session.getAttribute("clinetSec")
-								.toString(), session
-								.getAttribute("redirectURL").toString(),
-								session.getAttribute("accessToken").toString());
-						String venueUrl = "";
-						String url = entry.getValue().getVenue().getUrl();
-						if (url != null) {
-							venueUrl = url;
+						Photo[] photos = null;
+						if (entry.getValue() != null) {
+							photos = foursquare
+									.getImages(entry.getValue().getVenue()
+											.getId(),
+											session.getAttribute("clientID")
+													.toString(), session
+													.getAttribute("clinetSec")
+													.toString(),
+											session.getAttribute("redirectURL")
+													.toString(),
+											session.getAttribute("accessToken")
+													.toString());
+
+							String venueUrl = "";
+							String url = entry.getValue().getVenue().getUrl();
+							if (url != null) {
+								venueUrl = url;
+							}
+							String venueAddress = "";
+							Location location = entry.getValue().getVenue()
+									.getLocation();
+							if (location.getAddress() != null) {
+								venueAddress = location.getAddress();
+							} else {
+								venueAddress = "Longitude: "
+										+ location.getLat() + " Latitude: "
+										+ location.getLng();
+							}
+							jena.saveVenue(entry.getValue().getUser()
+									.getFirstName(), entry.getValue()
+									.getVenue().getName(), photos, entry
+									.getValue().getVenue().getCategories(),
+									venueAddress, entry.getValue().getVenue()
+											.getStats().getUsersCount()
+											.toString(), venueUrl, entry
+											.getKey().toString());
 						}
-						String venueAddress = "";
-						Location location = entry.getValue().getVenue()
-								.getLocation();
-						if (location.getAddress() != null) {
-							venueAddress = location.getAddress();
-						} else {
-							venueAddress = "Longitude: " + location.getLat()
-									+ " Latitude: " + location.getLng();
-						}
-						jena.saveVenue(entry.getValue().getUser()
-								.getFirstName(), entry.getValue().getVenue()
-								.getName(), photos, entry.getValue().getVenue()
-								.getCategories(), venueAddress, entry
-								.getValue().getVenue().getStats()
-								.getUsersCount().toString(), venueUrl, entry
-								.getKey().toString());
 					}
 					if (venueVisits.isEmpty()) {
 						request.setAttribute("error",

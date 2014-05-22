@@ -40,57 +40,65 @@
 	<div class="row">
 		<div class="col-lg-9 col-md-12 col-md-push-2">
 			<div class="bs-component">
-				<h1>
-					<a href="javascript:history.back()"><button type="button"
-							class="btn btn-default">Back</button></a>
-					<c:if test="${empty images}">
-						<p>No image for this venue</p>
-					</c:if>
-					<c:if test="${not empty images}">
-					Venue Images
-				
-				</h1>
 				<div class="row">
-					<div id="carousel-example-generic" class="carousel slide"
-						data-ride="carousel" style="width: 50%">
-						<!-- Wrapper for slides -->
-						<div class="carousel-inner">
-							<c:forEach var="image" varStatus="loop" items="${images}">
-								<c:choose>
-									<c:when test="${loop.count > 1}">
-										<div class="item">
-									</c:when>
-									<c:otherwise>
-										<div class="item active">
-									</c:otherwise>
-								</c:choose>
-								<div id="carousel_image">
-									<img src="<c:out value="${image.url}" ></c:out>" />
-								</div>
-								<div class="carousel-caption">
-									<c:out value="${loop.count}"></c:out>
-									/
-									<c:out value="${fn:length(images)}"></c:out>
-								</div>
-						</div>
 
-						</c:forEach>
-					</div>
-					<!-- Controls -->
-					<a class="left carousel-control" href="#carousel-example-generic"
-						data-slide="prev"> <span
-						class="glyphicon glyphicon-chevron-left"></span>
-					</a> <a class="right carousel-control" href="#carousel-example-generic"
-						data-slide="next"> <span
-						class="glyphicon glyphicon-chevron-right"></span>
-					</a>
+					<h1>
+						<a href="javascript:history.back()"><button type="button"
+								class="btn btn-default">Back</button></a>
+					</h1>
+					<c:if test="${empty images}">
+						<h3>No image for this venue</h3>
+						<h1 align="center">Venue location on map</h1>
+						<div id="map-canvas" style="width: 90%;"></div>
+					</c:if>
+
+					<c:if test="${not empty images}">
+						<div id="carousel-example-generic" class="carousel slide"
+							data-ride="carousel" style="width: 45%; float: left;">
+
+							<!-- Wrapper for slides -->
+							<div class="carousel-inner">
+								<h1 align="center">Venue Images</h1>
+
+								<c:forEach var="image" varStatus="loop" items="${images}">
+									<c:choose>
+										<c:when test="${loop.count > 1}">
+											<div class="item">
+										</c:when>
+										<c:otherwise>
+											<div class="item active">
+										</c:otherwise>
+									</c:choose>
+									<div id="carousel_image">
+										<img src="<c:out value="${image.url}" ></c:out>" />
+									</div>
+									<div class="carousel-caption">
+										<c:out value="${loop.count}"></c:out>
+										/
+										<c:out value="${fn:length(images)}"></c:out>
+									</div>
+							</div>
+
+							</c:forEach>
+						</div>
+						<!-- Controls -->
+						<a class="left carousel-control" href="#carousel-example-generic"
+							data-slide="prev"> <span
+							class="glyphicon glyphicon-chevron-left"></span>
+						</a>
+						<a class="right carousel-control" href="#carousel-example-generic"
+							data-slide="next"> <span
+							class="glyphicon glyphicon-chevron-right"></span>
+						</a>
+					</c:if>
 				</div>
-				</c:if>
-				<h1>Venue location on map</h1>
-				<div id="map-canvas"></div>
+				<h1 align="center">Venue location on map</h1>
+				<div id="map-canvas" style="width: 45%; float: right;"></div>
 			</div>
+
 		</div>
 	</div>
+</div>
 </div>
 <footer>
 	<%@ include file="footer.html"%>
