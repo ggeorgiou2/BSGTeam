@@ -200,37 +200,32 @@ public class VenueVisits extends HttpServlet {
 					}
 				};
 
+				Database.deleteFromStop();
 				twitterStream.addListener(listener);
 
-				double lat1 = lat - 1;
-				double longi1 = log - 3;
-				double lat2 = lat + 1;
-				double longi2 = log + 3;
+				double lat1 = lat - 0.1;
+				double longi1 = log - 0.3;
+				double lat2 = lat + 0.1;
+				double longi2 = log + 0.3;
 
 				double[][] bb = { { longi1, lat1 }, { longi2, lat2 } };
 
 				FilterQuery fq = new FilterQuery();
 				fq.locations(bb);
 				twitterStream.filter(fq);
-				// streams.add("Tracking user");
 				System.out.println("Started");
-				// request.setAttribute("userVisits2", streams);
-				request.setAttribute("userVisits_result", "true");
-
-				response.sendRedirect("streams?venue=Longitude:"+log+", Latitude:"+lat);
+				response.sendRedirect("streams?venue=Longitude:" + log
+						+ ", Latitude:" + lat);
 			}
-			request.setAttribute("userVisits_result", "true");
-
 		} catch (Exception err) {
 			request.setAttribute("error",
 					"Sorry, your search returned no results");
 			System.out.println("Error while tweeting: " + err.getMessage());
 		}
-
 	}
 
 	private void stopStream(TwitterStream twitterStream) {
-		System.out.println("in here");
+
 		twitterStream.cleanUp();
 		twitterStream = null;
 	}

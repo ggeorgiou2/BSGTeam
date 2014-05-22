@@ -228,7 +228,6 @@ public class Foursquare {
 	public Map<Date, Checkin> venueCheckins(Status status, String clientID,
 			String clinetSec, String redirectURL, String accessToken) {
 		Map<Date, Checkin> checkins = new HashMap<Date, Checkin>();
-		System.out.println("here");
 		if (status.getGeoLocation() != null) {
 			int index = status.getText().indexOf("http");
 			String data = "nan";
