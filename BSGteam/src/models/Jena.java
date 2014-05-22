@@ -37,67 +37,72 @@ public class Jena {
 			String image, String description, String locationVisited,
 			String contactPeople) {
 
-		Model m = ModelFactory.createDefaultModel();
-		String xmlbase = "https://sites.google.com/site/sheffieldbash/home/result.rdf/";
+		if (!userExists(id)) {
+			Model m = ModelFactory.createDefaultModel();
+			String xmlbase = "https://sites.google.com/site/sheffieldbash/home/result.rdf/";
 
-		// String uri = xmlbase + "#" + id;
-		// create Resource for twitter use
-		Resource user = m.createResource(xmlbase + id, Ontology.twitterUser);
+			// String uri = xmlbase + "#" + id;
+			// create Resource for twitter use
+			Resource user = m
+					.createResource(xmlbase + id, Ontology.twitterUser);
 
-		// add to properties to twitterUser
-		user.addProperty(FOAF.name, userName).addProperty(Ontology.USERID, id)
-				.addProperty(Ontology.LOCATION, location)
-				.addProperty(FOAF.img, image)
-				.addProperty(Ontology.description, description)
-				.addProperty(Ontology.locationVisited, locationVisited)
-				.addProperty(FOAF.knows, contactPeople);
+			// add to properties to twitterUser
+			user.addProperty(FOAF.name, userName)
+					.addProperty(Ontology.USERID, id)
+					.addProperty(Ontology.LOCATION, location)
+					.addProperty(FOAF.img, image)
+					.addProperty(Ontology.description, description)
+					.addProperty(Ontology.locationVisited, locationVisited)
+					.addProperty(FOAF.knows, contactPeople);
 
-		m.setNsPrefix("intelligentWeb", Ontology.NS);
-		m.setNsPrefix("foaf", FOAF.NS);
-		// now write the model in XML form to a file
+			m.setNsPrefix("intelligentWeb", Ontology.NS);
+			m.setNsPrefix("foaf", FOAF.NS);
+			// now write the model in XML form to a file
 
-		FileOutputStream userRDF = null;
-		try {
-			userRDF = new FileOutputStream(folder + "result.rdf", true);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			FileOutputStream userRDF = null;
+			try {
+				userRDF = new FileOutputStream(folder + "result.rdf", true);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			// OutputStream out = (OutputStream) camera_File;
+
+			m.write(userRDF, "TURTLE", xmlbase);
 		}
-		// OutputStream out = (OutputStream) camera_File;
-
-		m.write(userRDF, "TURTLE", xmlbase);
-
 	}
 
 	public void saveVenue(String visitorName, String venueName, String photo,
 			String category, String address, String description, String url,
 			String checkinTime) {
 
-		Model m = ModelFactory.createDefaultModel();
-		String xmlbase = "https://sites.google.com/site/sheffieldbash/home/venueResult.rdf/";
-		// create Resource for twitter use
-		Resource venue = m.createResource(Ontology.venue);
-		// add to properties to twitterUser
-		venue.addProperty(Ontology.nameOFVisitor, visitorName)
-				.addProperty(Ontology.venueName, venueName)
-				.addProperty(Ontology.venueUrl, url)
-				.addProperty(Ontology.venueAddress, address)
-				.addProperty(Ontology.venueDescription, description)
-				.addProperty(Ontology.venuePhoto, photo)
-				.addProperty(Ontology.venueCategory, category)
-				.addProperty(Ontology.checkinTime, checkinTime);
-		m.setNsPrefix("intelligentWeb", Ontology.NS);
-		// now write the model in XML form to a file
-		FileOutputStream venueRDF = null;
-		try {
-			venueRDF = new FileOutputStream(folder + "venueResult.rdf", true);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+		if (!checkinExists(visitorName, venueName, checkinTime)) {
+			Model m = ModelFactory.createDefaultModel();
+			String xmlbase = "https://sites.google.com/site/sheffieldbash/home/venueResult.rdf/";
+			// create Resource for twitter use
+			Resource venue = m.createResource(Ontology.venue);
+			// add to properties to twitterUser
+			venue.addProperty(Ontology.nameOFVisitor, visitorName)
+					.addProperty(Ontology.venueName, venueName)
+					.addProperty(Ontology.venueUrl, url)
+					.addProperty(Ontology.venueAddress, address)
+					.addProperty(Ontology.venueDescription, description)
+					.addProperty(Ontology.venuePhoto, photo)
+					.addProperty(Ontology.venueCategory, category)
+					.addProperty(Ontology.checkinTime, checkinTime);
+			m.setNsPrefix("intelligentWeb", Ontology.NS);
+			// now write the model in XML form to a file
+			FileOutputStream venueRDF = null;
+			try {
+				venueRDF = new FileOutputStream(folder + "venueResult.rdf",
+						true);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			m.write(venueRDF, "TURTLE", xmlbase);
 		}
-		m.write(venueRDF, "TURTLE", xmlbase);
-
 	}
 
-	public ArrayList<TwitterUser> queryUsers(String name) {
+	public ArrayList<TwitterUser> queryUsers(String userId) {
 		ArrayList<TwitterUser> users = new ArrayList<TwitterUser>();
 		InputStream in;
 		try {
@@ -123,7 +128,7 @@ public class Jena {
 					+ "?x intelWeb:description ?description ."
 					+ "?x intelWeb:locationVisited ?locationVisited ."
 					+ "?x foaf:knows ?contactPeople . " + "FILTER regex(?id,'^"
-					+ name + "','i')" + " }";
+					+ userId + "','i')" + " }";
 			// System.out.println(queryString);
 			Query query = QueryFactory.create(queryString);
 			// Execute the query and obtain results
@@ -183,6 +188,94 @@ public class Jena {
 		return users;
 	}
 
+	public boolean userExists(String user) {
+		boolean exists = false;
+		InputStream in;
+		try {
+			String xmlbase = "https://sites.google.com/site/sheffieldbash/home/web2.rdfs/";
+			in = new FileInputStream(new File(folder + "result.rdf"));
+			// Create an empty in-memory model and populate it from the graph
+			Model model = ModelFactory.createDefaultModel();
+			model.read(in, xmlbase, "TURTLE"); // null base URI, since model //
+												// URIs are
+			// absolute
+			in.close();
+			// Create a new query
+			String queryString = "PREFIX intelWeb: <https://sites.google.com/site/sheffieldbash/home/web2.rdfs#> "
+					+ "SELECT ?id "
+					+ "WHERE {"
+					+ " ?x intelWeb:userId ?id. "
+					+ "FILTER (?id='" + user + "')" + " }";
+			// System.out.println(queryString);
+			Query query = QueryFactory.create(queryString);
+			// Execute the query and obtain results
+			QueryExecution qe = QueryExecutionFactory.create(query, model);
+			ResultSet results = qe.execSelect();
+
+			if (results.hasNext()) {
+				exists = true;
+			} else {
+				exists = false;
+			}
+			// Important - free up resources used running the query
+			qe.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return exists;
+	}
+
+	public boolean checkinExists(String visitor, String venue, String time) {
+		boolean exists = false;
+		InputStream in;
+		try {
+			String xmlbase = "https://sites.google.com/site/sheffieldbash/home/web2.rdfs/";
+			in = new FileInputStream(new File(folder + "venueResult.rdf"));
+			// Create an empty in-memory model and populate it from the graph
+			Model model = ModelFactory.createDefaultModel();
+			model.read(in, xmlbase, "TURTLE"); // null base URI, since model
+												// URIs are
+			// absolute
+			in.close();
+
+			// Create a new query
+			String queryString = "PREFIX intelWeb: <https://sites.google.com/site/sheffieldbash/home/web2.rdfs#> "
+					+ "SELECT ?visitorName ?venueName ?checkinTime "
+					+ "WHERE {"
+					+ "?x intelWeb:nameOFVisitor ?visitorName . "
+					+ "?x intelWeb:venueName ?venueName . "
+					+ "?x intelWeb:checkinTime ?checkinTime ."
+					+ "FILTER (?visitorName='"
+					+ visitor
+					+ "' "
+					+ "&& ?venueName='"
+					+ venue
+					+ "'"
+					+ "&& ?checkinTime='"
+					+ time + "')" + " }";
+			// System.out.println(queryString);
+			Query query = QueryFactory.create(queryString);
+			// Execute the query and obtain results
+			QueryExecution qe = QueryExecutionFactory.create(query, model);
+			ResultSet results = qe.execSelect();
+
+			if (results.hasNext()) {
+				exists = true;
+			} else {
+				exists = false;
+			}
+			// Important - free up resources used running the query
+			qe.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return exists;
+	}
+
 	public ArrayList<Venue> queryVenues(String name) {
 		ArrayList<Venue> venues = new ArrayList<Venue>();
 		InputStream in;
@@ -198,7 +291,7 @@ public class Jena {
 
 			// Create a new query
 			String queryString = "PREFIX intelWeb: <https://sites.google.com/site/sheffieldbash/home/web2.rdfs#> "
-					+ "SELECT ?visitorName ?venueName ?venueUrl ?venueDescription "
+					+ "SELECT ?visitorName ?venueName ?checkinTime ?venueDescription "
 					+ "WHERE {"
 					+ "?x intelWeb:nameOFVisitor ?visitorName . "
 					+ "?x intelWeb:venueName ?venueName . "
@@ -208,9 +301,8 @@ public class Jena {
 					+ "?x intelWeb:venuePhoto ?venuePhoto ."
 					+ "?x intelWeb:venueCategory ?venueCategory ."
 					+ "?x intelWeb:checkinTime ?checkinTime ."
-					+ "FILTER regex(?venueName,'^" + name + "','i')" 
-					+ " }";
-			//System.out.println(queryString);
+					+ "FILTER regex(?venueName,'^" + name + "','i')" + " }";
+			// System.out.println(queryString);
 			Query query = QueryFactory.create(queryString);
 			// Execute the query and obtain results
 			QueryExecution qe = QueryExecutionFactory.create(query, model);
@@ -276,7 +368,9 @@ public class Jena {
 	public static void main(String args[]) {
 		Jena j = new Jena(
 				"C:\\Users\\Solomon\\workspace\\work\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\BSGteam\\Triple_store\\");
-		//j.queryUsers("a");
+		j.queryUsers("e");
+		System.out.println(j.checkinExists("soloistic1",
+				"St George\\'s Library", "Wed May 21 16:05:32 BST 2014"));
 		j.queryVenues("S");
 	}
 }

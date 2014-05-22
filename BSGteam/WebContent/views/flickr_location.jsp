@@ -1,16 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<html lang="en">
-<%@ include file="header.jsp"%>
+
 <!-- ============ Forms ============ -->
 <div class="bs-docs-section">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="well bs-component">
-				<form class="form-horizontal" action="#map-canvas">
+				<form action="" class="form-horizontal your-class" method="post">
 					<fieldset>
-						<legend>Fill the form and photos will be shown on map</legend>
+						<legend>Search for photos within a location</legend>
 						<div class="form-group">
 							<label for="key" class="col-lg-2 control-label">Flickr
 								Api Key:</label>
@@ -60,13 +58,8 @@
 
 <!-- ============ Results Table ============ -->
 <div>
-	<script
-		src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
-	<script type="text/javascript"
-		src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyB3WDbJuoc6iqUEQ7ZkiQWHw6eqO5Os8Zc">
-		
-	</script>
+
 	<script>
 		function initialize(searchLat, searchLon) {
 			var mapOptions = {
@@ -211,29 +204,21 @@
 				//map.setCenter(myLatLng);
 			}
 		}
-	</script>
-	<script>
-		$(document).ready(
-				function() {
-					$('#warning').hide();
-					$('#search')
-							.on(
-									'click',
-									function() {
-										var flickrApiKey = $('#key').val();
-										var searchLat = $('#lat').val();
-										var searchLon = $('#lon').val();
-										var hashKey = $('#tag').val();
-										var googleMap = initialize(searchLat,
-												searchLon);
-										getFlickrPhotos(googleMap,
-												flickrApiKey, searchLat,
-												searchLon, hashKey);
-									});
 
-					$('#search').trigger('click');
-
-				});
+		$(function() {
+			$('.your-class').submit(
+					function() {
+						var flickrApiKey = $('#key').val();
+						var searchLat = $('#lat').val();
+						var searchLon = $('#lon').val();
+						var hashKey = $('#tag').val();
+						var googleMap = initialize(searchLat, searchLon);
+						getFlickrPhotos(googleMap, flickrApiKey, searchLat,
+								searchLon, hashKey);
+						return false;
+					})
+		});
 	</script>
+
 	<div class="search" id="map-canvas"></div>
 </div>

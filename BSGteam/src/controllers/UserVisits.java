@@ -64,6 +64,12 @@ public class UserVisits extends HttpServlet {
 			// if number of days requested is greater than 0, then the twitter
 			// database is
 			// queried
+			String root = getServletContext().getRealPath("/");
+			File path = new File(root + "/Triple_store");
+			if (!path.exists()) {
+				path.mkdirs();
+			}
+			String filePath = path + "/";
 			if (days > 0) {
 				// gets the date from which previous tweets should be retrieved
 				// and
@@ -94,21 +100,14 @@ public class UserVisits extends HttpServlet {
 							session.getAttribute("redirectURL").toString(),
 							session.getAttribute("accessToken").toString());
 
-					String root = getServletContext().getRealPath("/");
-					File path = new File(root + "/Triple_store");
-					if (!path.exists()) {
-						path.mkdirs();
-					}
-					String filePath = path + "/";
 					Jena jena = new Jena(filePath);
 					for (Entry<Date, CompactVenue> entry : userVisits
 							.entrySet()) {
 						jena.saveVenue(userName, entry.getValue().getName(),
 								"", entry.getValue().getCategories()[0]
-										.getName(), "", entry
-										.getValue().getStats().getUsersCount()
-										.toString(), "", entry.getKey()
-										.toString());
+										.getName(), "", entry.getValue()
+										.getStats().getUsersCount().toString(),
+								"", entry.getKey().toString());
 					}
 					if (userVisits.isEmpty()) {
 						request.setAttribute("error",
@@ -142,6 +141,7 @@ public class UserVisits extends HttpServlet {
 						.toString();
 				final String accessToken = session.getAttribute("accessToken")
 						.toString();
+				final Jena jena = new Jena(filePath);
 
 				ConfigurationBuilder cb = new ConfigurationBuilder();
 				cb.setDebugEnabled(true).setOAuthConsumerKey(customer_key)
@@ -190,6 +190,13 @@ public class UserVisits extends HttpServlet {
 								.entrySet()) {
 							Database.userTweetsDB(user, entry.getValue()
 									.getName(), entry.getKey().toString());
+							jena.saveVenue(user,
+									entry.getValue().getName(), "", entry
+											.getValue().getCategories()[0]
+											.getName(), "", entry.getValue()
+											.getStats().getUsersCount()
+											.toString(), "", entry.getKey()
+											.toString());
 						}
 						if (Database.getStreamStop()) {
 							stopStream(twitterStream);

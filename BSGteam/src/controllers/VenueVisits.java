@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -70,6 +71,13 @@ public class VenueVisits extends HttpServlet {
 			double lat = Double.parseDouble(latitude);
 			double radius = 100;
 			String since = dateformatyyyyMMdd.format(date);
+
+			String root = getServletContext().getRealPath("/");
+			File path = new File(root + "/Triple_store");
+			if (!path.exists()) {
+				path.mkdirs();
+			}
+			String filePath = path + "/";
 			if (days > 0) {
 				int remaining = twitter.getRateLimitStatus()
 						.get("/search/tweets").getRemaining();
@@ -97,21 +105,28 @@ public class VenueVisits extends HttpServlet {
 
 					// get checkin information from Foursquare
 					Foursquare foursquare = new Foursquare();
-					if (foursquare.venueCheckins(result,
-							session.getAttribute("clientID").toString(),
-							session.getAttribute("clinetSec").toString(),
-							session.getAttribute("redirectURL").toString(),
-							session.getAttribute("accessToken").toString())
-							.isEmpty()) {
-						request.setAttribute("error",
-								"Sorry, your search returned no results");
-					}
-					request.setAttribute("checkins", foursquare.venueCheckins(
+					Map<Date, Checkin> venueVisits = foursquare.venueCheckins(
 							result,
 							session.getAttribute("clientID").toString(),
 							session.getAttribute("clinetSec").toString(),
 							session.getAttribute("redirectURL").toString(),
-							session.getAttribute("accessToken").toString()));
+							session.getAttribute("accessToken").toString());
+					Jena jena = new Jena(filePath);
+					for (Entry<Date, Checkin> entry : venueVisits.entrySet()) {
+						jena.saveVenue(entry.getValue().getUser()
+								.getFirstName(), entry.getValue().getVenue()
+								.getName(), "", entry.getValue().getVenue()
+								.getCategories()[0].getName(), "", entry
+								.getValue().getVenue().getStats()
+								.getUsersCount().toString(), "", entry.getKey()
+								.toString());
+					}
+					if (venueVisits.isEmpty()) {
+						request.setAttribute("error",
+								"Sorry, your search returned no results");
+					} else {
+						request.setAttribute("checkins", venueVisits);
+					}
 				} else {
 					request.setAttribute("error", "Sorry, limit exceeded");
 				}
@@ -138,6 +153,7 @@ public class VenueVisits extends HttpServlet {
 						.toString();
 				final String accessToken = session.getAttribute("accessToken")
 						.toString();
+				final Jena jena = new Jena(filePath);
 
 				ConfigurationBuilder cb = new ConfigurationBuilder();
 				cb.setDebugEnabled(true).setOAuthConsumerKey(customer_key)
@@ -178,14 +194,22 @@ public class VenueVisits extends HttpServlet {
 						String newtext = status.getText();
 						System.out.println("sta= " + newtext);
 						Foursquare foursquare = new Foursquare();
-						Map<Date, Checkin> userVisits = foursquare
+						Map<Date, Checkin> venueVisits = foursquare
 								.venueCheckins(status, clientID, clientSecret,
 										redirectURL, accessToken);
-						for (Entry<Date, Checkin> entry : userVisits.entrySet()) {
+						for (Entry<Date, Checkin> entry : venueVisits
+								.entrySet()) {
 							Database.userTweetsDB(entry.getValue().getUser()
 									.getFirstName(), entry.getValue()
 									.getVenue().getName(), entry.getKey()
 									.toString());
+							jena.saveVenue(entry.getValue().getUser()
+									.getFirstName(), entry.getValue()
+									.getVenue().getName(), "", entry.getValue()
+									.getVenue().getCategories()[0].getName(),
+									"", entry.getValue().getVenue().getStats()
+											.getUsersCount().toString(), "",
+									entry.getKey().toString());
 						}
 						if (Database.getStreamStop()) {
 							stopStream(twitterStream);
