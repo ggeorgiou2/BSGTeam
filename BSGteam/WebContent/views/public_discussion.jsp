@@ -5,6 +5,14 @@
 <%
 	if (session.getAttribute("twitterToken") != null) {
 %>
+
+<script>
+window.onload = function(){
+   document.getElementById("long").value = "";
+   document.getElementById("lat").value = "";
+  }
+</script>
+
 <!-- ============ Forms ============ -->
 <div class="bs-docs-section">
 	<div class="row">
@@ -22,14 +30,7 @@
 									id="tweetData" placeholder="Topic" required>
 							</div>
 						</div>
-						<style>
-							#mapCanvas {
-								width: 100%;
-								height: 250px;
-								float: right;
-							}
-						</style>
-						<div id="mapCanvas"></div>
+						 <div id="mapCanvas" style="width: 100%; height: 250px;"></div>
 						<div id="markerStatus">
 							<i>Click and drag the marker.</i>
 						</div>

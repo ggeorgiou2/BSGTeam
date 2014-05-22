@@ -16,6 +16,11 @@
 					<fieldset>
 						<legend>Search for venues and points of interest within a
 							particular location</legend>
+							 <div id="mapCanvas" style="width: 100%; height: 250px;"></div>
+						<div id="markerStatus">
+							<i>Click and drag the marker.</i>
+						</div>
+						<div id="address"></div>	
 						<div class="form-group">
 							<label for="lat" class="col-lg-2 control-label">Latitude</label>
 							<div class="col-lg-10">
