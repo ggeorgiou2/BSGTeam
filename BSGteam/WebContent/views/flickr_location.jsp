@@ -17,7 +17,11 @@
 									placeholder="Enter your Flickr API key" required>
 							</div>
 						</div>
-
+ 						<div id="mapCanvas" style="width: 100%; height: 250px;"></div>
+						<div id="markerStatus">
+							<i>Click and drag the marker.</i>
+						</div>
+						<div id="address"></div>	
 						<div class="form-group">
 							<label for="lat" class="col-lg-2 control-label">Latitude:</label>
 							<div class="col-lg-10">
@@ -27,9 +31,9 @@
 						</div>
 
 						<div class="form-group">
-							<label for="lon" class="col-lg-2 control-label">Longitude:</label>
+							<label for="long" class="col-lg-2 control-label">Longitude:</label>
 							<div class="col-lg-10">
-								<input id="lon" class="form-control" placeholder="Longitude"
+								<input id="long" class="form-control" placeholder="Longitude"
 									required>
 							</div>
 						</div>

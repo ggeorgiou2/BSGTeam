@@ -22,7 +22,7 @@
 				'tags' : hashkey,
 				'has_geo' : true,
 				'lat' : searchLat,
-				'lon' : searchLon,
+				'long' : searchLon,
 				'accuracy' : 15,
 				'format' : 'json',
 				'safe_search' : 1,
@@ -100,10 +100,10 @@
 
 			}
 
-			function addOverlay(lat, lon, text, secret, farm, server, title,
+			function addOverlay(lat, long, text, secret, farm, server, title,
 					map) {
 				var m = 'http://farm6.static.flickr.com/5082/13934534836_e2cdbf90a5_m.jpg';
-				var myLatlng = new google.maps.LatLng(lat, lon);
+				var myLatlng = new google.maps.LatLng(lat, long);
 				var marker = new google.maps.Marker({
 					position : myLatlng,
 					animation : google.maps.Animation.DROP,
@@ -147,7 +147,7 @@
 					function() {
 						var flickrApiKey = $('#key').val();
 						var searchLat = $('#lat').val();
-						var searchLon = $('#lon').val();
+						var searchLon = $('#long').val();
 						var hashKey = $('#tag').val();
 						var googleMap = initialize(searchLat, searchLon);
 						getFlickrPhotos(googleMap, flickrApiKey, searchLat,

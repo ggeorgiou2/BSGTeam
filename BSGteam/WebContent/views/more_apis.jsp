@@ -2,8 +2,6 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<!DOCTYPE html>
-<html lang="en">
 <%@ include file="header.jsp"%>
 <script>
 	var url = document.location.toString();
@@ -28,15 +26,14 @@
 			<div class="bs-component">
 				<ul class="nav nav-pills nav-justified"
 					style="margin-top: 20px; margin-bottom: 5px;" id="mytab">
-					<li class="active"><a href="#Photos" data-toggle="tab">Search for pictures</a></li>
-					<li><a href="#Geotagged" data-toggle="tab">Search
-							for GeoTagged Photos</a></li>
+					<li class="active"><a href="#Geotagged" data-toggle="tab">Search for GeoTagged Photos</a></li>
+					<li><a href="#Photos" data-toggle="tab">Search for pictures</a></li>		
 				</ul>
 				<div id="myTabContent" class="tab-content">
-					<div class="tab-pane fade" id="Geotagged">
+					<div class="tab-pane fade  active in" id="Geotagged">
 						<jsp:include page="flickr_location.jsp" />
 					</div>
-					<div class="tab-pane fade active in" id="Photos">
+					<div class="tab-pane fade" id="Photos">
 						<jsp:include page="flickr_tags.jsp" />
 					</div>
 				</div>
