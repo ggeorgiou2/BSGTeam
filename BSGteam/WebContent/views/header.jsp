@@ -63,7 +63,7 @@
 						</li>
 						<% } %>
 						<li><a class="navbar-brand" href="additional_features?action=more"><span
-								class="glyphicon glyphicon-book"></span> More APIs</a>
+								class="glyphicon glyphicon-plus-sign"></span> More APIs</a>
 						</li>
 						<li><a class="navbar-brand" href="userSearch"><span
 								class="glyphicon glyphicon-search"></span> Search Triple Store</a></li>

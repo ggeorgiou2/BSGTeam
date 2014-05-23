@@ -4,9 +4,11 @@
 			<div class="well bs-component">
 				<form action="timelines" method="post" class="form-horizontal">
 					<fieldset>
-						<legend>Find twitter Timeline of a User</legend>
+						<legend>Search a user's twitter timeline and other
+							details like recent contacts and locations visited</legend>
 						<div class="form-group">
-							<label for="screenName" class="col-lg-2 control-label">Twitter User</label>
+							<label for="screenName" class="col-lg-2 control-label">Twitter
+								User</label>
 							<div class="col-lg-10">
 								<input type="text" class="form-control" name="screenName"
 									id="screenName" placeholder="Screen Name" required>

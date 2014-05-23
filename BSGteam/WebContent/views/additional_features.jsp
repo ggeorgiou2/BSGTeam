@@ -32,7 +32,7 @@
 							Location</a></li>
 					<li><a href="#LocationKeywords" data-toggle="tab">Trending
 							discussions</a></li>
-					<li><a href="#twitterTimeline" data-toggle="tab">Twitter Timeline</a></li>
+					<li><a href="#twitterTimeline" data-toggle="tab">User's Timeline</a></li>
 
 				</ul>
 				<div id="myTabContent" class="tab-content">
