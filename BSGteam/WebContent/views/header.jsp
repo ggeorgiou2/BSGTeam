@@ -63,8 +63,8 @@
 						<li><a class="navbar-brand" href="additional_features?action=more"><span
 								class="glyphicon glyphicon-book"></span> More APIs</a>
 						</li>
-						<li><a class="navbar-brand" href="databaseSearch"><span
-								class="glyphicon glyphicon-search"></span> Search Database</a></li>
+						<li><a class="navbar-brand" href="userSearch"><span
+								class="glyphicon glyphicon-search"></span> Search Triple Store</a></li>
 						<% if ((session.getAttribute("twitterToken") != null) || (session.getAttribute("foursquareToken") != null))  { %>
 						<li>
 								<a class="navbar-brand" href='twitterToken?action=logout'><span

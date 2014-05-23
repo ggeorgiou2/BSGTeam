@@ -38,7 +38,7 @@
 							<label for="days" class="col-lg-2 control-label">Days</label>
 							<div class="col-lg-10">
 								<input type="number" class="form-control" name="days" id="days"
-									placeholder="Number of days" required>
+									placeholder="Number of days (between 6-8 days)" required>
 							</div>
 						</div>
 						<div class="form-group">

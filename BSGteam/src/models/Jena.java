@@ -43,7 +43,7 @@ public class Jena {
 
 		if (!userExists(id)) {
 			Model m = ModelFactory.createDefaultModel();
-			String xmlbase = "https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/result.rdf";
+			String xmlbase = "tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/userTripleStore.rdf";
 
 			// String uri = xmlbase + "#" + id;
 			// create Resource for twitter use
@@ -73,7 +73,7 @@ public class Jena {
 			// now write the model in TURTLE form to a file
 			FileOutputStream userRDF = null;
 			try {
-				userRDF = new FileOutputStream(folder + "result.rdf", true);
+				userRDF = new FileOutputStream(folder + "userTripleStore.rdf", true);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -87,7 +87,7 @@ public class Jena {
 
 		// if (!checkinExists(visitorName, venueName, checkinTime)) {
 		Model m = ModelFactory.createDefaultModel();
-		String xmlbase = "https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/venueResult.rdf";
+		String xmlbase = "tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/venueTripleStore.rdf";
 		// create Resource for twitter use
 		Resource venue = m.createResource(xmlbase+"#"+venueName);
 		// add to properties to twitterUser
@@ -115,7 +115,7 @@ public class Jena {
 		// now write the model in XML form to a file
 		FileOutputStream venueRDF = null;
 		try {
-			venueRDF = new FileOutputStream(folder + "venueResult.rdf", true);
+			venueRDF = new FileOutputStream(folder + "venueTripleStore.rdf", true);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -127,9 +127,9 @@ public class Jena {
 		ArrayList<TwitterUser> users = new ArrayList<TwitterUser>();
 		InputStream in;
 		try {
-			String xmlbase = "https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/result.rdf";
+			String xmlbase = "tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/userTripleStore.rdf";
 
-			in = new FileInputStream(new File(folder + "result.rdf"));
+			in = new FileInputStream(new File(folder + "userTripleStore.rdf"));
 
 			// Create an empty in-memory model and populate it from the graph
 			Model model = ModelFactory.createDefaultModel();
@@ -139,7 +139,7 @@ public class Jena {
 			in.close();
 			// Create a new query
 			String queryString = "PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
-					+ "PREFIX intelWeb: <https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#> "
+					+ "PREFIX intelWeb: <tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#> "
 					+ "SELECT (min(?x) as ?uri) ?id (min(?userName) as ?name) (min(?image) as ?profile) (min(?location) as ?loc) "
 					+ "(min(?description) as ?des) (group_concat(?locationVisited; separator=',') as ?visited) "
 					+ "(group_concat(?contactPeople; separator=',') as ?knows) "
@@ -217,8 +217,8 @@ public class Jena {
 		boolean exists = false;
 		InputStream in;
 		try {
-			String xmlbase = "https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/result.rdf";
-			in = new FileInputStream(new File(folder + "result.rdf"));
+			String xmlbase = "tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/userTripleStore.rdf";
+			in = new FileInputStream(new File(folder + "userTripleStore.rdf"));
 			// Create an empty in-memory model and populate it from the graph
 			Model model = ModelFactory.createDefaultModel();
 			model.read(in, xmlbase, "TURTLE"); // null base URI, since model //
@@ -226,7 +226,7 @@ public class Jena {
 			// absolute
 			in.close();
 			// Create a new query
-			String queryString = "PREFIX intelWeb: <https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#> "
+			String queryString = "PREFIX intelWeb: <tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#> "
 					+ "SELECT ?id "
 					+ "WHERE {"
 					+ " ?x intelWeb:userId ?id. "
@@ -256,8 +256,8 @@ public class Jena {
 		boolean exists = false;
 		InputStream in;
 		try {
-			String xmlbase = "https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/venueResult.rdf";
-			in = new FileInputStream(new File(folder + "venueResult.rdf"));
+			String xmlbase = "tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/venueTripleStore.rdf";
+			in = new FileInputStream(new File(folder + "venueTripleStore.rdf"));
 			// Create an empty in-memory model and populate it from the graph
 			Model model = ModelFactory.createDefaultModel();
 			model.read(in, xmlbase, "TURTLE"); // null base URI, since model
@@ -266,7 +266,7 @@ public class Jena {
 			in.close();
 
 			// Create a new query
-			String queryString = "PREFIX intelWeb: <https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#> "
+			String queryString = "PREFIX intelWeb: <tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#> "
 					+ "SELECT distinct ?visitorName ?venueName ?checkinTime "
 					+ "WHERE {"
 					+ "?x intelWeb:nameOFVisitor ?visitorName . "
@@ -305,9 +305,9 @@ public class Jena {
 		ArrayList<Venue> venues = new ArrayList<Venue>();
 		InputStream in;
 		try {
-			String xmlbase = "https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/venueResult.rdf";
+			String xmlbase = "tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/venueTripleStore.rdf";
 
-			in = new FileInputStream(new File(folder + "venueResult.rdf"));
+			in = new FileInputStream(new File(folder + "venueTripleStore.rdf"));
 			// Create an empty in-memory model and populate it from the graph
 			Model model = ModelFactory.createDefaultModel();
 			model.read(in, xmlbase, "TURTLE"); // null base URI, since model
@@ -316,7 +316,7 @@ public class Jena {
 			in.close();
 
 			// Create a new query
-			String queryString = "PREFIX intelWeb: <https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#> "
+			String queryString = "PREFIX intelWeb: <tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#> "
 					+ "SELECT (min(?x) as ?uri) ?venueName (min(?visitorName) as ?visitor) (min(?checkinTime) as ?time) "
 					+ "(min(?venueDescription) as ?description) (group_concat(?venuePhoto) as ?photos) "
 					+ "(min(?venueUrl) as ?url) (min(?venueAddress) as ?address) (group_concat(distinct ?venueCategory) as ?category) "

@@ -22,7 +22,7 @@
 				'tags' : hashkey,
 				'has_geo' : true,
 				'lat' : searchLat,
-				'long' : searchLon,
+				'lon' : searchLon,
 				'accuracy' : 15,
 				'format' : 'json',
 				'safe_search' : 1,

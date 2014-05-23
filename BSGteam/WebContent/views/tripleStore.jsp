@@ -24,12 +24,12 @@
 					<strong><c:out value="${success}"></c:out></strong>
 				</div>
 			</c:if>
-			<h1>Search database for saved queries</h1>
+			<h1>Search triple store for saved queries</h1>
 			<div class="bs-component">
 				<ul class="nav nav-pills" style="margin-bottom: 15px;" id="mytab">
 					<li class="active"><a href="#twitter" data-toggle="tab">Search
-							Twitter</a></li>
-					<li><a href="#Venues" data-toggle="tab">Search Venues</a></li>
+							User</a></li>
+					<li><a href="#Venues" data-toggle="tab">Search Venue</a></li>
 				</ul>
 				<div id="myTabContent" class="tab-content">
 					<div class="tab-pane fade active in" id="twitter">
@@ -39,17 +39,17 @@
 							<div class="row">
 								<div class="col-lg-12">
 									<div class="well bs-component">
-										<form action="databaseSearch" method="post"
+										<form action="userSearch" method="post"
 											class="form-horizontal">
 											<fieldset>
 												<legend>Search for saved users</legend>
 												<div class="form-group">
-													<label for="tweetData" class="col-lg-2 control-label">Twitter
+													<label for="tweetData" class="col-lg-2 control-label">User
 														Name:</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="twitterID"
 															id="twitterID"
-															placeholder="Enter Twitter ID or type * to view all"
+															placeholder="Enter User ID"
 															required>
 													</div>
 												</div>
@@ -76,13 +76,13 @@
 										<form action="venueSearch" method="post"
 											class="form-horizontal">
 											<fieldset>
-												<legend>Search for saved venues and visits</legend>
+												<legend>Search for saved venues</legend>
 												<div class="form-group">
 													<label for="tweetData" class="col-lg-2 control-label">Venue:</label>
 													<div class="col-lg-10">
 														<input type="text" class="form-control" name="venue"
 															id="venue"
-															placeholder="Enter name of venue or * to view all"
+															placeholder="Enter name of venue"
 															required>
 													</div>
 												</div>
@@ -105,12 +105,12 @@
 	</div>
 	<div class="row">
 		<div id="twitterResults">
-			<jsp:include page="twitterSearch.jsp" />
+			<jsp:include page="searchUser.jsp" />
 		</div>
 	</div>
 	<div class="row">
 		<div id="venueResults">
-			<jsp:include page="venueSearch.jsp" />
+			<jsp:include page="searchVenue.jsp" />
 		</div>
 	</div>
 </div>

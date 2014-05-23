@@ -21,7 +21,7 @@ import models.TwitterUser;
  * @author BSG Team
  * 
  */
-public class TwitterSearch extends HttpServlet {
+public class UserSearch extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request,
@@ -44,7 +44,7 @@ public class TwitterSearch extends HttpServlet {
 				request.setAttribute("user_results", results);
 			}
 		}
-		request.getRequestDispatcher("views/databaseSearch.jsp").forward(
+		request.getRequestDispatcher("views/tripleStore.jsp").forward(
 				request, response);
 	}
 
@@ -68,7 +68,7 @@ public class TwitterSearch extends HttpServlet {
 		} else {
 			request.setAttribute("user_results", results);
 		}
-		request.getRequestDispatcher("views/databaseSearch.jsp").forward(
+		request.getRequestDispatcher("views/tripleStore.jsp").forward(
 				request, response);
 	}
 
