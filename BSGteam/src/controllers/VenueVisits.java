@@ -107,14 +107,18 @@ public class VenueVisits extends HttpServlet {
 
 					// get checkin information from Foursquare
 					Foursquare foursquare = new Foursquare();
-					Map<Date, Checkin> venueVisits = foursquare.venueCheckins(
-							result,
-							session.getAttribute("clientID").toString(),
-							session.getAttribute("clinetSec").toString(),
-							session.getAttribute("redirectURL").toString(),
-							session.getAttribute("accessToken").toString());
+					Map<Status, Checkin> venueVisits = foursquare
+							.venueCheckins(
+									result,
+									session.getAttribute("clientID").toString(),
+									session.getAttribute("clinetSec")
+											.toString(),
+									session.getAttribute("redirectURL")
+											.toString(),
+									session.getAttribute("accessToken")
+											.toString());
 					Jena jena = new Jena(filePath);
-					for (Entry<Date, Checkin> entry : venueVisits.entrySet()) {
+					for (Entry<Status, Checkin> entry : venueVisits.entrySet()) {
 						Photo[] photos = null;
 						if (entry.getValue() != null) {
 							photos = foursquare
@@ -144,14 +148,19 @@ public class VenueVisits extends HttpServlet {
 										+ location.getLat() + " Latitude: "
 										+ location.getLng();
 							}
-							jena.saveVenue(entry.getValue().getUser()
-									.getFirstName(), entry.getValue()
+							User thisUser = entry.getKey().getUser();
+							jena.saveVenue(thisUser.getScreenName(), entry.getValue()
 									.getVenue().getName(), photos, entry
 									.getValue().getVenue().getCategories(),
 									venueAddress, entry.getValue().getVenue()
 											.getStats().getUsersCount()
 											.toString(), venueUrl, entry
-											.getKey().toString());
+											.getKey().getCreatedAt().toString());
+							jena.saveUser(thisUser.getName(),
+									thisUser.getScreenName(),
+									thisUser.getLocation(),
+									thisUser.getProfileImageURL(),
+									thisUser.getDescription(), null, null);
 						}
 					}
 					if (venueVisits.isEmpty()) {

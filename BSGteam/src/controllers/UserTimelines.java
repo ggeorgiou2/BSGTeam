@@ -1,11 +1,15 @@
 package controllers;
 
 import models.*;
+
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Map.Entry;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
+import fi.foyt.foursquare.api.entities.CompactVenue;
 import twitter4j.*;
 
 /**
@@ -29,19 +33,27 @@ public class UserTimelines extends HttpServlet {
 		String tweetID = request.getParameter("tweetID");
 
 		HttpSession session = request.getSession();
-		
+
 		// gets timeline request
 		if (screenName != null) {
 			// creates a TwitterBean object for a connection to the twitter API
 			try {
 				TwitterBean twitterConnection = new TwitterBean();
 
-				Twitter twitter = twitterConnection.init(session.getAttribute("customer_key").toString(), session.getAttribute("customer_secret").toString(), session.getAttribute("token_access").toString(), session.getAttribute("token_secret").toString());
+				Twitter twitter = twitterConnection.init(
+						session.getAttribute("customer_key").toString(),
+						session.getAttribute("customer_secret").toString(),
+						session.getAttribute("token_access").toString(),
+						session.getAttribute("token_secret").toString());
 				// gets the timeline of the user with the screen name and passes
 				// the
 				// tweets to the view
-				List<Status> results = twitterConnection
-						.getTimeline(screenName, session.getAttribute("customer_key").toString(), session.getAttribute("customer_secret").toString(), session.getAttribute("token_access").toString(), session.getAttribute("token_secret").toString());
+				List<Status> results = twitterConnection.getTimeline(
+						screenName, session.getAttribute("customer_key")
+								.toString(),
+						session.getAttribute("customer_secret").toString(),
+						session.getAttribute("token_access").toString(),
+						session.getAttribute("token_secret").toString());
 
 				request.setAttribute("timelines", results);
 				request.setAttribute("user", screenName);
@@ -51,6 +63,7 @@ public class UserTimelines extends HttpServlet {
 				// gets the date from which previous tweets should be retrieved
 				// and
 				// inspected for checkins
+				User thisUser = twitter.showUser(screenName);
 				int days = 5;
 				long DAY_IN_MS = 1000 * 60 * 60 * 24;
 				Date date = new Date(System.currentTimeMillis()
@@ -66,12 +79,22 @@ public class UserTimelines extends HttpServlet {
 				// creates a foursquare object and inspects the user's tweet for
 				// foursquare checkins
 				Foursquare foursquare = new Foursquare();
-				request.setAttribute("userVisits", foursquare.checkins(result, session.getAttribute("clientID").toString(), session.getAttribute("clinetSec").toString(), session.getAttribute("redirectURL").toString(), session.getAttribute("accessToken").toString()));
+				Map<Date, CompactVenue> userVisits = foursquare.checkins(
+						result, session.getAttribute("clientID").toString(),
+						session.getAttribute("clinetSec").toString(), session
+								.getAttribute("redirectURL").toString(),
+						session.getAttribute("accessToken").toString());
+				request.setAttribute("userVisits", userVisits);
+
+				ArrayList<String> visited = new ArrayList<String>();
+				for (Entry<Date, CompactVenue> entry : userVisits.entrySet()) {
+					visited.add(entry.getValue().getName());
+				}
 
 				List<Status> contacters = new ArrayList<Status>();
 				List<Status> contactees = new ArrayList<Status>();
 				List<Status> subResults = new ArrayList<Status>();
-				
+
 				for (Status status : results) {
 					if (status.getRetweetCount() > 0) {
 						System.out.println("sure?" + status.getText());
@@ -80,7 +103,7 @@ public class UserTimelines extends HttpServlet {
 						}
 					}
 				}
-				
+
 				for (Status status : results) {
 					if (status.getRetweetCount() > 0) {
 						subResults.add(status);
@@ -100,12 +123,10 @@ public class UserTimelines extends HttpServlet {
 						}
 					}
 
-				}
-				else
-				{
+				} else {
 					System.out.println("Exceeded retweet limit");
 				}
-				//System.out.println(twitter.getRateLimitStatus());
+				// System.out.println(twitter.getRateLimitStatus());
 
 				// Get people user retweeted
 				Set<String> contacts = new TreeSet<String>();
@@ -125,6 +146,17 @@ public class UserTimelines extends HttpServlet {
 				}
 				System.out.println("2=" + contacts2);
 				request.setAttribute("allcontacts2", contacts2);
+				contacts.addAll(contacts2);
+				String root = getServletContext().getRealPath("/");
+				File path = new File(root + "/Triple_store");
+				if (!path.exists()) {
+					path.mkdirs();
+				}
+				String filePath = path + "/";
+				Jena jena = new Jena(filePath);
+				jena.saveUser(thisUser.getName(), thisUser.getScreenName(),
+						thisUser.getLocation(), thisUser.getProfileImageURL(),
+						thisUser.getDescription(), null, contacts);
 			} catch (TwitterException e) {
 				e.printStackTrace();
 			} catch (Exception e) {
@@ -139,13 +171,26 @@ public class UserTimelines extends HttpServlet {
 			TwitterBean twitterConnection = new TwitterBean();
 			try {
 				// gets the tweet which was retweeted and passes it to the view
-				Twitter connection = twitterConnection.init(session.getAttribute("customer_key").toString(), session.getAttribute("customer_secret").toString(), session.getAttribute("token_access").toString(), session.getAttribute("token_secret").toString());
+				Twitter connection = twitterConnection.init(session
+						.getAttribute("customer_key").toString(), session
+						.getAttribute("customer_secret").toString(), session
+						.getAttribute("token_access").toString(), session
+						.getAttribute("token_secret").toString());
 				Status status = connection.showStatus(Long.parseLong(tweetID));
 				request.setAttribute("tweet", status.getText());
 
 				// gets a list of the retweet(ers) and passes it to the view
 				request.setAttribute("retweeters",
-						twitterConnection.getRetweeters(id, session.getAttribute("customer_key").toString(), session.getAttribute("customer_secret").toString(), session.getAttribute("token_access").toString(), session.getAttribute("token_secret").toString()));
+						twitterConnection
+								.getRetweeters(id,
+										session.getAttribute("customer_key")
+												.toString(),
+										session.getAttribute("customer_secret")
+												.toString(), session
+												.getAttribute("token_access")
+												.toString(), session
+												.getAttribute("token_secret")
+												.toString()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

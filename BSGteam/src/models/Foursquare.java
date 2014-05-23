@@ -201,10 +201,10 @@ public class Foursquare {
 		return venues;
 	}
 
-	public Map<Date, Checkin> venueCheckins(QueryResult result,
+	public Map<Status, Checkin> venueCheckins(QueryResult result,
 			String clientID, String clinetSec, String redirectURL,
 			String accessToken) {
-		Map<Date, Checkin> checkins = new HashMap<Date, Checkin>();
+		Map<Status, Checkin> checkins = new HashMap<Status, Checkin>();
 		for (Status status : result.getTweets()) {
 			if (status.getGeoLocation() != null) {
 				int index = status.getText().indexOf("http");
@@ -213,7 +213,7 @@ public class Foursquare {
 					data = status.getText().substring(index);
 					try {
 						checkins.put(
-								status.getCreatedAt(),
+								status,
 								getCheckinInformation(data, clientID,
 										clinetSec, redirectURL, accessToken));
 					} catch (FoursquareApiException e) {
