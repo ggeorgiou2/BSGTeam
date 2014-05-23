@@ -23,6 +23,8 @@
 							<label for="days" class="col-lg-2 control-label">Days</label>
 							<div class="col-lg-10">
 								<input type="number" class="form-control" name="days" id="days"
+									pattern="([0-9]+)"
+									data-validation-pattern-message="Must write real number"
 									placeholder="Number of days (between 6-9 days)" required>
 							</div>
 						</div>

@@ -27,13 +27,17 @@
 								of Keywords</label>
 							<div class="col-lg-10">
 								<input type="text" class="form-control" name="keywords"
+									pattern="([1-9]([0-9]+)?)"
+									data-validation-pattern-message="Must write real number"	
 									id="keywords" placeholder="Number of keywords" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="days" class="col-lg-2 control-label">Days</label>
 							<div class="col-lg-10">
-								<input type="number" class="form-control" name="days" id="days"
+								<input type="text" class="form-control" name="days" id="days"
+									pattern="([1-9]([0-9]+)?)"
+									data-validation-pattern-message="Must write real number"
 									placeholder="Number of days (between 6-9 days)" required>
 							</div>
 						</div>
