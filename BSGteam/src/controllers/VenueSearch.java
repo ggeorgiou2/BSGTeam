@@ -12,18 +12,40 @@ import models.Venue;
 /**
  * VenueSearch.java
  * 
- * This class is used to connect to the triple store for venues and is used to retrieve
- * records and pass them to the views for display
+ * This class is used to connect to the triple store for venues and is used to
+ * retrieve records and pass them to the views for display
  * 
  * @author BSG Team
  * 
  */
 public class VenueSearch extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("views/tripleStore.jsp").forward(
-				request, response);
+		String imageFor = request.getParameter("imageFor");
+		if (imageFor != null) {
+			String root = getServletContext().getRealPath("/");
+			File path = new File(root + "/Triple_store");
+			if (!path.exists()) {
+				path.mkdirs();
+			}
+
+			String filePath = path + "/";
+			Jena jena = new Jena(filePath);
+			ArrayList<Venue> results = jena.queryVenues(imageFor);
+			String[] photos = null;
+			if (!results.isEmpty()) {
+				photos = results.get(0).getPhotos();
+			}
+			request.setAttribute("images", photos);
+			request.getRequestDispatcher("views/tripleStoreImages.jsp")
+					.forward(request, response);
+		} else {
+			request.getRequestDispatcher("views/tripleStore.jsp").forward(
+					request, response);
+		}
+
 	}
 
 	protected void doPost(HttpServletRequest request,
@@ -41,11 +63,12 @@ public class VenueSearch extends HttpServlet {
 		Jena jena = new Jena(filePath);
 		ArrayList<Venue> results = jena.queryVenues(venue);
 		if (results.isEmpty()) {
-			request.setAttribute("error", "Sorry your search yielded no results");
+			request.setAttribute("error",
+					"Sorry your search yielded no results");
 		} else {
 			request.setAttribute("venue_results", results);
 		}
-		request.getRequestDispatcher("views/tripleStore.jsp").forward(
-				request, response);
+		request.getRequestDispatcher("views/tripleStore.jsp").forward(request,
+				response);
 	}
 }

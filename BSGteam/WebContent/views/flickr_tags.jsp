@@ -18,7 +18,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="tag" class="col-lg-2 control-label">Instagram API Key:</label>
+									<label for="tag" class="col-lg-2 control-label">Instagram API Key (optional):</label>
 									<div class="col-lg-10">
 										<input id="instagram_api" class="form-control"
 											placeholder="Enter Instagram API Key">

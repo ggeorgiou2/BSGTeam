@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.hp.hpl.jena.query.ParameterizedSparqlString;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
@@ -20,6 +21,7 @@ import com.hp.hpl.jena.query.ResultSetFormatter;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.sparql.util.FmtUtils;
 import com.hp.hpl.jena.sparql.vocabulary.FOAF;
 
 import fi.foyt.foursquare.api.entities.Category;
@@ -73,7 +75,8 @@ public class Jena {
 			// now write the model in TURTLE form to a file
 			FileOutputStream userRDF = null;
 			try {
-				userRDF = new FileOutputStream(folder + "userTripleStore.rdf", true);
+				userRDF = new FileOutputStream(folder + "userTripleStore.rdf",
+						true);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -89,7 +92,8 @@ public class Jena {
 		Model m = ModelFactory.createDefaultModel();
 		String xmlbase = "tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/venueTripleStore.rdf";
 		// create Resource for twitter use
-		Resource venue = m.createResource(xmlbase+"#"+venueName.replace(" ","_"));
+		Resource venue = m.createResource(xmlbase + "#"
+				+ venueName.replace(" ", "_"));
 		// add to properties to twitterUser
 		venue.addProperty(Ontology.nameOFVisitor, visitorName)
 				.addProperty(Ontology.venueName, venueName)
@@ -115,7 +119,8 @@ public class Jena {
 		// now write the model in XML form to a file
 		FileOutputStream venueRDF = null;
 		try {
-			venueRDF = new FileOutputStream(folder + "venueTripleStore.rdf", true);
+			venueRDF = new FileOutputStream(folder + "venueTripleStore.rdf",
+					true);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -329,13 +334,22 @@ public class Jena {
 					+ "OPTIONAL {?x intelWeb:venueAddress ?venueAddress .}"
 					+ "OPTIONAL {?x intelWeb:venueDescription ?venueDescription .}"
 					+ "OPTIONAL {?x intelWeb:venueCategory ?venueCategory .}"
-					+ "FILTER regex(?venueName,'^"
-					+ name
-					+ "','i')"
+					+ "FILTER regex(?venueName,'^";
+			String rem = 
+					
+					 "','i')"
 					+ " }"
 					+ "GROUP BY ?venueName ";
+
+			System.out.println(queryString);
+			ParameterizedSparqlString queryStr = new ParameterizedSparqlString();
+			queryStr.append(queryString);
+			queryStr.appendLiteral(FmtUtils.stringEsc(name));
+			queryStr.append(rem);
+			System.out.println(queryStr);
+			
 			// System.out.println(queryString);
-			Query query = QueryFactory.create(queryString);
+			Query query = queryStr.asQuery();
 			// Execute the query and obtain results
 			QueryExecution qe = QueryExecutionFactory.create(query, model);
 			ResultSet results = qe.execSelect();
@@ -345,7 +359,6 @@ public class Jena {
 			String venueAddress = null;
 			String venueDescription = null;
 			String venuePhoto = null;
-			ArrayList<String> photos = new ArrayList<String>();
 			String venueCategory = null;
 			String checkinTime = null;
 			String uri = null;
@@ -383,7 +396,7 @@ public class Jena {
 			}
 
 			// System.out.println(users.get(0).getUserName());
-			query = QueryFactory.create(queryString);
+			query = queryStr.asQuery();
 			qe = QueryExecutionFactory.create(query, model);
 			results = qe.execSelect();
 			ResultSetFormatter.out(System.out, results, query);
@@ -405,7 +418,7 @@ public class Jena {
 		// j.queryUsers("m");
 		// System.out.println(j.checkinExists("soloistic1",
 		// "St George\\'s Library", "Wed May 21 16:05:32 BST 2014"));
-		j.saveUser("me", "you", "", "", "", null, null);
-		// j.queryVenues("T");
+		// j.saveUser("me", "you", "", "", "", null, null);
+		j.queryVenues("St George's");
 	}
 }

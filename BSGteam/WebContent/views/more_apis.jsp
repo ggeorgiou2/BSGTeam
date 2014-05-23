@@ -12,7 +12,7 @@
 <div class="bs-docs-section">
 	<div class="row">
 		<div class="col-lg-8 col-md-10 col-md-push-2">
-			<h1>Hello, query more APIs like Flickr ...</h1>
+			<h1>Hello, query more APIs like Flickr and Instagram...</h1>
 			<c:if test="${not empty error}">
 				<div class="alert alert-danger" align="center">
 					<strong><c:out value="${error}"></c:out></strong>

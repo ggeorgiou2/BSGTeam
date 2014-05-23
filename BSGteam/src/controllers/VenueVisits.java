@@ -3,6 +3,7 @@ package controllers;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -149,18 +150,23 @@ public class VenueVisits extends HttpServlet {
 										+ location.getLng();
 							}
 							User thisUser = entry.getKey().getUser();
-							jena.saveVenue(thisUser.getScreenName(), entry.getValue()
-									.getVenue().getName(), photos, entry
-									.getValue().getVenue().getCategories(),
+							jena.saveVenue(
+									thisUser.getScreenName(),
+									entry.getValue().getVenue().getName(),
+									photos,
+									entry.getValue().getVenue().getCategories(),
 									venueAddress, entry.getValue().getVenue()
 											.getStats().getUsersCount()
 											.toString(), venueUrl, entry
 											.getKey().getCreatedAt().toString());
+							ArrayList<String> visited = new ArrayList<String>();
+							visited.add(entry.getValue()
+											.getVenue().getName());
 							jena.saveUser(thisUser.getName(),
 									thisUser.getScreenName(),
 									thisUser.getLocation(),
 									thisUser.getProfileImageURL(),
-									thisUser.getDescription(), null, null);
+									thisUser.getDescription(), visited, null);
 						}
 					}
 					if (venueVisits.isEmpty()) {
