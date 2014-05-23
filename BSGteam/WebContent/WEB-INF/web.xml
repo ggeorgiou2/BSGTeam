@@ -66,13 +66,13 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>TwitterSearch</display-name>
-    <servlet-name>TwitterSearch</servlet-name>
-    <servlet-class>controllers.TwitterSearch</servlet-class>
+    <display-name>UserSearch</display-name>
+    <servlet-name>UserSearch</servlet-name>
+    <servlet-class>controllers.UserSearch</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>TwitterSearch</servlet-name>
-    <url-pattern>/databaseSearch</url-pattern>
+    <servlet-name>UserSearch</servlet-name>
+    <url-pattern>/userSearch</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>

@@ -8,7 +8,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
 
 /**
  * This class define the vocabulary of the twitter user and venue, with their properties.
- * https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs
+ * tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs
  * 
  * @author BSGTeam on 17 May 2014 21:12
  */
@@ -23,7 +23,7 @@ public class Ontology {
 	
 	 // The namespace of the vocabulary as a string
 	
-	public static final String NS = "https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#";
+	public static final String NS = "tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#";
 
 	
 	//Return the namespace of the vocabulary as a string
@@ -42,7 +42,7 @@ public class Ontology {
 	 * </p>
 	 */
 	public static final Property USERID = m_model
-			.createProperty("https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#userId");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#userId");
 
 	
 	/**
@@ -51,17 +51,17 @@ public class Ontology {
 	 * 
 	 */
 	public static final Property LOCATION = m_model
-			.createProperty("https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#location");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#location");
 	 
 	// A property of twitter user	
 	public static final Property description = m_model
-			.createProperty("https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#description");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#description");
 
 	/**
 	 * This create the name of the location the user had visited. A property of twitter user
 	 */
 	public static final Property locationVisited = m_model
-			.createProperty("https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#locationVisited");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#locationVisited");
 
 	/**
 	 * 
@@ -69,7 +69,7 @@ public class Ontology {
 	 * 
 	 */
 	public static final Property nameOFVisitor = m_model
-			.createProperty("https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#nameOFVisitor");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#nameOFVisitor");
 
 	/**
 	 * 
@@ -77,7 +77,7 @@ public class Ontology {
 	 * 
 	 */
 	public static final Property venueName = m_model
-			.createProperty("https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venueName");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venueName");
 
 	/**
 	 * 
@@ -85,7 +85,7 @@ public class Ontology {
 	 * 
 	 */
 	public static final Property venueLocation = m_model
-			.createProperty("https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venueLocation");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venueLocation");
 
 	/**
 	 * 
@@ -93,7 +93,7 @@ public class Ontology {
 	 * 
 	 */
 	public static final Property venueUrl = m_model
-			.createProperty("https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venueUrl");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venueUrl");
 
 	/**
 	 * 
@@ -101,7 +101,7 @@ public class Ontology {
 	 * 
 	 */
 	public static final Property venueAddress = m_model
-			.createProperty("https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venueAddress");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venueAddress");
 
 	/**
 	 * 
@@ -109,7 +109,7 @@ public class Ontology {
 	 * 
 	 */
 	public static final Property venueCategory = m_model
-			.createProperty("https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venueCategory");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venueCategory");
 
 	/**
 	 * 
@@ -117,7 +117,7 @@ public class Ontology {
 	 * 
 	 */
 	public static final Property checkinTime = m_model
-			.createProperty("https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#checkinTime");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#checkinTime");
 
 	/**
 	 * 
@@ -125,7 +125,7 @@ public class Ontology {
 	 * 
 	 */
 	public static final Property venueDescription = m_model
-			.createProperty("https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venueDescription");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venueDescription");
 
 	
 	/**
@@ -134,11 +134,11 @@ public class Ontology {
 	 * 
 	 */
 	public static final Property venuePhoto = m_model
-			.createProperty("https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venuePhoto");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venuePhoto");
 
 	
 	public static final Property nameOfPeopleVisitedVenue = m_model
-			.createProperty("https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#nameOfPeopleVisitedVenue");
+			.createProperty("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#nameOfPeopleVisitedVenue");
 
 	/**
 	 * 
@@ -146,7 +146,7 @@ public class Ontology {
 	 * 
 	 */
 	public static final Resource twitterUser = m_model
-			.createResource("https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#twitterUser");
+			.createResource("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#twitterUser");
 	/**
 	 * 
 	 * This  create the resource venue.
@@ -154,6 +154,6 @@ public class Ontology {
 	 */
 	
 	public static final Resource venue = m_model
-			.createResource("https://tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venue");
+			.createResource("tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#venue");
 
 }

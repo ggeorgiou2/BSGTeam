@@ -22,7 +22,7 @@ public class VenueSearch extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("views/databaseSearch.jsp").forward(
+		request.getRequestDispatcher("views/tripleStore.jsp").forward(
 				request, response);
 	}
 
@@ -45,7 +45,7 @@ public class VenueSearch extends HttpServlet {
 		} else {
 			request.setAttribute("venue_results", results);
 		}
-		request.getRequestDispatcher("views/databaseSearch.jsp").forward(
+		request.getRequestDispatcher("views/tripleStore.jsp").forward(
 				request, response);
 	}
 }
