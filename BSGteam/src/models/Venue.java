@@ -1,7 +1,12 @@
 package models;
 
-import java.util.ArrayList;
-
+/**
+ * 
+ * Model for venues saved to the triple store
+ * 
+ * @author BSG Team
+ * 
+ */
 public class Venue {
 
 	private String visitorName;
@@ -15,29 +20,14 @@ public class Venue {
 	private String uri;
 
 	/**
-	 * @return the uri
-	 */
-	public String getUri() {
-		return uri;
-	}
-
-	/**
-	 * @param uri the uri to set
-	 */
-	public void setUri(String uri) {
-		this.uri = uri;
-	}
-
-	
-	/**
-	 * @param visitorName
-	 * @param venueName
-	 * @param photo
-	 * @param category
-	 * @param address
-	 * @param description
-	 * @param url
-	 * @param checkinTime
+	 * @param visitorName user vising venue
+	 * @param venueName venue name
+	 * @param photo photos of venue
+	 * @param category category venue belongs to
+	 * @param address address of venue
+	 * @param description venue description
+	 * @param url venue URL
+	 * @param checkinTime time user checked in
 	 */
 	public Venue(String visitorName, String venueName, String url,
 			String address, String description, String photo, String category,
@@ -51,6 +41,21 @@ public class Venue {
 		this.description = description;
 		this.url = url;
 		this.checkinTime = checkinTime;
+	}
+
+	/**
+	 * @return the uri
+	 */
+	public String getUri() {
+		return uri;
+	}
+
+	/**
+	 * @param uri
+	 *            the uri to set
+	 */
+	public void setUri(String uri) {
+		this.uri = uri;
 	}
 
 	/**
@@ -173,11 +178,11 @@ public class Venue {
 		this.checkinTime = checkinTime;
 	}
 
-	public String[] getPhotos(){
+	public String[] getPhotos() {
 		String[] photos = null;
-		if(getPhoto()!=null)
-		{
-		photos = getPhoto().split(" ");}
+		if (getPhoto() != null) {
+			photos = getPhoto().split(" ");
+		}
 		return photos;
 	}
 }

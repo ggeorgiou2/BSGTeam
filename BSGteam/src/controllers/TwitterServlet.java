@@ -107,14 +107,14 @@ public class TwitterServlet extends HttpServlet {
 				String filePath = path + "/";
 				System.out.println(path.getAbsolutePath());
 				Jena jena = new Jena(filePath);
-				for (Status tweet1 : tweets) {
-					
-					jena.saveUser(tweet1.getUser().getName(), tweet1.getUser()
-							.getScreenName(), tweet1.getUser().getLocation(),
-							tweet1.getUser().getProfileImageURL(), tweet1
+				
+				//saves results to the triple store
+				for (Status jenaTweet : tweets) {
+					jena.saveUser(jenaTweet.getUser().getName(), jenaTweet.getUser()
+							.getScreenName(), jenaTweet.getUser().getLocation(),
+							jenaTweet.getUser().getProfileImageURL(), jenaTweet
 									.getUser().getDescription(), null, null);
 				}
-
 			} else {
 				request.setAttribute("error", "Sorry limit exceeded");
 			}

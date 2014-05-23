@@ -85,7 +85,7 @@ public class TwitterBean {
 	/**
 	 * Gets the retweets of a particular tweet
 	 * 
-	 * @param tweetID
+	 * @param id
 	 *            the id of the tweet
 	 * @return an array list of the retweets (up to 10) of the tweet passed to
 	 *         it

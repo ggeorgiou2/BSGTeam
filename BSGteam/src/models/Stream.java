@@ -1,8 +1,30 @@
 package models;
 
+/**
+ * Holds the objects used for streaming live checkin information
+ * @author BSGTeam
+ *
+ */
 public class Stream {
 
 	private int id;
+	private String userId;
+	private String venue;
+	private String date;
+
+	/**
+	 * @param userId user's id
+	 * @param venue name of venue
+	 * @param date checkin time
+	 */
+	public Stream(int id, String userId, String venue, String date) {
+		super();
+		this.id=id;
+		this.userId = userId;
+		this.venue = venue;
+		this.date = date;
+	}
+
 	/**
 	 * @return the id
 	 */
@@ -17,22 +39,6 @@ public class Stream {
 		this.id = id;
 	}
 
-	private String userId;
-	private String venue;
-	private String date;
-	
-	/**
-	 * @param userId
-	 * @param venue
-	 * @param date
-	 */
-	public Stream(int id, String userId, String venue, String date) {
-		super();
-		this.id=id;
-		this.userId = userId;
-		this.venue = venue;
-		this.date = date;
-	}
 
 	/**
 	 * @return the userId
@@ -77,7 +83,6 @@ public class Stream {
 	}
 
 	public Stream() {
-		// TODO Auto-generated constructor stub
 	}
 
 }

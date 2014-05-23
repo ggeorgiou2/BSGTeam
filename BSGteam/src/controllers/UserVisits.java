@@ -26,6 +26,10 @@ import models.*;
  * @author BSG Team
  * 
  */
+/**
+ * @author Solomon
+ *
+ */
 public class UserVisits extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -185,33 +189,31 @@ public class UserVisits extends HttpServlet {
 
 						contacts.addAll(contacts2);
 
+						String clientID = session.getAttribute("clientID")
+								.toString();
+						String clientSecret = session.getAttribute("clinetSec")
+								.toString();
+						String redirectURL = session
+								.getAttribute("redirectURL").toString();
+						String accessToken = session
+								.getAttribute("accessToken").toString();
+
 						Map<Date, CompactVenue> userVisits = foursquare
-								.checkins(result,
-										session.getAttribute("clientID")
-												.toString(), session
-												.getAttribute("clinetSec")
-												.toString(), session
-												.getAttribute("redirectURL")
-												.toString(), session
-												.getAttribute("accessToken")
-												.toString());
+								.checkins(result, clientID, clientSecret,
+										redirectURL, accessToken);
 
 						Jena jena = new Jena(filePath);
 
 						ArrayList<String> visited = new ArrayList<String>();
 
+						// saves results to jena
 						for (Entry<Date, CompactVenue> entry : userVisits
 								.entrySet()) {
-							Photo[] photos = foursquare
-									.getImages(entry.getValue().getId(),
-											session.getAttribute("clientID")
-													.toString(), session
-													.getAttribute("clinetSec")
-													.toString(),
-											session.getAttribute("redirectURL")
-													.toString(),
-											session.getAttribute("accessToken")
-													.toString());
+							Photo[] photos = foursquare.getImages(entry
+									.getValue().getId(), clientID,
+									clientSecret,
+									redirectURL,
+									accessToken);
 
 							visited.add(entry.getValue().getName());
 							String venueUrl = "";
@@ -341,8 +343,10 @@ public class UserVisits extends HttpServlet {
 											+ location.getLat() + " Latitude: "
 											+ location.getLng();
 								}
-								Database.userTweetsDB(user, entry.getValue()
+								
+								StreamingData.userTweetsDB(user, entry.getValue()
 										.getName(), entry.getKey().toString());
+								// saves results to jena
 								jena.saveVenue(user,
 										entry.getValue().getName(), photos,
 										entry.getValue().getCategories(),
@@ -351,7 +355,7 @@ public class UserVisits extends HttpServlet {
 												.toString(), venueUrl, entry
 												.getKey().toString());
 							}
-							if (Database.getStreamStop()) {
+							if (StreamingData.getStreamStop()) {
 								stopStream(twitterStream);
 							}
 						}
@@ -396,6 +400,11 @@ public class UserVisits extends HttpServlet {
 		}
 	}
 
+	
+	/**
+	 * Used to stop the streaming of live data
+	 * @param twitterStream - stream to be stopped
+	 */
 	private void stopStream(TwitterStream twitterStream) {
 		twitterStream.cleanUp();
 		twitterStream = null;

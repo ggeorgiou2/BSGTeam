@@ -18,8 +18,6 @@ import models.*;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
-//import java.io.PrintWriter;
-
 /**
  * TwitterServlet.java
  * 
@@ -150,6 +148,7 @@ public class VenueVisits extends HttpServlet {
 										+ location.getLng();
 							}
 							User thisUser = entry.getKey().getUser();
+							//saves results to the triple store
 							jena.saveVenue(
 									thisUser.getScreenName(),
 									entry.getValue().getVenue().getName(),
@@ -265,7 +264,7 @@ public class VenueVisits extends HttpServlet {
 										+ location.getLat() + " Latitude: "
 										+ location.getLng();
 							}
-							Database.userTweetsDB(entry.getValue().getUser()
+							StreamingData.userTweetsDB(entry.getValue().getUser()
 									.getFirstName(), entry.getValue()
 									.getVenue().getName(), entry.getKey()
 									.toString());
@@ -278,7 +277,7 @@ public class VenueVisits extends HttpServlet {
 											.toString(), venueUrl, entry
 											.getKey().toString());
 						}
-						if (Database.getStreamStop()) {
+						if (StreamingData.getStreamStop()) {
 							stopStream(twitterStream);
 						}
 					}
@@ -291,7 +290,7 @@ public class VenueVisits extends HttpServlet {
 					}
 				};
 
-				Database.deleteFromStop();
+				StreamingData.deleteFromStop();
 				twitterStream.addListener(listener);
 
 				double lat1 = lat - 0.1;
@@ -316,6 +315,11 @@ public class VenueVisits extends HttpServlet {
 		}
 	}
 
+	
+	/**
+	 * Stops the live streaming of data
+	 * @param twitterStream stream to be stopped
+	 */
 	private void stopStream(TwitterStream twitterStream) {
 
 		twitterStream.cleanUp();

@@ -15,8 +15,6 @@ import models.FrequentWord;
 import models.TwitterBean;
 import twitter4j.*;
 
-//import twitter4j.conf.ConfigurationBuilder;
-
 /**
  * Discussions.java This servlet class handles the tracking of what multiple
  * users (up to 10) are discussing about
@@ -148,8 +146,7 @@ public class Discussions extends HttpServlet {
 								System.out.println(wordlist.toString());
 							}
 							// retrieve required number of keywords and create a
-							// sub
-							// list
+							// sub list
 							int keywords = Integer.parseInt(request
 									.getParameter("keywords"));
 							List<Map.Entry<String, Integer>> subWordList = null;
@@ -166,9 +163,7 @@ public class Discussions extends HttpServlet {
 								List<String> list = Arrays.asList(wrd
 										.split(" "));
 								// get each user's contribution to the total
-								// number
-								// of
-								// keywords
+								// number of keywords
 								for (Entry<String, Integer> ent : subWordList) {
 									int rsult = Collections.frequency(list,
 											ent.getKey());

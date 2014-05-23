@@ -24,6 +24,7 @@ public class VenueSearch extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String imageFor = request.getParameter("imageFor");
+		// gets pictures for a particular venue
 		if (imageFor != null) {
 			String root = getServletContext().getRealPath("/");
 			File path = new File(root + "/Triple_store");
@@ -50,8 +51,8 @@ public class VenueSearch extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// sets the header
-		response.setContentType("text/html");
+
+		// gets the venue name to be searched for
 		String venue = request.getParameter("venue");
 		String root = getServletContext().getRealPath("/");
 		File path = new File(root + "/Triple_store");
@@ -62,7 +63,8 @@ public class VenueSearch extends HttpServlet {
 		String filePath = path + "/";
 		Jena jena = new Jena(filePath);
 		ArrayList<Venue> results = jena.queryVenues(venue);
-		if (results.isEmpty()) {
+
+		if (results.get(0).getVenueName()==null) {
 			request.setAttribute("error",
 					"Sorry your search yielded no results");
 		} else {

@@ -11,7 +11,9 @@ import fi.foyt.foursquare.api.FoursquareApi;
 import models.*;
 
 /**
- * Servlet implementation class FoursquareToken
+ * This class  receives and verifies a user's foursquare token
+ * 
+ * @author BSGTeam
  */
 public class FoursquareToken extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -34,8 +36,8 @@ public class FoursquareToken extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		//System.out.println("11");
 
+		//receives parameters from the form
 		String clientID = request.getParameter("clientID");
 		String clientSecret = request.getParameter("clinetSec");
 		String redirectURL = request.getParameter("redirectURL");
@@ -49,10 +51,12 @@ public class FoursquareToken extends HttpServlet {
 				FoursquareApi fsAPI = new FoursquareApi(clientID, clientSecret,
 						redirectURL);
 				fsAPI.setoAuthToken(accessToken);
+				// checks if token is valid by searching for a venue...
 				if (fsAPI
 						.venuesSearch("40.7,-74", null, null, null, null,
 								null, null, null, null, null, null).getMeta()
 						.getCode() == 200) {
+					//token is valid; session attributes are set
 					session.setAttribute("foursquareToken", "foursquareToken");
 					session.setAttribute("clientID",
 							foursquareObject.getClientID());
@@ -63,7 +67,7 @@ public class FoursquareToken extends HttpServlet {
 					session.setAttribute("accessToken",
 							foursquareObject.getAccessToken());
 					request.setAttribute("success",
-							"You have been successfully logged in on Foursquare");
+							"You have been successfully logged in");
 				} else {
 					request.setAttribute("error",
 							"Sorry, your foursquare token is invalid");

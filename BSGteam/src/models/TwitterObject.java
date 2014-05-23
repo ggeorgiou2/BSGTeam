@@ -1,10 +1,8 @@
-/**
- * 
- */
 package models;
 
 /**
- * @author acp13gg
+ * This class holds the token values for twitter API authentication
+ * @author BSG Team
  * 
  */
 public class TwitterObject {
@@ -39,7 +37,7 @@ public class TwitterObject {
 	}
 
 	/**
-	 * @param token_access
+	 * @param tokenAccess
 	 *            the token_access to set
 	 */
 	public void setToken_access(String tokenAccess) {
@@ -84,7 +82,7 @@ public class TwitterObject {
 	}
 
 	/**
-	 * @param customer_secret
+	 * @param customerSecret
 	 *            the customer_secret to set
 	 */
 	public void setCustomer_secret(String customerSecret) {

@@ -10,11 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import models.Database;
+import models.StreamingData;
 import models.Stream;
 
 /**
- * Servlet implementation class StreamVisits
+ * This class is used to manage the streaming of checkins of particular users or
+ * within a location
+ * 
+ * @author BSGTeam
  */
 public class StreamVisits extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -28,32 +31,35 @@ public class StreamVisits extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		//refreshes the page to check for new data
 		response.addHeader("Refresh", "3");
 		String user = request.getParameter("user");
 		String venue = request.getParameter("venue");
 		PrintWriter out = response.getWriter();
 		streams = new ArrayList<Stream>();
-
+		//user checkin is being streamed
 		if (user != null) {
-			streams.addAll(Database.readStream(user));
+			streams.addAll(StreamingData.readStream(user));
 			request.setAttribute("user", user);
 			request.setAttribute("streams", streams);
 			request.getRequestDispatcher("views/streams.jsp").forward(request,
 					response);
-		} else if (venue != null) {
-			streams.addAll(Database.readVenueStream(venue));
+		} 
+		// location checkins are being streamed
+		else if (venue != null) {
+			streams.addAll(StreamingData.readVenueStream(venue));
 			out.println("<h1>Tracking locations: </h1>");
 			request.setAttribute("venue", venue);
 			request.setAttribute("streams", streams);
-			request.getRequestDispatcher("views/venueStreams.jsp").forward(request,
-					response);
+			request.getRequestDispatcher("views/venueStreams.jsp").forward(
+					request, response);
 		}
-		
+
 	}
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		Database.setStreamStop();
+		StreamingData.setStreamStop();
 		String venue = request.getParameter("venue");
 		response.setContentType("text/html");
 		if (venue != null) {

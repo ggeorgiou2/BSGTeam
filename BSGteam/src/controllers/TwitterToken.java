@@ -11,7 +11,8 @@ import models.TwitterObject;
 import twitter4j.Twitter;
 
 /**
- * Servlet implementation class TwitterToken
+ * This class is used to receive and verify twitter credentials and sets the
+ * appropriate session. It is also used for logging out
  */
 public class TwitterToken extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -43,6 +44,7 @@ public class TwitterToken extends HttpServlet {
 			try {
 				twitter = twitterConnection.init(customer_key, customer_secret,
 						token_access, token_secret);
+				//verifies that the credentials supplied are correct
 				if (twitter.getScreenName() != null) {
 					session.setAttribute("twitterToken", "twitterToken");
 					session.setAttribute("token_access",
@@ -53,7 +55,6 @@ public class TwitterToken extends HttpServlet {
 							twitterTokens.getCustomer_key());
 					session.setAttribute("customer_secret",
 							twitterTokens.getCustomer_secret());
-					// System.out.println(twitter);
 					response.getWriter().write("success");
 				} else {
 					response.getWriter().write("error");

@@ -1,5 +1,10 @@
 package models;
 
+/**
+ * Model for users saved to the triple store
+ * @author BSG Team
+ *
+ */
 public class TwitterUser {
 
 	private String userName;
@@ -11,6 +16,15 @@ public class TwitterUser {
 	private String contactPeople;
 	private String uri;
 
+	/**
+	 * @param userName user's full name
+	 * @param id twitter id of user
+	 * @param location location of user
+	 * @param image URL of user profile image
+	 * @param description user description
+	 * @param locationVisited locations user has visited
+	 * @param contactPeople people user has contacted
+	 */
 	public TwitterUser(String userName, String id, String location,
 			String image, String description, String locationVisited,
 			String contactPeople) {

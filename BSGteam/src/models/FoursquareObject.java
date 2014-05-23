@@ -1,16 +1,15 @@
-/**
- * 
- */
 package models;
 
 /**
- * @author Solomon
+ * This class holds the token values for foursquare API authentication
+ * 
+ * @author BSGTeam
  *
  */
 public class FoursquareObject {
 
 	private String clientID;
-	private String clinetSec;
+	private String clientSecret;
 	private String redirectURL;
 	private String accessToken;
 	
@@ -31,7 +30,7 @@ public class FoursquareObject {
 			String redirectURL, String accessToken) {
 		super();
 		this.clientID = clientID;
-		this.clinetSec = clinetSec;
+		this.clientSecret = clinetSec;
 		this.redirectURL = redirectURL;
 		this.accessToken = accessToken;
 	}
@@ -54,14 +53,14 @@ public class FoursquareObject {
 	 * @return the clinetSec
 	 */
 	public String getClinetSec() {
-		return clinetSec;
+		return clientSecret;
 	}
 
 	/**
 	 * @param clinetSec the clinetSec to set
 	 */
 	public void setClinetSec(String clinetSec) {
-		this.clinetSec = clinetSec;
+		this.clientSecret = clinetSec;
 	}
 
 	/**

@@ -13,7 +13,7 @@ import models.Jena;
 import models.TwitterUser;
 
 /**
- * TwitterSearch.java
+ * UserSearch.java
  * 
  * This class is used to connect to the triple store and retrieve records of
  * users
@@ -27,13 +27,14 @@ public class UserSearch extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String visitor = request.getParameter("visitor");
+		//used to display results of users from hyperlinks in venue search
 		if (visitor != null) {
 			String root = getServletContext().getRealPath("/");
 			File path = new File(root + "/Triple_store");
 			if (!path.exists()) {
 				path.mkdirs();
 			}
-
+			//gets file path were the rdf triple store resides
 			String filePath = path + "/";
 			Jena jena = new Jena(filePath);
 			ArrayList<TwitterUser> results = jena.queryUsers(visitor);
@@ -52,6 +53,7 @@ public class UserSearch extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		// sets the header
 		response.setContentType("text/html");
+		//gets the search term for the form
 		String twitterId = request.getParameter("twitterID");
 		String root = getServletContext().getRealPath("/");
 		File path = new File(root + "/Triple_store");
@@ -61,8 +63,9 @@ public class UserSearch extends HttpServlet {
 
 		String filePath = path + "/";
 		Jena jena = new Jena(filePath);
+		//retrieves details of results matching the search term
 		ArrayList<TwitterUser> results = jena.queryUsers(twitterId);
-		if (results.isEmpty()) {
+		if (results.get(0).getUserName()==null) {
 			request.setAttribute("error",
 					"Sorry your search yielded no results");
 		} else {

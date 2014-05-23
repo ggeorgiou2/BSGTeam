@@ -42,19 +42,14 @@ public class UserDiscussion extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		try {
-			// Instantiate the twitterBean
-			
-			
+		try {	
 			HttpSession session = request.getSession();
 			// if (session.getAttribute("twitterToken") != null) {
-			//System.out.println("3");
 			String token_access = (String) session.getAttribute("token_access");
 			String token_secret = (String) session.getAttribute("token_secret");
 			String customer_key = (String) session.getAttribute("customer_key");
 			String customer_secret = (String) session
 					.getAttribute("customer_secret");
-			System.out.println(token_access);
 
 			// instantiates a new object of the <code>TwitterBean</code> class
 			TwitterBean twitterConnection = new TwitterBean();
@@ -118,6 +113,7 @@ public class UserDiscussion extends HttpServlet {
 					} catch (FileNotFoundException e) {
 						e.printStackTrace();
 					}
+					//excludes common words from result
 					HashSet<String> commonWords = new HashSet<String>(
 							Arrays.asList(data));
 					List<Map.Entry<String, Integer>> wordlist = w.countWord(
