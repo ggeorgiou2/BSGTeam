@@ -56,9 +56,9 @@ public class Discussions extends HttpServlet {
 
 			// instantiates a new object of the <code>TwitterBean</code> class
 			TwitterBean twitterConnection = new TwitterBean();
-			Twitter twitter = twitterConnection.init(customer_key, customer_secret, token_access,
-					token_secret);
-			
+			Twitter twitter = twitterConnection.init(customer_key,
+					customer_secret, token_access, token_secret);
+
 			int remaining = twitter.getRateLimitStatus().get("/search/tweets")
 					.getRemaining();
 			if (remaining > 1) {
@@ -88,83 +88,101 @@ public class Discussions extends HttpServlet {
 					ArrayList<String> userWordTweets = new ArrayList<String>();
 					FrequentWord w = new FrequentWord();
 					int results = 0;
-					for (int i = 0; i < splitUser.length; i++) {
-						// retrieve each user's tweets
-						String queryText = "from:" + splitUser[i];
-						query = new Query(queryText);
-						query.setSince(since);
-						query.count(100);
-						result = twitter.search(query);
-						if (!result.getTweets().isEmpty()) {
-							results++;
+					boolean validUsers = true;
+					try {
+						for (int i = 0; i < splitUser.length; i++) {
+							twitter.showUser(splitUser[i].trim());
 						}
-						// string to keep track of each user's original set of
-						// tweets
-						String temptext = "";
-						for (Status status : result.getTweets()) {
-							temptext += status.getText() + " ";
-							text += status.getText() + " ";
-						}
-						userWordTweets.add(temptext);
-					}
-					if (results == 0) {
+					} catch (Exception e) {
 						request.setAttribute("error",
-								"Sorry, your search returned no results");
-					} else {
-						String root = getServletContext().getRealPath("/");
-						File words = new File(root + "common_words.txt");
-						String[] data = null;
-						try {
-							Scanner in = new Scanner(words);
-							String line; // thus skip duplicate records
-							while (in.hasNextLine()) {
-								line = in.nextLine();
-								System.out.println(line);
-								data = line.split(",");
+								"Please check your input, one (or more) of your twitter IDs is incorrect.");
+						validUsers = false;
+					}
+					if (validUsers) {
+						for (int i = 0; i < splitUser.length; i++) {
+							// retrieve each user's tweets
+							String queryText = "from:" + splitUser[i].trim();
+							query = new Query(queryText);
+							query.setSince(since);
+							query.count(100);
+							result = twitter.search(query);
+							if (!result.getTweets().isEmpty()) {
+								results++;
 							}
-						} catch (FileNotFoundException e) {
-							e.printStackTrace();
-						}
-						HashSet<String> commonWords = new HashSet<String>(
-								Arrays.asList(data));
-
-						List<Map.Entry<String, Integer>> wordlist = null;
-						if (text != null) {
-							wordlist = w.countWord(text, commonWords);
-							System.out.println(wordlist.toString());
-						}
-						// retrieve required number of keywords and create a sub
-						// list
-						int keywords = Integer.parseInt(request
-								.getParameter("keywords"));
-						List<Map.Entry<String, Integer>> subWordList = null;
-						if (wordlist.size() > keywords) {
-							subWordList = wordlist.subList(0, keywords);
-						} else {
-							subWordList = wordlist;
-						}
-
-						List<List<Map.Entry<String, Integer>>> frequentWordList = new ArrayList<List<Entry<String, Integer>>>();
-						for (String wrd : userWordTweets) {
-							List<Map.Entry<String, Integer>> entries = new ArrayList<Entry<String, Integer>>();
-							Map<String, Integer> finalWords = new HashMap<String, Integer>();
-							List<String> list = Arrays.asList(wrd.split(" "));
-							// get each user's contribution to the total number
+							// string to keep track of each user's original set
 							// of
-							// keywords
-							for (Entry<String, Integer> ent : subWordList) {
-								int rsult = Collections.frequency(list,
-										ent.getKey());
-								finalWords.put(ent.getKey(), rsult);
+							// tweets
+							String temptext = "";
+							for (Status status : result.getTweets()) {
+								temptext += status.getText() + " ";
+								text += status.getText() + " ";
 							}
-							entries.addAll(finalWords.entrySet());
-							frequentWordList.add(entries);
+							userWordTweets.add(temptext);
 						}
 
-						// pass the results to the views for display
-						request.setAttribute("finalList", frequentWordList);
-						request.setAttribute("users", splitUser);
-						request.setAttribute("totalList", subWordList);
+						if (results == 0) {
+							request.setAttribute("error",
+									"Sorry, your search returned no results");
+
+						} else {
+							String root = getServletContext().getRealPath("/");
+							File words = new File(root + "common_words.txt");
+							String[] data = null;
+							try {
+								Scanner in = new Scanner(words);
+								String line; // thus skip duplicate records
+								while (in.hasNextLine()) {
+									line = in.nextLine();
+									System.out.println(line);
+									data = line.split(",");
+								}
+							} catch (FileNotFoundException e) {
+								e.printStackTrace();
+							}
+							HashSet<String> commonWords = new HashSet<String>(
+									Arrays.asList(data));
+
+							List<Map.Entry<String, Integer>> wordlist = null;
+							if (text != null) {
+								wordlist = w.countWord(text, commonWords);
+								System.out.println(wordlist.toString());
+							}
+							// retrieve required number of keywords and create a
+							// sub
+							// list
+							int keywords = Integer.parseInt(request
+									.getParameter("keywords"));
+							List<Map.Entry<String, Integer>> subWordList = null;
+							if (wordlist.size() > keywords) {
+								subWordList = wordlist.subList(0, keywords);
+							} else {
+								subWordList = wordlist;
+							}
+
+							List<List<Map.Entry<String, Integer>>> frequentWordList = new ArrayList<List<Entry<String, Integer>>>();
+							for (String wrd : userWordTweets) {
+								List<Map.Entry<String, Integer>> entries = new ArrayList<Entry<String, Integer>>();
+								Map<String, Integer> finalWords = new HashMap<String, Integer>();
+								List<String> list = Arrays.asList(wrd
+										.split(" "));
+								// get each user's contribution to the total
+								// number
+								// of
+								// keywords
+								for (Entry<String, Integer> ent : subWordList) {
+									int rsult = Collections.frequency(list,
+											ent.getKey());
+									finalWords.put(ent.getKey(), rsult);
+								}
+								entries.addAll(finalWords.entrySet());
+								frequentWordList.add(entries);
+							}
+
+							// pass the results to the views for display
+							request.setAttribute("finalList", frequentWordList);
+							request.setAttribute("users", splitUser);
+							request.setAttribute("totalList", subWordList);
+						}
 					}
 				}
 			} else {
@@ -172,6 +190,7 @@ public class Discussions extends HttpServlet {
 			}
 			request.setAttribute("finalList_result", "true");
 		} catch (Exception err) {
+			err.printStackTrace();
 			request.setAttribute("finalList_result", "false");
 			request.setAttribute("error",
 					"Sorry, an error occurred. Please try again later");
