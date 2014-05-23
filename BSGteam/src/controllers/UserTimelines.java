@@ -10,12 +10,6 @@ import java.util.Map.Entry;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import fi.foyt.foursquare.api.entities.CompactVenue;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.*;
 import twitter4j.*;
 
 /**
