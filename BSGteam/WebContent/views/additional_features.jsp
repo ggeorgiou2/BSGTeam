@@ -32,6 +32,7 @@
 							Location</a></li>
 					<li><a href="#LocationKeywords" data-toggle="tab">Trending
 							discussions</a></li>
+					<li><a href="#twitterTimeline" data-toggle="tab">Twitter Timeline</a></li>
 
 				</ul>
 				<div id="myTabContent" class="tab-content">
@@ -44,7 +45,9 @@
 					<div class="tab-pane fade" id="NearVenues">
 						<jsp:include page="nearvenues.jsp" />
 					</div>
-
+					<div class="tab-pane fade" id="twitterTimeline">
+						<jsp:include page="twitterTimeline.jsp" />
+					</div>
 				</div>
 			</div>
 		</div>
