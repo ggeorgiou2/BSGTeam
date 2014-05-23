@@ -41,11 +41,13 @@
 							class="icon-bar"></span>
 					</button>
 					<!-- You'll want to use a responsive image option so this logo looks good on devices - I recommend using something like retina.js (do a quick Google search for it and you'll find it) -->
-					<a class="navbar-brand" href="twitter"> <img
-						src="images/twittericon.png" width="32" height="32" alt="Twitter" />
-						<img src="images/foursquareicon.png" width="32" height="32"
-						alt="Foursquare" /> <img src="images/mapsicon.png" width="32"
-						height="32" alt="GoogleMaps" /> BSG Team
+					<a class="navbar-brand" href="twitter"> 
+						<img src="images/instagram.png" width="32" height="32"	alt="Instagram" />
+						<img src="images/twittericon.png" width="32" height="32" alt="Twitter" />
+						<img src="images/foursquareicon.png" width="32" height="32"	alt="Foursquare" />
+						<img src="images/mapsicon.png" width="32" height="32" alt="GoogleMaps" />
+						<img src="images/flickr.png" width="32" height="32" alt="flickr" />
+						BSG Team 
 					</a>
 				</div>
 
