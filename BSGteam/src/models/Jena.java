@@ -89,7 +89,7 @@ public class Jena {
 		Model m = ModelFactory.createDefaultModel();
 		String xmlbase = "tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/venueTripleStore.rdf";
 		// create Resource for twitter use
-		Resource venue = m.createResource(xmlbase+"#"+venueName);
+		Resource venue = m.createResource(xmlbase+"#"+venueName.replace(" ","_"));
 		// add to properties to twitterUser
 		venue.addProperty(Ontology.nameOFVisitor, visitorName)
 				.addProperty(Ontology.venueName, venueName)
