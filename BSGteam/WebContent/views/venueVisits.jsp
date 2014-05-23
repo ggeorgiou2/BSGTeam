@@ -88,10 +88,11 @@
 							class="table table-hover table-responsive table-bordered table-condensed">
 							<thead>
 								<tr>
-									<th>Name
+									<th>Name (Links to timeline of the user)
 									<th>Checkin time
-									<th>Venue Name (Click to view images and location on a map)
-									<th>Address 
+									<th>Venue Name (Links to images and location on a
+										map)
+									<th>Address
 									<th>URL
 									<th>Categories
 								</tr>
@@ -100,9 +101,10 @@
 								<c:forEach var="checkin" items="${checkins}">
 									<c:if test="${not empty checkin.value.venue.name}">
 										<tr>
-											<td><c:out value="${checkin.value.user.firstName}" /> <c:out
-													value="${checkin.value.user.lastName}" /></td>
-											<td><c:out value="${checkin.key}"></c:out></td>
+											<td><a
+												href='timelines?screenname=<c:out value="${checkin.key.user.screenName}"/>'><c:out
+														value="${checkin.key.user.name}" /></a></td>
+											<td><c:out value="${checkin.key.createdAt}"></c:out></td>
 											<td><a
 												href='venue?id=<c:out value="${checkin.value.venue.id}"/>
 											&lat=<c:out value="${checkin.value.venue.location.lat}"/>

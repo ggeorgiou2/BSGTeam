@@ -24,12 +24,12 @@
 					</c:if>
 
 					<c:if test="${not empty images}">
+						<h1>Venue Images</h1>
 						<div id="carousel-example-generic" class="carousel slide"
-							data-ride="carousel" style="width: 100%; float: left;">
+							data-ride="carousel" style="width: 50%">
 
 							<!-- Wrapper for slides -->
 							<div class="carousel-inner">
-								<h1 align="center">Venue Images</h1>
 
 								<c:forEach var="image" varStatus="loop" items="${images}">
 									<c:choose>
@@ -41,7 +41,7 @@
 										</c:otherwise>
 									</c:choose>
 									<div id="carousel_image">
-										<img src="<c:out value="${image.url}" ></c:out>" />
+										<img src="<c:out value="${image}" ></c:out>" />
 									</div>
 									<div class="carousel-caption">
 										<c:out value="${loop.count}"></c:out>
@@ -64,9 +64,9 @@
 					</c:if>
 				</div>
 
+			</div>
 		</div>
 	</div>
-</div>
 </div>
 <footer>
 	<%@ include file="footer.html"%>

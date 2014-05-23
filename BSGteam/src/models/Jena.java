@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.hp.hpl.jena.query.ParameterizedSparqlString;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
@@ -20,6 +21,7 @@ import com.hp.hpl.jena.query.ResultSetFormatter;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.sparql.util.FmtUtils;
 import com.hp.hpl.jena.sparql.vocabulary.FOAF;
 
 import fi.foyt.foursquare.api.entities.Category;
@@ -37,10 +39,11 @@ public class Jena {
 		this.folder = folder;
 	}
 
-	public void saveUser(String userName, String id, String location,
+	public void saveUser(String fullame, String id, String location,
 			String image, String description,
 			ArrayList<String> locationVisited, Set<String> peopleContacted) {
 
+		id = id.replace("'", "");
 		if (!userExists(id)) {
 			Model m = ModelFactory.createDefaultModel();
 			String xmlbase = "tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/userTripleStore.rdf";
@@ -50,7 +53,7 @@ public class Jena {
 			Resource user = m.createResource(xmlbase + "#" + id);
 
 			// add to properties to twitterUser
-			user.addProperty(FOAF.name, userName)
+			user.addProperty(FOAF.name, fullame)
 					.addProperty(Ontology.USERID, id)
 					.addProperty(Ontology.LOCATION, location)
 					.addProperty(FOAF.img, image)
@@ -73,7 +76,8 @@ public class Jena {
 			// now write the model in TURTLE form to a file
 			FileOutputStream userRDF = null;
 			try {
-				userRDF = new FileOutputStream(folder + "userTripleStore.rdf", true);
+				userRDF = new FileOutputStream(folder + "userTripleStore.rdf",
+						true);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -85,11 +89,13 @@ public class Jena {
 			Category[] categories, String address, String description,
 			String url, String checkinTime) {
 
+		venueName = venueName.replace("'", "");
 		// if (!checkinExists(visitorName, venueName, checkinTime)) {
 		Model m = ModelFactory.createDefaultModel();
 		String xmlbase = "tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/venueTripleStore.rdf";
 		// create Resource for twitter use
-		Resource venue = m.createResource(xmlbase+"#"+venueName.replace(" ","_"));
+		Resource venue = m.createResource(xmlbase + "#"
+				+ venueName.replace(" ", "_"));
 		// add to properties to twitterUser
 		venue.addProperty(Ontology.nameOFVisitor, visitorName)
 				.addProperty(Ontology.venueName, venueName)
@@ -98,6 +104,7 @@ public class Jena {
 				.addProperty(Ontology.venueDescription, description)
 				.addProperty(Ontology.checkinTime, checkinTime);
 
+		System.out.println(venueName);
 		for (Category category : categories) {
 			venue.addProperty(Ontology.venueCategory, category.getName());
 		}
@@ -115,7 +122,8 @@ public class Jena {
 		// now write the model in XML form to a file
 		FileOutputStream venueRDF = null;
 		try {
-			venueRDF = new FileOutputStream(folder + "venueTripleStore.rdf", true);
+			venueRDF = new FileOutputStream(folder + "venueTripleStore.rdf",
+					true);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -126,11 +134,10 @@ public class Jena {
 	public ArrayList<TwitterUser> queryUsers(String userId) {
 		ArrayList<TwitterUser> users = new ArrayList<TwitterUser>();
 		InputStream in;
+		userId = userId.replace("'", "");
 		try {
 			String xmlbase = "tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/userTripleStore.rdf";
-
 			in = new FileInputStream(new File(folder + "userTripleStore.rdf"));
-
 			// Create an empty in-memory model and populate it from the graph
 			Model model = ModelFactory.createDefaultModel();
 			model.read(in, xmlbase, "TURTLE"); // null base URI, since model //
@@ -138,7 +145,7 @@ public class Jena {
 			// absolute
 			in.close();
 			// Create a new query
-			String queryString = "PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
+			String queryStringOne = "PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
 					+ "PREFIX intelWeb: <tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#> "
 					+ "SELECT (min(?x) as ?uri) ?id (min(?userName) as ?name) (min(?image) as ?profile) (min(?location) as ?loc) "
 					+ "(min(?description) as ?des) (group_concat(?locationVisited; separator=',') as ?visited) "
@@ -150,11 +157,16 @@ public class Jena {
 					+ "OPTIONAL {?x foaf:img ?image .}"
 					+ "OPTIONAL {?x intelWeb:description ?description .}"
 					+ "OPTIONAL {?x intelWeb:locationVisited ?locationVisited .}"
-					+ "OPTIONAL {?x foaf:knows ?contactPeople . " + "}"
-					+ "FILTER regex(?id,'^" + userId + "','i')" + " }"
-					+ "GROUP BY ?id";
-			// System.out.println(queryString);
-			Query query = QueryFactory.create(queryString);
+					+ "OPTIONAL {?x foaf:knows ?contactPeople . "
+					+ "}"
+					+ "FILTER regex(?id,'^";
+			String queryStringTwo = "','i')" + " }" + "GROUP BY ?id";
+			ParameterizedSparqlString queryString = new ParameterizedSparqlString();
+			queryString.append(queryStringOne);
+			queryString.append(userId);
+			queryString.append(queryStringTwo);
+
+			Query query = queryString.asQuery();
 			// Execute the query and obtain results
 			QueryExecution qe = QueryExecutionFactory.create(query, model);
 			ResultSet results = qe.execSelect();
@@ -195,9 +207,7 @@ public class Jena {
 				user.setUri(uri);
 				users.add(user);
 			}
-
-			// System.out.println(users.get(0).getUserName());
-			query = QueryFactory.create(queryString);
+			query = queryString.asQuery();
 			qe = QueryExecutionFactory.create(query, model);
 			results = qe.execSelect();
 			ResultSetFormatter.out(System.out, results, query);
@@ -216,6 +226,8 @@ public class Jena {
 	public boolean userExists(String user) {
 		boolean exists = false;
 		InputStream in;
+		user = user.replace("'", "");
+
 		try {
 			String xmlbase = "tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/userTripleStore.rdf";
 			in = new FileInputStream(new File(folder + "userTripleStore.rdf"));
@@ -226,13 +238,19 @@ public class Jena {
 			// absolute
 			in.close();
 			// Create a new query
-			String queryString = "PREFIX intelWeb: <tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#> "
+			String queryStringOne = "PREFIX intelWeb: <tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#> "
 					+ "SELECT ?id "
 					+ "WHERE {"
 					+ " ?x intelWeb:userId ?id. "
-					+ "FILTER (?id='" + user + "')" + " }";
+					+ "FILTER (?id='";
+			String queryStringTwo = "')" + " }";
+
+			ParameterizedSparqlString queryString = new ParameterizedSparqlString();
+			queryString.append(queryStringOne);
+			queryString.append(user);
+			queryString.append(queryStringTwo);
 			// System.out.println(queryString);
-			Query query = QueryFactory.create(queryString);
+			Query query = queryString.asQuery();
 			// Execute the query and obtain results
 			QueryExecution qe = QueryExecutionFactory.create(query, model);
 			ResultSet results = qe.execSelect();
@@ -255,6 +273,7 @@ public class Jena {
 	public boolean checkinExists(String visitor, String venue, String time) {
 		boolean exists = false;
 		InputStream in;
+		venue = venue.replace("'", "");
 		try {
 			String xmlbase = "tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/venueTripleStore.rdf";
 			in = new FileInputStream(new File(folder + "venueTripleStore.rdf"));
@@ -314,9 +333,9 @@ public class Jena {
 												// URIs are
 			// absolute
 			in.close();
-
+			name = name.replace("'", "");
 			// Create a new query
-			String queryString = "PREFIX intelWeb: <tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#> "
+			String queryStringOne = "PREFIX intelWeb: <tomcat.dcs.shef.ac.uk:8080/stucat033/Triple_store/bsgteam.rdfs#> "
 					+ "SELECT (min(?x) as ?uri) ?venueName (min(?visitorName) as ?visitor) (min(?checkinTime) as ?time) "
 					+ "(min(?venueDescription) as ?description) (group_concat(?venuePhoto) as ?photos) "
 					+ "(min(?venueUrl) as ?url) (min(?venueAddress) as ?address) (group_concat(distinct ?venueCategory) as ?category) "
@@ -329,13 +348,15 @@ public class Jena {
 					+ "OPTIONAL {?x intelWeb:venueAddress ?venueAddress .}"
 					+ "OPTIONAL {?x intelWeb:venueDescription ?venueDescription .}"
 					+ "OPTIONAL {?x intelWeb:venueCategory ?venueCategory .}"
-					+ "FILTER regex(?venueName,'^"
-					+ name
-					+ "','i')"
-					+ " }"
-					+ "GROUP BY ?venueName ";
-			// System.out.println(queryString);
-			Query query = QueryFactory.create(queryString);
+					+ "FILTER regex(?venueName,'^";
+			String queryStringTwo = "','i')" + " }" + "GROUP BY ?venueName ";
+
+			ParameterizedSparqlString queryString = new ParameterizedSparqlString();
+			queryString.append(queryStringOne);
+			queryString.append(name);
+			queryString.append(queryStringTwo);
+
+			Query query = queryString.asQuery();
 			// Execute the query and obtain results
 			QueryExecution qe = QueryExecutionFactory.create(query, model);
 			ResultSet results = qe.execSelect();
@@ -345,7 +366,6 @@ public class Jena {
 			String venueAddress = null;
 			String venueDescription = null;
 			String venuePhoto = null;
-			ArrayList<String> photos = new ArrayList<String>();
 			String venueCategory = null;
 			String checkinTime = null;
 			String uri = null;
@@ -383,7 +403,7 @@ public class Jena {
 			}
 
 			// System.out.println(users.get(0).getUserName());
-			query = QueryFactory.create(queryString);
+			query = queryString.asQuery();
 			qe = QueryExecutionFactory.create(query, model);
 			results = qe.execSelect();
 			ResultSetFormatter.out(System.out, results, query);
@@ -405,7 +425,7 @@ public class Jena {
 		// j.queryUsers("m");
 		// System.out.println(j.checkinExists("soloistic1",
 		// "St George\\'s Library", "Wed May 21 16:05:32 BST 2014"));
-		j.saveUser("me", "you", "", "", "", null, null);
-		// j.queryVenues("T");
+		// j.saveUser("me", "you", "", "", "", null, null);
+		j.queryVenues("St George's");
 	}
 }

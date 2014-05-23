@@ -3,6 +3,7 @@ package controllers;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -107,14 +108,18 @@ public class VenueVisits extends HttpServlet {
 
 					// get checkin information from Foursquare
 					Foursquare foursquare = new Foursquare();
-					Map<Date, Checkin> venueVisits = foursquare.venueCheckins(
-							result,
-							session.getAttribute("clientID").toString(),
-							session.getAttribute("clinetSec").toString(),
-							session.getAttribute("redirectURL").toString(),
-							session.getAttribute("accessToken").toString());
+					Map<Status, Checkin> venueVisits = foursquare
+							.venueCheckins(
+									result,
+									session.getAttribute("clientID").toString(),
+									session.getAttribute("clinetSec")
+											.toString(),
+									session.getAttribute("redirectURL")
+											.toString(),
+									session.getAttribute("accessToken")
+											.toString());
 					Jena jena = new Jena(filePath);
-					for (Entry<Date, Checkin> entry : venueVisits.entrySet()) {
+					for (Entry<Status, Checkin> entry : venueVisits.entrySet()) {
 						Photo[] photos = null;
 						if (entry.getValue() != null) {
 							photos = foursquare
@@ -144,14 +149,24 @@ public class VenueVisits extends HttpServlet {
 										+ location.getLat() + " Latitude: "
 										+ location.getLng();
 							}
-							jena.saveVenue(entry.getValue().getUser()
-									.getFirstName(), entry.getValue()
-									.getVenue().getName(), photos, entry
-									.getValue().getVenue().getCategories(),
+							User thisUser = entry.getKey().getUser();
+							jena.saveVenue(
+									thisUser.getScreenName(),
+									entry.getValue().getVenue().getName(),
+									photos,
+									entry.getValue().getVenue().getCategories(),
 									venueAddress, entry.getValue().getVenue()
 											.getStats().getUsersCount()
 											.toString(), venueUrl, entry
-											.getKey().toString());
+											.getKey().getCreatedAt().toString());
+							ArrayList<String> visited = new ArrayList<String>();
+							visited.add(entry.getValue()
+											.getVenue().getName());
+							jena.saveUser(thisUser.getName(),
+									thisUser.getScreenName(),
+									thisUser.getLocation(),
+									thisUser.getProfileImageURL(),
+									thisUser.getDescription(), visited, null);
 						}
 					}
 					if (venueVisits.isEmpty()) {

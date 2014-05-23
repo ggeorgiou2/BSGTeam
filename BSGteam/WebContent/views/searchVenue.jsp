@@ -34,32 +34,29 @@
 							<tbody class="table-hover">
 								<c:forEach var="venue" items="${venue_results}">
 									<tr about='<c:out value="${venue.uri}"/>'>
-										
-										<td property="intelligentWeb:visitorName">
-										<a href="databaseSearch?visitor=<c:out
+
+										<td property="intelligentWeb:visitorName"><a
+											href="userSearch?visitor=<c:out
 												value="${venue.visitorName}" />"><c:out
-												value="${venue.visitorName}" /></a></td>
+													value="${venue.visitorName}" /></a></td>
 										<td property="intelligentWeb:venueName"><c:out
 												value="${venue.venueName}" /></td>
-										<td property="intelligentWeb:url"><c:out
-												value="${venue.url}" /></td>
+										<td property="intelligentWeb:url"><a
+											href='<c:out
+												value="${venue.url}" />'><c:out
+													value="${venue.url}" /></a></td>
 										<td property="intelligentWeb:address"><c:out
 												value="${venue.address}" /></td>
 										<td property="intelligentWeb:description"><c:out
 												value="${venue.description}" /></td>
 										<td property="intelligentWeb:checkinTime"><c:out
 												value="${venue.checkinTime}" /></td>
-										<td property="intelligentWeb:venueCategory">
-											<c:out
-												value="${venue.category}" />
-										</td>
-										<td property="intelligentWeb:venuePhoto">
-<%-- 											<c:forEach var="photo" --%>
-<%-- 												items="${venue.photos}"> --%>
-<%-- 												<c:out value="${photo}"></c:out> --%>
-<%-- 											</c:forEach> --%>
-										</td>
-										
+										<td property="intelligentWeb:venueCategory"><c:out
+												value="${venue.category}" /></td>
+										<td property="intelligentWeb:venuePhoto"><a
+											href="venueSearch?imageFor=<c:out
+												value="${venue.venueName}" />">View
+												Images</a></td>
 									</tr>
 								</c:forEach>
 						</table>
