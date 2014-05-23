@@ -204,16 +204,17 @@ public class Jena {
 			// Execute the query and obtain results
 			QueryExecution qe = QueryExecutionFactory.create(query, model);
 			ResultSet results = qe.execSelect();
-			String userName = null;
-			String uri = null;
-			String id = null;
-			String location = null;
-			String image = null;
-			String description = null;
-			String locationVisited = null;
-			String contactPeople = null;
+			
 
 			while (results.hasNext()) {
+				String userName = null;
+				String uri = null;
+				String id = null;
+				String location = null;
+				String image = null;
+				String description = null;
+				String locationVisited = null;
+				String contactPeople = null;
 				QuerySolution res = results.next();
 				Iterator<String> res1 = res.varNames();
 				while (res1.hasNext()) {

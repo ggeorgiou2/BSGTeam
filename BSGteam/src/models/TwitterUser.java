@@ -160,7 +160,7 @@ public class TwitterUser {
 
 	public String[] getPeople() {
 		String[] knows = null;
-		if (getContactPeople() != null) {
+		if (this.getContactPeople() != null) {
 			knows = getContactPeople().split(",");
 		}
 		return knows;
@@ -168,7 +168,7 @@ public class TwitterUser {
 
 	public String[] getLocations() {
 		String[] locations = null;
-		if (getLocationVisited() != null) {
+		if (this.getLocationVisited() != null) {
 			locations = getLocationVisited().split(",");
 		}
 		return locations;
